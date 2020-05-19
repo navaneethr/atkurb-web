@@ -7,7 +7,7 @@ import axios from "axios";
 class Home extends Component {
 
     componentDidMount() {
-        axios.get('/api/getUsername').then((res) => {
+        axios.get('/api/users').then((res) => {
             console.log(res);
         }).catch((err) => {
             console.log(err)
