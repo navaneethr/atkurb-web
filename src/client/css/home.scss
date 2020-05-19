@@ -1,0 +1,14 @@
+.home-parent {
+  display: flex;
+  padding: 100px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  span {
+    font-size: 32px;
+    font-weight: bolder;
+  }
+  button {
+    margin: 20px;
+  }
+}
