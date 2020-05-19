@@ -2,8 +2,18 @@ import React, { Component } from 'react';
 import '../css/home.scss';
 import { connect } from "react-redux";
 import {addValue} from "../redux/actions/homeActions";
+import axios from "axios";
 
 class Home extends Component {
+
+    componentDidMount() {
+        axios.get('/api/getUsername').then((res) => {
+            console.log(res);
+        }).catch((err) => {
+            console.log(err)
+        })
+    }
+
     render() {
         console.log(this.props);
         const { number } = this.props.homeReducer;
