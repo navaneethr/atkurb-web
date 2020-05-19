@@ -11,10 +11,12 @@ router.post('/', (req, res) => {
         phone: req.body.phone,
     });
     console.log(req.body);
-
-    user.save();
-
-
+    user.save().then((data) => {
+        console.log(data);
+        res.send({"hello": data});
+    }).catch((err) => {
+        console.log(err)
+    });
 });
 
 module.exports = router;

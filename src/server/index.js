@@ -9,6 +9,10 @@ mongoose.connect(process.env.DB_CONNECTION, {useNewUrlParser: true, useUnifiedTo
     console.log("MLAB Connected");
 });
 
+mongoose.connection.on('connected', () => { console.log(`Mongoose connected to ${process.env.DB_CONNECTION}`); });
+mongoose.connection.on('error', (err) => { console.log(`Mongoose connection error: ${err}`); });
+mongoose.connection.on('disconnected', () => { console.log('Mongoose disconnected')});
+
 // Use Middleware
 app.use(bodyParser.json());
 app.use(express.static('dist'));
