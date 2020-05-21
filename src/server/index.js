@@ -22,4 +22,10 @@ app.use(express.static('dist'));
 app.use('/api/user', userRoute);
 app.use('/api/auth', authRoute);
 
+if(process.env.PROD == "true") {
+    app.get('*', function (req, res) {
+        res.sendFile('./dist/index.html', { root: '.' });
+    })
+}
+
 app.listen(process.env.PORT || 5000, () => console.log(`Listening on port ${process.env.PORT || 5000}!`));
