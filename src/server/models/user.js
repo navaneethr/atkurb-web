@@ -1,21 +1,20 @@
-/*import {Business} from "./business";
-import {Order} from "./order";
-import {Cart} from "./cart";*/
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
+    _id: Schema.Types.ObjectId,
     fullName: {
+        type: String
+    },
+    email: {
+        type: String,
+        required: true,
+        unique: true,
+        match: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
+    },
+    password: {
         type: String,
         required: true
-    },
-    phone: {
-        type: String,
-        required: true
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now
     }
 });
 
