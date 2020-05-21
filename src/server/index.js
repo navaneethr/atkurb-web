@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const sslRedirect = require('heroku-ssl-redirect');
 
 const userRoute = require('./routes/user');
 const authRoute = require('./routes/auth');
@@ -16,6 +17,10 @@ mongoose.connection.on('error', (err) => { console.log(`Mongoose connection erro
 mongoose.connection.on('disconnected', () => { console.log('Mongoose disconnected')});
 
 // Use Middleware
+
+// enable ssl redirect
+app.use(sslRedirect());
+
 app.use(bodyParser.json());
 app.use(express.static('dist'));
 
