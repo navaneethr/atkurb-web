@@ -17,9 +17,9 @@ mongoose.connection.on('disconnected', () => { console.log('Mongoose disconnecte
 
 // Use Middleware
 app.use(bodyParser.json());
-app.use(express.static('build'));
+app.use(express.static('dist'));
 
 app.use('/api/user', userRoute);
 app.use('/api/auth', authRoute);
 
-app.listen(process.env.PORT || 8080, () => console.log(`Listening on port ${process.env.PORT || 8080}!`));
+app.listen(process.env.PORT || 5000, () => console.log(`Listening on port ${process.env.PORT || 5000}!`));
