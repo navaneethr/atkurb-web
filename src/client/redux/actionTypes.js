@@ -1,1 +1,3 @@
 export const ADD = "ADD";
+export const AUTHENTICATE = "AUTHENTICATE";
+export const DENY_AUTHENTICATION = "DENY_AUTHENTICATION";
