@@ -22,6 +22,7 @@ router.post('/register', (req, res) => {
                     const user = new User({
                         _id: new mongoose.Types.ObjectId(),
                         fullName: req.body.fullName,
+                        phone: req.body.phone,
                         email: req.body.email,
                         password: hash
                     });

@@ -7,6 +7,8 @@ import Navbar from "./components/Navbar";
 import {ROUTES, TOKEN_NAME} from "./utils/constants";
 import {connect} from "react-redux";
 import {denyAuthentication} from "./redux/actions/rootActions";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 class Routes extends Component {
 
@@ -22,6 +24,7 @@ class Routes extends Component {
                         <PrivateRoute exact path={ROUTES.HOME} component={Home}/>
                         <Route component={Landing} />
                     </Switch>
+                    <ToastContainer/>
                 </div>
             </Router>
         );

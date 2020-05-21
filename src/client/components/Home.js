@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import {addValue} from "../redux/actions/homeActions";
 import axios from "axios";
 import {TOKEN_NAME} from "../utils/constants";
+import {Button} from "./utils/Utils";
 
 class Home extends Component {
 
@@ -23,7 +24,11 @@ class Home extends Component {
         return (
             <div className="home-parent">
                 <span>RDX Boilerplate</span>
-                <button onClick={() => this.props.addValue(1)}>Redux Thunk - Add</button>
+                <Button
+                    onClick={() => this.props.addValue(1)}
+                    label="Redux Thunk"
+                    loading={true}
+                />
                 <span>{number}</span>
             </div>
         );

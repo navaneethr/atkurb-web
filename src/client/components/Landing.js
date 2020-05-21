@@ -8,6 +8,7 @@ import {ROUTES, TOKEN_NAME} from "../utils/constants";
 import {withRouter} from 'react-router-dom';
 import {authenticate, denyAuthentication} from "../redux/actions/rootActions";
 import { connect } from "react-redux";
+import {AlertError, AlertSuccess, Button} from "./utils/Utils";
 
 class Landing extends Component {
 
@@ -15,10 +16,12 @@ class Landing extends Component {
         super();
         this.state = {
             fullName: "",
+            phone: "",
             email: "",
             password: "",
             isLogin: true,
-            isLoadingScreen: true
+            isLoadingScreen: true,
+            apiInProgress: false
         }
     }
 
@@ -48,6 +51,7 @@ class Landing extends Component {
         const {email, password} = this.state;
         const {history} = this.props;
         const payload = {email, password};
+        this.setState({apiInProgress: true});
         axios.post("/api/auth/login", payload).then((res) => {
             console.log(res.data);
             const {token} = res.data;
@@ -55,26 +59,41 @@ class Landing extends Component {
                 auth.authenticate(() => {
                     localStorage.setItem(TOKEN_NAME, token);
                     this.props.authenticate();
+                    this.setState({apiInProgress: false});
                     history.push(ROUTES.HOME);
                 });
             }
         }).catch((err) => {
-            console.log(err);
+            this.setState({apiInProgress: false});
+            console.log(err.response.data);
+            const { message } = err.response.data;
+            AlertError(message)
         })
     }
 
     register() {
-        const {fullName, email, password} = this.state;
-        const payload = {fullName, email, password};
+        const {fullName, email, password, phone} = this.state;
+        const payload = {fullName, phone, email, password};
+        this.setState({apiInProgress: true});
         axios.post("/api/auth/register", payload).then((res) => {
+            this.setState({apiInProgress: false});
             console.log(res);
+            const {message} = res.data;
+            AlertSuccess(message)
         }).catch((err) => {
-            console.log(err);
+            this.setState({apiInProgress: false});
+            if(err.response.status === 500) {
+                const { _message } = err.response.data.error;
+                AlertError(_message)
+            } else {
+                const { message } = err.response.data;
+                AlertError(message)
+            }
         })
     }
 
     render() {
-        const {fullName, email, password, isLogin, isLoadingScreen} = this.state;
+        const {fullName, phone, email, password, isLogin, isLoadingScreen, apiInProgress} = this.state;
         return (
             !isLoadingScreen &&
             <div className="landing-parent">
@@ -99,6 +118,13 @@ class Landing extends Component {
                         />
                         <input
                             className="text-input"
+                            type="number"
+                            onChange={(e) => this.setState({phone: e.target.value})}
+                            placeholder="Phone"
+                            value={phone}
+                        />
+                        <input
+                            className="text-input"
                             type="text"
                             onChange={(e) => this.setState({email: e.target.value})}
                             placeholder="Email"
@@ -111,12 +137,12 @@ class Landing extends Component {
                             placeholder="Password"
                             value={password}
                         />
-                        <button
+                        <Button
                             className="button"
                             onClick={() => this.register()}
-                        >
-                            Register
-                        </button>
+                            label="Register"
+                            loading={apiInProgress}
+                        />
                         <div className="registration-login-link-container">
                             <a className="registration-login-link" onClick={() => this.setState({isLogin: !isLogin})}>Login</a>
                         </div>
@@ -142,12 +168,12 @@ class Landing extends Component {
                             placeholder="Password"
                             value={password}
                         />
-                        <button
+                        <Button
                             className="button"
                             onClick={() => this.login()}
-                        >
-                            Login
-                        </button>
+                            label="Login"
+                            loading={apiInProgress}
+                        />
                         <div className="registration-login-link-container">
                             <a className="registration-login-link" onClick={() => this.setState({isLogin: !isLogin})}>Create an Account</a>
                         </div>

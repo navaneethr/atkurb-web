@@ -13,6 +13,7 @@
   "author": "Navaneeth K Rameshwaram",
   "license": "ISC",
   "dependencies": {
+    "@emotion/core": "^10.0.28",
     "axios": "^0.19.2",
     "babel-polyfill": "^6.26.0",
     "bcrypt": "^4.0.1",
@@ -31,6 +32,8 @@
     "react-dom": "^16.5.2",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.2.0",
+    "react-spinners": "^0.8.3",
+    "react-toastify": "^6.0.5",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0"
   },
