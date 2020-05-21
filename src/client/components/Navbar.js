@@ -5,6 +5,7 @@ import {addValue} from "../redux/actions/homeActions";
 import {ROUTES, TOKEN_NAME} from "../utils/constants";
 import {auth} from "../auth/auth";
 import { Link, withRouter } from "react-router-dom";
+import {denyAuthentication} from "../redux/actions/rootActions";
 
 
 class Navbar extends Component {
@@ -15,6 +16,7 @@ class Navbar extends Component {
 
     logout = () => {
         auth.logOut(() => {
+            this.props.denyAuthentication();
             localStorage.removeItem(TOKEN_NAME);
             this.props.history.push(ROUTES.LANDING);
         });
@@ -31,14 +33,14 @@ class Navbar extends Component {
     }
 }
 
-export const mapStateToProps = ({homeReducer}) => {
-    return { homeReducer }
+export const mapStateToProps = ({rootReducer}) => {
+    return { rootReducer }
 };
 
 export const mapDispatchToProps = (dispatch) => {
     return {
-        addValue: (payload) => dispatch(addValue(payload))
+        denyAuthentication: () => dispatch(denyAuthentication()),
     }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Navbar))
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Navbar));

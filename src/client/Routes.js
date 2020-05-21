@@ -1,17 +1,22 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Switch, Route, Redirect, Link, withRouter } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import {auth} from "./auth/auth";
 import Home from "./components/Home";
 import Landing from "./components/Landing";
+import Navbar from "./components/Navbar";
 import {ROUTES, TOKEN_NAME} from "./utils/constants";
+import {connect} from "react-redux";
+import {denyAuthentication} from "./redux/actions/rootActions";
 
-export default class Routes extends Component {
+class Routes extends Component {
 
     render() {
-        console.log("ROUTES");
+        console.log("ROUTES", this.props);
+        const { isAuthenticated } = this.props.rootReducer;
         return (
             <Router>
                 <div>
+                    {isAuthenticated && <Navbar/>}
                     <Switch>
                         <LoginRoute exact path={ROUTES.LANDING} component={Landing}/>
                         <PrivateRoute exact path={ROUTES.HOME} component={Home}/>
@@ -22,6 +27,18 @@ export default class Routes extends Component {
         );
     }
 }
+
+export const mapStateToProps = ({rootReducer}) => {
+    return { rootReducer }
+};
+
+export const mapDispatchToProps = (dispatch) => {
+    return {
+        denyAuthentication: () => dispatch(denyAuthentication()),
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Routes);
 
 function LoginRoute({ component: Component, ...rest }) {
     return (

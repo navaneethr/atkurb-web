@@ -4,9 +4,6 @@ import { connect } from "react-redux";
 import {addValue} from "../redux/actions/homeActions";
 import axios from "axios";
 import {TOKEN_NAME} from "../utils/constants";
-import {auth} from "../auth/auth";
-import Navbar from "./Navbar";
-
 
 class Home extends Component {
 
@@ -25,7 +22,6 @@ class Home extends Component {
         const { number } = this.props.homeReducer;
         return (
             <div className="home-parent">
-                {auth.isAuthenticated && <Navbar/>}
                 <span>RDX Boilerplate</span>
                 <button onClick={() => this.props.addValue(1)}>Redux Thunk - Add</button>
                 <span>{number}</span>

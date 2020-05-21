@@ -6,6 +6,8 @@ import * as _ from 'lodash';
 import {auth} from "../auth/auth";
 import {ROUTES, TOKEN_NAME} from "../utils/constants";
 import {withRouter} from 'react-router-dom';
+import {authenticate, denyAuthentication} from "../redux/actions/rootActions";
+import { connect } from "react-redux";
 
 class Landing extends Component {
 
@@ -27,9 +29,18 @@ class Landing extends Component {
             console.log("Here");
             const {history, location} = this.props;
             let { from } = location.state || { from: { pathname: "/" } };
-            auth.authenticate(() => { this.setState({isLoadingScreen: false}, () => { history.replace(from) }); });
+            auth.authenticate(() => {
+                this.setState({isLoadingScreen: false}, () => {
+                    history.replace(from);
+                    this.props.authenticate();
+                });
+            });
         } else {
-            auth.logOut(() => this.setState({isLoadingScreen: false}));
+            auth.logOut(() => {
+                this.setState({isLoadingScreen: false}, () => {
+                    this.props.denyAuthentication();
+                })
+            });
         }
     }
 
@@ -43,6 +54,7 @@ class Landing extends Component {
             if(!_.isEmpty(token)) {
                 auth.authenticate(() => {
                     localStorage.setItem(TOKEN_NAME, token);
+                    this.props.authenticate();
                     history.push(ROUTES.HOME);
                 });
             }
@@ -146,4 +158,15 @@ class Landing extends Component {
     }
 }
 
-export default withRouter(Landing);
+export const mapStateToProps = ({rootReducer}) => {
+    return { rootReducer }
+};
+
+export const mapDispatchToProps = (dispatch) => {
+    return {
+        authenticate: () => dispatch(authenticate()),
+        denyAuthentication: () => dispatch(denyAuthentication()),
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Landing));
