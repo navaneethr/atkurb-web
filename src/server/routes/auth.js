@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const firebase = require("firebase/app");
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
