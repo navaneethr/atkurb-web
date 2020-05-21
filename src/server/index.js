@@ -17,7 +17,7 @@ mongoose.connection.on('disconnected', () => { console.log('Mongoose disconnecte
 
 // Use Middleware
 app.use(bodyParser.json());
-app.use(express.static('dist'));
+app.use(express.static('build'));
 
 app.use('/api/user', userRoute);
 app.use('/api/auth', authRoute);
