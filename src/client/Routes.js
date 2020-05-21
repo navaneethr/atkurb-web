@@ -1,19 +1,23 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Redirect, Link, withRouter } from "react-router-dom";
 import {auth} from "./auth/auth";
 import Home from "./components/Home";
 import Landing from "./components/Landing";
-import {ROUTES} from "./utils/constants";
+import {ROUTES, TOKEN_NAME} from "./utils/constants";
 
 export default class Routes extends Component {
+
     render() {
+        console.log("ROUTES");
         return (
             <Router>
-                <Switch>
-                    <LoginRoute exact path={ROUTES.LANDING} component={Landing}/>
-                    <PrivateRoute exact path={ROUTES.HOME} component={Home}/>
-                    <Route component={Landing} />
-                </Switch>
+                <div>
+                    <Switch>
+                        <LoginRoute exact path={ROUTES.LANDING} component={Landing}/>
+                        <PrivateRoute exact path={ROUTES.HOME} component={Home}/>
+                        <Route component={Landing} />
+                    </Switch>
+                </div>
             </Router>
         );
     }

@@ -41,8 +41,8 @@ class Landing extends Component {
             console.log(res.data);
             const {token} = res.data;
             if(!_.isEmpty(token)) {
-                localStorage.setItem(TOKEN_NAME, token);
                 auth.authenticate(() => {
+                    localStorage.setItem(TOKEN_NAME, token);
                     history.push(ROUTES.HOME);
                 });
             }
