@@ -1,5 +1,42 @@
+$primary: #295454;
+$secondary: #369589;
+$light-blue: #6ACCD1;
+$beige: #F2D3A1;
+$pink: #FE9A86;
+$light-background: #f3f3f3;
+
+$border-light-grey: #cacaca;
+$link-color: #069ae2;
+$white: #FFF;
+* {
+  letter-spacing: 1px;
+}
 body {
   margin: 0 !important;
   padding: 0 !important;
   font-family: 'Roboto', sans-serif;
+}
+
+.text-input {
+  width: 300px;
+  height: 40px;
+  padding: 10px;
+  box-sizing: border-box;
+  outline: none;
+  border-radius: 4px;
+  border: 1px solid $border-light-grey;
+  margin: 10px;
+}
+
+.button {
+  margin: 10px;
+  width: 300px;
+  height: 40px;
+  border: none;
+  border-radius: 4px;
+  box-sizing: border-box;
+  cursor: pointer;
+  background: $secondary;
+  color: $white;
+  outline: none;
 }

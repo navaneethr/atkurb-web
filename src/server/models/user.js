@@ -4,7 +4,12 @@ const Schema = mongoose.Schema;
 const UserSchema = new Schema({
     _id: Schema.Types.ObjectId,
     fullName: {
-        type: String
+        type: String,
+        required: true,
+    },
+    phone: {
+        type: String,
+        unique: true
     },
     email: {
         type: String,

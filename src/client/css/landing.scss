@@ -1,0 +1,52 @@
+@import "../app";
+.landing-parent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  .brand-container {
+    flex: 2;
+    min-width: 300px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    .brand-logo {
+      width: 250px;
+    }
+  }
+  .registration-login-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 320px;
+    width: 320px;
+    max-width: 320px;
+    background: $light-background;
+    height: 100vh;
+    justify-content: center;
+    padding: 0 100px;
+    .registration-login-header {
+      width: 100%;
+      margin: 10px;
+      .header-heading {
+        font-weight: bold;
+        font-size: 20px;
+      }
+    }
+    .registration-login-link-container {
+      margin: 10px;
+      .registration-login-link {
+        padding-bottom: 5px;
+        font-size: 14px;
+        color: $link-color;
+        cursor: pointer;
+        &:hover {
+          border-bottom: 1px solid $link-color;
+        }
+        &:active {
+          color: $link-color;
+        }
+      }
+    }
+  }
+}
