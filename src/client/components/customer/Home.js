@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import '../../css/common/home.scss';
+import '../../css/customer/home.scss';
 import { connect } from "react-redux";
 import {addValue} from "../../redux/actions/homeActions";
 import axios from "axios";

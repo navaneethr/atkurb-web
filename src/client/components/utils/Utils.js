@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { css } from "@emotion/core";
 import PulseLoader from "react-spinners/PulseLoader";
 import { toast } from 'react-toastify';
+import '../../css/common/utils.scss';
 
 const override = css`
   display: block;
@@ -62,4 +63,30 @@ export function AlertInfo(message) {
         draggable: true,
         progress: undefined,
     });
+}
+
+export function OrderContainer({date, itemsCount, cost, onViewCLick}) {
+    return (
+        <div className="store-order-container">
+            <div className="store-order-information-container">
+                <div className="store-order-detail">
+                    <span className="detail-heading">Order Placed</span>
+                    <span className="detail-info">{date}</span>
+                </div>
+                <div className="store-order-detail">
+                    <span className="detail-heading">Items</span>
+                    <span className="detail-info">{itemsCount}</span>
+                </div>
+            </div>
+            <div className="store-order-information-container">
+                <div className="store-order-detail store-order-cost">
+                    <span className="detail-heading">Cost</span>
+                    <span className="detail-info">{cost}</span>
+                </div>
+                <div className="store-order-detail store-order-button">
+                    <Button label="View" onClick={() => onViewCLick()}/>
+                </div>
+            </div>
+        </div>
+    )
 }
