@@ -1,9 +1,9 @@
-import {AUTHENTICATE, DENY_AUTHENTICATION} from "../actionTypes";
+import {AUTHENTICATE_CUSTOMER, DENY_AUTHENTICATION} from "../actionTypes";
 
-export const authenticate = payload => {
+export const authenticateCustomer = payload => {
     return dispatch => {
         dispatch({
-            type: AUTHENTICATE
+            type: AUTHENTICATE_CUSTOMER
         })
     }
 };

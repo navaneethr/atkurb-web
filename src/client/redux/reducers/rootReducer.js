@@ -1,23 +1,23 @@
 import { combineReducers } from "redux";
 import homeReducer from "./homeReducer";
-import {AUTHENTICATE, DENY_AUTHENTICATION} from "../actionTypes";
+import {AUTHENTICATE_CUSTOMER, DENY_AUTHENTICATION} from "../actionTypes";
 
 const initialState = {
-    isAuthenticated: false
+    isAuthenticatedCustomer: false
 };
 
 const rootReducer = (state = initialState, action) => {
     switch (action.type) {
-        case AUTHENTICATE: {
+        case AUTHENTICATE_CUSTOMER: {
             return {
                 ...state,
-                isAuthenticated: true
+                isAuthenticatedCustomer: true
             };
         }
         case DENY_AUTHENTICATION: {
             return {
                 ...state,
-                isAuthenticated: false
+                isAuthenticatedCustomer: false
             };
         }
         default:

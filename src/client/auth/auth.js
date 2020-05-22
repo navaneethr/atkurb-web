@@ -1,12 +1,12 @@
 export const auth = {
-    isAuthenticated: false,
-    authenticate(cb) {
-        auth.isAuthenticated = true;
+    isAuthenticatedCustomer: false,
+    authenticateCustomer(cb) {
+        auth.isAuthenticatedCustomer = true;
         setTimeout(cb, 100); // fake async
     },
     logOut(cb) {
         localStorage.removeItem('atKurbAuthToken');
-        auth.isAuthenticated = false;
+        auth.isAuthenticatedCustomer = false;
         setTimeout(cb, 100);
     }
 };

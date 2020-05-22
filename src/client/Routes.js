@@ -19,11 +19,11 @@ class Routes extends Component {
 
     render() {
         console.log("ROUTES", this.props);
-        const { isAuthenticated } = this.props.rootReducer;
+        const { isAuthenticatedCustomer } = this.props.rootReducer;
         return (
             <Router>
                 <div>
-                    {isAuthenticated && <Navbar/>}
+                    {isAuthenticatedCustomer && <Navbar/>}
                     <Switch>
                         <LoginRoute exact path={ROUTES.LANDING} component={Landing}/>
                         <PrivateRoute exact path={ROUTES.HOME} component={Home}/>
@@ -58,7 +58,7 @@ function LoginRoute({ component: Component, ...rest }) {
         <Route
             {...rest}
             render={ props =>
-                !auth.isAuthenticated ? (
+                !auth.isAuthenticatedCustomer ? (
                     <Component {...props}/>
                 ) : (
                     <Redirect
@@ -78,7 +78,7 @@ function PrivateRoute({ component: Component, ...rest }) {
         <Route
             {...rest}
             render={ props =>
-                auth.isAuthenticated ? (
+                auth.isAuthenticatedCustomer ? (
                     <Component {...props}/>
                 ) : (
                     <Redirect

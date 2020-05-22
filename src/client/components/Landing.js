@@ -6,7 +6,7 @@ import * as _ from 'lodash';
 import {auth} from "../auth/auth";
 import {ROUTES, TOKEN_NAME} from "../utils/constants";
 import {withRouter} from 'react-router-dom';
-import {authenticate, denyAuthentication} from "../redux/actions/rootActions";
+import {authenticateCustomer, denyAuthentication} from "../redux/actions/rootActions";
 import { connect } from "react-redux";
 import {AlertError, AlertSuccess, Button} from "./utils/Utils";
 
@@ -32,10 +32,10 @@ class Landing extends Component {
             console.log("Here");
             const {history, location} = this.props;
             let { from } = location.state || { from: { pathname: "/" } };
-            auth.authenticate(() => {
+            auth.authenticateCustomer(() => {
                 this.setState({isLoadingScreen: false}, () => {
                     history.replace(from);
-                    this.props.authenticate();
+                    this.props.authenticateCustomer();
                 });
             });
         } else {
@@ -56,9 +56,9 @@ class Landing extends Component {
             console.log(res.data);
             const {token} = res.data;
             if(!_.isEmpty(token)) {
-                auth.authenticate(() => {
+                auth.authenticateCustomer(() => {
                     localStorage.setItem(TOKEN_NAME, token);
-                    this.props.authenticate();
+                    this.props.authenticateCustomer();
                     this.setState({apiInProgress: false});
                     history.push(ROUTES.HOME);
                 });
@@ -83,8 +83,8 @@ class Landing extends Component {
         }).catch((err) => {
             this.setState({apiInProgress: false});
             if(err.response.status === 500) {
-                const { _message } = err.response.data.error;
-                AlertError(_message)
+                const { _message, errmsg } = err.response.data.error;
+                AlertError(_message || errmsg)
             } else {
                 const { message } = err.response.data;
                 AlertError(message)
@@ -190,7 +190,7 @@ export const mapStateToProps = ({rootReducer}) => {
 
 export const mapDispatchToProps = (dispatch) => {
     return {
-        authenticate: () => dispatch(authenticate()),
+        authenticateCustomer: () => dispatch(authenticateCustomer()),
         denyAuthentication: () => dispatch(denyAuthentication()),
     }
 };
