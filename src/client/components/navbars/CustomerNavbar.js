@@ -67,9 +67,6 @@ class CustomerNavbar extends Component {
                             <span className="menu-link" onClick={() => this.routerPush(ROUTES.ORDERS)}>Orders</span>
                         </div>
                         <div className="menu-item">
-                            <span className="menu-link" onClick={() => this.routerPush(ROUTES.ADDRESS)}>Address</span>
-                        </div>
-                        <div className="menu-item">
                             <span className="menu-link" onClick={() => this.routerPush(ROUTES.BILLING)}>Billing</span>
                         </div>
                         <div className="menu-item">
