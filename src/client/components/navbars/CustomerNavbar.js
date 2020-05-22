@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
-import '../../css/navbar.scss';
+import '../../css/common/navbar.scss';
 import { connect } from "react-redux";
-import {ROUTES, STORE_TOKEN_NAME} from "../../utils/constants";
+import {addValue} from "../../redux/actions/homeActions";
+import {ROUTES, CUSTOMER_TOKEN_NAME} from "../../utils/constants";
 import {auth} from "../../auth/auth";
-import { withRouter } from "react-router-dom";
-import {denyAuthenticationStore} from "../../redux/actions/rootActions";
+import { Link, withRouter } from "react-router-dom";
+import {denyAuthenticationCustomer} from "../../redux/actions/rootActions";
 import { IoMdCart, IoIosClose } from "react-icons/io";
 
 
-class StoreNavbar extends Component {
+class CustomerNavbar extends Component {
 
     constructor() {
         super();
@@ -19,10 +20,10 @@ class StoreNavbar extends Component {
     }
 
     logout = () => {
-        auth.logOutStore(() => {
-            this.props.denyAuthenticationStore();
-            localStorage.removeItem(STORE_TOKEN_NAME);
-            this.props.history.push(ROUTES.STORE_LANDING);
+        auth.logOutCustomer(() => {
+            this.props.denyAuthenticationCustomer();
+            localStorage.removeItem(CUSTOMER_TOKEN_NAME);
+            this.props.history.push(ROUTES.LANDING);
         });
     };
 
@@ -40,9 +41,19 @@ class StoreNavbar extends Component {
 
                     </div>
                     <div className="right-navbar-container">
+                        <input className="text-input zip-code-input"/>
+                        <IoMdCart className="icon-class" onClick={() => {this.setState({openCart: !openCart})}}/>
                         <span className="profile-parent" onClick={() => {this.setState({openSidebar: !openSidebar})}}>NK</span>
                     </div>
                 </div>
+                {
+                    openCart &&
+                        <div className="sidebar-parent">
+                            <div>
+                                <IoIosClose className="icon-class" onClick={() => {this.setState({openCart: false})}}/>
+                            </div>
+                        </div>
+                }
                 {
                     openSidebar &&
                     <div className="sidebar-parent">
@@ -50,7 +61,7 @@ class StoreNavbar extends Component {
                             <IoIosClose className="icon-class" onClick={() => {this.setState({openSidebar: false})}}/>
                         </div>
                         <div className="menu-item">
-                            <span className="menu-link" onClick={() => this.routerPush(ROUTES.ACCOUNT)}>Account</span>
+                            <span className="menu-link" onClick={() => this.routerPush(ROUTES.PROFILE)}>Profile</span>
                         </div>
                         <div className="menu-item">
                             <span className="menu-link" onClick={() => this.routerPush(ROUTES.ORDERS)}>Orders</span>
@@ -80,8 +91,8 @@ export const mapStateToProps = ({rootReducer}) => {
 
 export const mapDispatchToProps = (dispatch) => {
     return {
-        denyAuthenticationStore: () => dispatch(denyAuthenticationStore()),
+        denyAuthenticationCustomer: () => dispatch(denyAuthenticationCustomer()),
     }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(StoreNavbar));
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(CustomerNavbar));

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import '../../css/account.scss';
+import '../../css/customer/profile.scss';
 
 
-class Account extends Component {
+class Profile extends Component {
 
     constructor() {
         super();
@@ -17,4 +17,4 @@ class Account extends Component {
     }
 }
 
-export default Account;
+export default Profile;

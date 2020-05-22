@@ -2,20 +2,24 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import {auth} from "./auth/auth";
 import Home from "./components/customer/Home";
-import StoreLanding from "./components/StoreLanding";
+import StoreLanding from "./components/store/StoreLanding";
 import Landing from "./components/customer/Landing";
-import CustomerNavbar from "./components/customer/CustomerNavbar";
-import StoreNavbar from "./components/store/StoreNavbar";
+import CustomerNavbar from "./components/navbars/CustomerNavbar";
+import StoreNavbar from "./components/navbars/StoreNavbar";
 import {ROUTES} from "./utils/constants";
 import {connect} from "react-redux";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Account from "./components/customer/Account";
+import Profile from "./components/customer/Profile";
 import Orders from "./components/customer/Orders";
-import Address from "./components/customer/Address";
 import Billing from "./components/customer/Billing";
 import Payments from "./components/customer/Payments";
 import StoreHome from "./components/store/StoreHome";
+import StoreInventory from "./components/store/StoreInventory";
+import StoreProfile from "./components/store/StoreProfile";
+import StoreAnalytics from "./components/store/StoreAnalytics";
+import StoreFinances from "./components/store/StoreFinances";
+import StoreOrders from "./components/store/StoreOrders";
 
 class Routes extends Component {
 
@@ -31,13 +35,17 @@ class Routes extends Component {
                         <LoginRoute exact path={ROUTES.STORE_LANDING} component={StoreLanding}/>
 
                         <PrivateRouteCustomer exact path={ROUTES.HOME} component={Home}/>
-                        <PrivateRouteCustomer exact path={ROUTES.ACCOUNT} component={Account}/>
+                        <PrivateRouteCustomer exact path={ROUTES.PROFILE} component={Profile}/>
                         <PrivateRouteCustomer exact path={ROUTES.ORDERS} component={Orders}/>
-                        <PrivateRouteCustomer exact path={ROUTES.ADDRESS} component={Address}/>
                         <PrivateRouteCustomer exact path={ROUTES.BILLING} component={Billing}/>
                         <PrivateRouteCustomer exact path={ROUTES.PAYMENTS} component={Payments}/>
 
                         <PrivateRouteStore exact path={ROUTES.STORE_HOME} component={StoreHome}/>
+                        <PrivateRouteStore exact path={ROUTES.STORE_INVENTORY} component={StoreInventory}/>
+                        <PrivateRouteStore exact path={ROUTES.STORE_PROFILE} component={StoreProfile}/>
+                        <PrivateRouteStore exact path={ROUTES.STORE_ANALYTICS} component={StoreAnalytics}/>
+                        <PrivateRouteStore exact path={ROUTES.STORE_FINANCES} component={StoreFinances}/>
+                        <PrivateRouteStore exact path={ROUTES.STORE_ORDERS} component={StoreOrders}/>
 
                         <Route component={Landing} />
                     </Switch>

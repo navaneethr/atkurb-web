@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import '../../css/orders.scss';
+import '../../css/customer/orders.scss';
 
 
 class Orders extends Component {

@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
-import '../css/landing.scss';
+import '../../css/common/landing.scss';
 import axios from "axios";
-import logo from "../assets/atKurb.png";
+import logo from "../../assets/atKurb.png";
 import * as _ from 'lodash';
-import {auth} from "../auth/auth";
-import {CUSTOMER_TOKEN_NAME, ROUTES, STORE_TOKEN_NAME} from "../utils/constants";
+import {auth} from "../../auth/auth";
+import {CUSTOMER_TOKEN_NAME, ROUTES, STORE_TOKEN_NAME} from "../../utils/constants";
 import {withRouter} from 'react-router-dom';
 import {
     authenticateCustomer,
     authenticateStore,
     denyAuthenticationCustomer,
     denyAuthenticationStore
-} from "../redux/actions/rootActions";
+} from "../../redux/actions/rootActions";
 import { connect } from "react-redux";
-import {AlertError, AlertSuccess, Button} from "./utils/Utils";
+import {AlertError, AlertSuccess, Button} from "../utils/Utils";
 
 class StoreLanding extends Component {
 

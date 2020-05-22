@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import '../../css/home.scss';
+import '../../css/common/home.scss';
 import { connect } from "react-redux";
 import {addValue} from "../../redux/actions/homeActions";
 import axios from "axios";
@@ -23,20 +23,7 @@ class StoreHome extends Component {
         const {searchStore} = this.state;
         return (
             <div className="home-parent">
-                {/*<span>RDX Boilerplate</span>
-                <Button
-                    onClick={() => this.props.addValue(1)}
-                    label="Redux Thunk"
-                    loading={false}
-                />
-                <span>{number}</span>*/}
-                <input
-                    className="text-input navbar-fixed-input"
-                    type="text"
-                    onChange={(e) => this.setState({searchStore: e.target.value})}
-                    placeholder="Search for Stores"
-                    value={searchStore}
-                />
+                Store Home
             </div>
         );
     }

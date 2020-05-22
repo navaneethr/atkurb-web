@@ -2,13 +2,17 @@ export const TABS = {
     LANDING: '',
     STORE_LANDING: 'store/register',
     HOME: 'home',
-    ACCOUNT: 'account',
+    PROFILE: 'profile',
     ORDERS: 'orders',
-    ADDRESS: 'address',
     BILLING: 'billing',
     PAYMENTS: 'payments',
 
-    STORE_HOME: 'store/home'
+    STORE_HOME: 'store/home',
+    STORE_PROFILE: 'store/profile',
+    STORE_ORDERS: 'store/orders',
+    STORE_FINANCES: 'store/finances',
+    STORE_ANALYTICS: 'store/analytics',
+    STORE_INVENTORY: 'store/inventory',
 };
 
 export const ROUTES = {
@@ -16,13 +20,17 @@ export const ROUTES = {
     STORE_LANDING: `/${TABS.STORE_LANDING}`,
 
     HOME: `/${TABS.HOME}`,
-    ACCOUNT: `/${TABS.ACCOUNT}`,
+    PROFILE: `/${TABS.PROFILE}`,
     ORDERS: `/${TABS.ORDERS}`,
-    ADDRESS: `/${TABS.ADDRESS}`,
     BILLING: `/${TABS.BILLING}`,
     PAYMENTS: `/${TABS.PAYMENTS}`,
 
-    STORE_HOME: `/${TABS.STORE_HOME}`
+    STORE_HOME: `/${TABS.STORE_HOME}`,
+    STORE_PROFILE: `/${TABS.STORE_PROFILE}`,
+    STORE_ORDERS: `/${TABS.STORE_ORDERS}`,
+    STORE_FINANCES: `/${TABS.STORE_FINANCES}`,
+    STORE_ANALYTICS: `/${TABS.STORE_ANALYTICS}`,
+    STORE_INVENTORY: `/${TABS.STORE_INVENTORY}`,
 };
 
 export const CUSTOMER_TOKEN_NAME = "atKurbCustomerAuthToken";

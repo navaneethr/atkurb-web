@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import '../../css/landing.scss';
+import '../../css/common/landing.scss';
 import axios from "axios";
 import logo from "../../assets/atKurb.png";
 import * as _ from 'lodash';
