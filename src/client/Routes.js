@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import {auth} from "./auth/auth";
+import {ROUTES} from "./utils/constants";
+import {connect} from "react-redux";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Home from "./components/customer/Home";
 import StoreLanding from "./components/store/StoreLanding";
 import Landing from "./components/customer/Landing";
 import CustomerNavbar from "./components/navbars/CustomerNavbar";
 import StoreNavbar from "./components/navbars/StoreNavbar";
-import {ROUTES} from "./utils/constants";
-import {connect} from "react-redux";
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import Profile from "./components/customer/Profile";
 import Orders from "./components/customer/Orders";
 import Billing from "./components/customer/Billing";
@@ -81,7 +81,6 @@ function LoginRoute({ component: Component, ...rest }) {
         />
     );
 }
-
 
 function PrivateRouteCustomer({ component: Component, ...rest }) {
     return (
