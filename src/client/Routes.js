@@ -9,6 +9,11 @@ import {connect} from "react-redux";
 import {denyAuthentication} from "./redux/actions/rootActions";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Account from "./components/Account";
+import Orders from "./components/Orders";
+import Address from "./components/Address";
+import Billing from "./components/Billing";
+import Payments from "./components/Payments";
 
 class Routes extends Component {
 
@@ -22,6 +27,11 @@ class Routes extends Component {
                     <Switch>
                         <LoginRoute exact path={ROUTES.LANDING} component={Landing}/>
                         <PrivateRoute exact path={ROUTES.HOME} component={Home}/>
+                        <PrivateRoute exact path={ROUTES.ACCOUNT} component={Account}/>
+                        <PrivateRoute exact path={ROUTES.ORDERS} component={Orders}/>
+                        <PrivateRoute exact path={ROUTES.ADDRESS} component={Address}/>
+                        <PrivateRoute exact path={ROUTES.BILLING} component={Billing}/>
+                        <PrivateRoute exact path={ROUTES.PAYMENTS} component={Payments}/>
                         <Route component={Landing} />
                     </Switch>
                     <ToastContainer/>

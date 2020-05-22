@@ -8,6 +8,10 @@ $light-background: #f3f3f3;
 $border-light-grey: #cacaca;
 $link-color: #069ae2;
 $white: #FFF;
+$grey-text: #505050;
+
+$box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
 * {
   letter-spacing: 1px;
 }
@@ -28,6 +32,13 @@ body {
   margin: 10px;
 }
 
+.navbar-fixed-input {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 1;
+}
+
 .button {
   margin: 10px;
   width: 300px;
@@ -42,4 +53,14 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.icon-class {
+  height: 40px;
+  width: 40px;
+  cursor: pointer;
+  fill: $light-blue;
+  &:hover {
+    fill: $white;
+  }
 }

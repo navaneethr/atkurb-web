@@ -1,0 +1,53 @@
+@import "../app";
+
+.home-parent {
+  padding-top: 80px;
+  .stores-parent {
+    margin: 0 100px;
+    display: flex;
+    flex-direction: column;
+    .stores-section {
+      .heading-container {
+        .heading {
+          font-size: 18px;
+          display: block;
+          margin: 20px 30px 10px 30px;
+        }
+      }
+      .stores-container {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        margin: 0 20px;
+        .store-item {
+          width: 150px;
+          height: 200px;
+          justify-content: center;
+          align-items: center;
+          display: flex;
+          margin: 10px;
+          background: $light-background;
+          border-radius: 4px;
+          flex-direction: column;
+          .store-brand-container {
+            height: 150px;
+            width: 150px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+          .store-info-container {
+            background: $light-blue;
+            width: 150px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: $white;
+            border-radius: 0 0 4px 4px;
+          }
+        }
+      }
+    }
+  }
+}

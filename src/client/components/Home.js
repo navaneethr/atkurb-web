@@ -4,12 +4,14 @@ import { connect } from "react-redux";
 import {addValue} from "../redux/actions/homeActions";
 import axios from "axios";
 import {TOKEN_NAME} from "../utils/constants";
-import {Button} from "./utils/Utils";
 
 class Home extends Component {
 
     constructor() {
         super();
+        this.state = {
+            searchStore: ""
+        }
     }
 
     componentDidMount() {
@@ -21,15 +23,103 @@ class Home extends Component {
     render() {
         console.log(this.props);
         const { number } = this.props.homeReducer;
+        const {searchStore} = this.state;
         return (
             <div className="home-parent">
-                <span>RDX Boilerplate</span>
+                {/*<span>RDX Boilerplate</span>
                 <Button
                     onClick={() => this.props.addValue(1)}
                     label="Redux Thunk"
-                    loading={true}
+                    loading={false}
                 />
-                <span>{number}</span>
+                <span>{number}</span>*/}
+                <input
+                    className="text-input navbar-fixed-input"
+                    type="text"
+                    onChange={(e) => this.setState({searchStore: e.target.value})}
+                    placeholder="Search for Stores"
+                    value={searchStore}
+                />
+                <div className="stores-parent">
+                    <div className="stores-section">
+                        <div className="heading-container">
+                            <span className="heading">Stores you frequently buy from</span>
+                        </div>
+                        <div className="stores-container">
+                            <div className="store-item">
+                                <div className="store-brand-container">
+                                    Store 1
+                                </div>
+                                <div className="store-info-container">
+                                    Dublin
+                                </div>
+                            </div>
+                            <div className="store-item">
+                                <div className="store-brand-container">
+                                    Store 1
+                                </div>
+                                <div className="store-info-container">
+                                    Dublin
+                                </div>
+                            </div>
+                            <div className="store-item">
+                                <div className="store-brand-container">
+                                    Store 1
+                                </div>
+                                <div className="store-info-container">
+                                    Dublin
+                                </div>
+                            </div>
+                            <div className="store-item">
+                                <div className="store-brand-container">
+                                    Store 1
+                                </div>
+                                <div className="store-info-container">
+                                    Dublin
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="stores-section">
+                        <div className="heading-container">
+                            <span className="heading">Stores Nearby</span>
+                        </div>
+                        <div className="stores-container">
+                            <div className="store-item">
+                                <div className="store-brand-container">
+                                    Store 1
+                                </div>
+                                <div className="store-info-container">
+                                    Dublin
+                                </div>
+                            </div>
+                            <div className="store-item">
+                                <div className="store-brand-container">
+                                    Store 1
+                                </div>
+                                <div className="store-info-container">
+                                    Dublin
+                                </div>
+                            </div>
+                            <div className="store-item">
+                                <div className="store-brand-container">
+                                    Store 1
+                                </div>
+                                <div className="store-info-container">
+                                    Dublin
+                                </div>
+                            </div>
+                            <div className="store-item">
+                                <div className="store-brand-container">
+                                    Store 1
+                                </div>
+                                <div className="store-info-container">
+                                    Dublin
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         );
     }
