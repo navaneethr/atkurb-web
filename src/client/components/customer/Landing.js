@@ -195,6 +195,9 @@ class Landing extends Component {
                             loading={apiInProgress}
                         />
                         <div className="registration-login-link-container">
+                            <a className="registration-login-link">Forgot Password</a>
+                        </div>
+                        <div className="registration-login-link-container">
                             <a className="registration-login-link" onClick={() => this.setState({isLogin: !isLogin})}>Create an Account</a>
                         </div>
                     </div>

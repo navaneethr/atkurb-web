@@ -160,7 +160,7 @@ class StoreLanding extends Component {
                             loading={apiInProgress}
                         />
                         <div className="registration-login-link-container">
-                            <a className="registration-login-link" onClick={() => this.setState({isLogin: !isLogin})}>Login</a>
+                            <a className="registration-login-link" onClick={() => this.setState({isLogin: !isLogin})}>Store Login</a>
                         </div>
                     </div>
                 }
@@ -191,7 +191,10 @@ class StoreLanding extends Component {
                             loading={apiInProgress}
                         />
                         <div className="registration-login-link-container">
-                            <a className="registration-login-link" onClick={() => this.setState({isLogin: !isLogin})}>Create an Account</a>
+                            <a className="registration-login-link">Forgot Password</a>
+                        </div>
+                        <div className="registration-login-link-container">
+                            <a className="registration-login-link" onClick={() => this.setState({isLogin: !isLogin})}>Create a Store</a>
                         </div>
                     </div>
                 }
