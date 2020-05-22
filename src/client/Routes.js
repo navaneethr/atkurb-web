@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import {auth} from "./auth/auth";
 import Home from "./components/Home";
+import StoreLanding from "./components/StoreLanding";
 import Landing from "./components/Landing";
 import Navbar from "./components/Navbar";
-import {ROUTES, TOKEN_NAME} from "./utils/constants";
+import {ROUTES, CUSTOMER_TOKEN_NAME} from "./utils/constants";
 import {connect} from "react-redux";
 import {denyAuthentication} from "./redux/actions/rootActions";
 import { ToastContainer } from 'react-toastify';
@@ -26,6 +27,9 @@ class Routes extends Component {
                     {isAuthenticatedCustomer && <Navbar/>}
                     <Switch>
                         <LoginRoute exact path={ROUTES.LANDING} component={Landing}/>
+
+                        <LoginRoute exact path="/store" component={StoreLanding}/>
+                        <LoginRoute path={ROUTES.STORE_LANDING} component={StoreLanding}/>
                         <PrivateRoute exact path={ROUTES.HOME} component={Home}/>
                         <PrivateRoute exact path={ROUTES.ACCOUNT} component={Account}/>
                         <PrivateRoute exact path={ROUTES.ORDERS} component={Orders}/>

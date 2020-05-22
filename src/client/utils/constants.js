@@ -1,5 +1,6 @@
 export const TABS = {
     LANDING: '',
+    STORE_LANDING: 'store/register',
     HOME: 'home',
     ACCOUNT: 'account',
     ORDERS: 'orders',
@@ -10,6 +11,7 @@ export const TABS = {
 
 export const ROUTES = {
     LANDING: `/${TABS.LANDING}`,
+    STORE_LANDING: `/${TABS.STORE_LANDING}`,
     HOME: `/${TABS.HOME}`,
     ACCOUNT: `/${TABS.ACCOUNT}`,
     ORDERS: `/${TABS.ORDERS}`,
@@ -18,4 +20,4 @@ export const ROUTES = {
     PAYMENTS: `/${TABS.PAYMENTS}`,
 };
 
-export const TOKEN_NAME = "atKurbAuthToken";
+export const CUSTOMER_TOKEN_NAME = "atKurbCustomerAuthToken";

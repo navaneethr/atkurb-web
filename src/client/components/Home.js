@@ -3,7 +3,7 @@ import '../css/home.scss';
 import { connect } from "react-redux";
 import {addValue} from "../redux/actions/homeActions";
 import axios from "axios";
-import {TOKEN_NAME} from "../utils/constants";
+import {CUSTOMER_TOKEN_NAME} from "../utils/constants";
 
 class Home extends Component {
 
@@ -15,7 +15,7 @@ class Home extends Component {
     }
 
     componentDidMount() {
-        const token = localStorage.getItem(TOKEN_NAME);
+        const token = localStorage.getItem(CUSTOMER_TOKEN_NAME);
         const bearerToken = `Bearer ${token}`;
         axios.get("/api/user", { 'headers': { 'Authorization': bearerToken} })
     }

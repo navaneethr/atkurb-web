@@ -10,7 +10,7 @@ import {authenticateCustomer, denyAuthentication} from "../redux/actions/rootAct
 import { connect } from "react-redux";
 import {AlertError, AlertSuccess, Button} from "./utils/Utils";
 
-class Landing extends Component {
+class StoreLanding extends Component {
 
     constructor() {
         super();
@@ -195,4 +195,4 @@ export const mapDispatchToProps = (dispatch) => {
     }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Landing));
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(StoreLanding));

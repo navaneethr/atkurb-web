@@ -1,3 +1,5 @@
+import {CUSTOMER_TOKEN_NAME} from "../utils/constants";
+
 export const auth = {
     isAuthenticatedCustomer: false,
     authenticateCustomer(cb) {
@@ -5,7 +7,7 @@ export const auth = {
         setTimeout(cb, 100); // fake async
     },
     logOut(cb) {
-        localStorage.removeItem('atKurbAuthToken');
+        localStorage.removeItem(CUSTOMER_TOKEN_NAME);
         auth.isAuthenticatedCustomer = false;
         setTimeout(cb, 100);
     }
