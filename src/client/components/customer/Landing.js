@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import '../css/landing.scss';
+import '../../css/landing.scss';
 import axios from "axios";
-import logo from "../assets/atKurb.png";
+import logo from "../../assets/atKurb.png";
 import * as _ from 'lodash';
-import {auth} from "../auth/auth";
-import {ROUTES, CUSTOMER_TOKEN_NAME} from "../utils/constants";
+import {auth} from "../../auth/auth";
+import {ROUTES, CUSTOMER_TOKEN_NAME, STORE_TOKEN_NAME} from "../../utils/constants";
 import {withRouter} from 'react-router-dom';
-import {authenticateCustomer, denyAuthentication} from "../redux/actions/rootActions";
+import {authenticateCustomer, authenticateStore,  denyAuthenticationCustomer, denyAuthenticationStore} from "../../redux/actions/rootActions";
 import { connect } from "react-redux";
-import {AlertError, AlertSuccess, Button} from "./utils/Utils";
+import {AlertError, AlertSuccess, Button} from "../utils/Utils";
 
 class Landing extends Component {
 
@@ -26,10 +26,11 @@ class Landing extends Component {
     }
 
     componentDidMount() {
-        // On Reload, if authToken is present, make fetch profile calls here to get required data else log them out and redirect to Landing Page
-        const authToken = localStorage.getItem(CUSTOMER_TOKEN_NAME);
-        if(!_.isEmpty(authToken)) {
-            console.log("Here");
+        // On Reload, if customerAuthToken is present, make fetch profile calls here to get required data else log them out and redirect to Landing Page
+        const customerAuthToken = localStorage.getItem(CUSTOMER_TOKEN_NAME);
+        const storeAuthToken = localStorage.getItem(STORE_TOKEN_NAME);
+
+        if(!_.isEmpty(customerAuthToken)) {
             const {history, location} = this.props;
             let { from } = location.state || { from: { pathname: "/" } };
             auth.authenticateCustomer(() => {
@@ -38,10 +39,24 @@ class Landing extends Component {
                     this.props.authenticateCustomer();
                 });
             });
-        } else {
-            auth.logOut(() => {
+        } else if(!_.isEmpty(storeAuthToken)) {
+            const {history, location} = this.props;
+            let { from } = location.state || { from: { pathname: "/" } };
+            auth.authenticateStore(() => {
                 this.setState({isLoadingScreen: false}, () => {
-                    this.props.denyAuthentication();
+                    history.replace(from);
+                    this.props.authenticateStore();
+                });
+            });
+        } else {
+            auth.logOutCustomer(() => {
+                this.setState({isLoadingScreen: false}, () => {
+                    this.props.denyAuthenticationCustomer();
+                })
+            });
+            auth.logOutStore(() => {
+                this.setState({isLoadingScreen: false}, () => {
+                    this.props.denyAuthenticationStore();
                 })
             });
         }
@@ -58,8 +73,8 @@ class Landing extends Component {
             if(!_.isEmpty(token)) {
                 auth.authenticateCustomer(() => {
                     localStorage.setItem(CUSTOMER_TOKEN_NAME, token);
-                    this.props.authenticateCustomer();
                     this.setState({apiInProgress: false});
+                    this.props.authenticateCustomer();
                     history.push(ROUTES.HOME);
                 });
             }
@@ -103,6 +118,7 @@ class Landing extends Component {
                 <div className="brand-container">
                     <img className="brand-logo" src={logo} alt="atKurb"/>
                 </div>
+                <a className="registration-login-link fixed-top-left" onClick={() => this.props.history.push(ROUTES.STORE_LANDING)}>Click here if you are a Store</a>
                 {
                     !isLogin &&
                     <div className="registration-login-container">
@@ -191,7 +207,9 @@ export const mapStateToProps = ({rootReducer}) => {
 export const mapDispatchToProps = (dispatch) => {
     return {
         authenticateCustomer: () => dispatch(authenticateCustomer()),
-        denyAuthentication: () => dispatch(denyAuthentication()),
+        authenticateStore: () => dispatch(authenticateStore()),
+        denyAuthenticationCustomer: () => dispatch(denyAuthenticationCustomer()),
+        denyAuthenticationStore: () => dispatch(denyAuthenticationStore()),
     }
 };
 

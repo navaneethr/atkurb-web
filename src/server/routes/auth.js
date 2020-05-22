@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
 
 const User = require('../models/user');
+const Store = require('../models/store');
 
 router.get('/', (req, res) => res.send({ auth: "auth" }));
 
@@ -54,7 +55,7 @@ router.post('/register', (req, res) => {
             });
         })
 });
-router.post("/login", (req, res, next) => {
+router.post("/login", (req, res) => {
     User.findOne({ email: req.body.email })
         .exec()
         .then(user => {
@@ -73,6 +74,86 @@ router.post("/login", (req, res, next) => {
                 if (result) {
                     console.log("User", user);
                     const token = jwt.sign({fullName: user.fullName, email: user.email, userId: user._id}, process.env.ACCESS_TOKEN_SECRET);
+                    return res.status(200).json({
+                        message: "Auth successful",
+                        token: token
+                    });
+                }
+                res.status(401).json({
+                    message: "Auth failed"
+                });
+            });
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                error: err
+            });
+        });
+});
+
+router.post('/business/register', (req, res) => {
+    Store.findOne({ email: req.body.email})
+        .exec()
+        .then((store) => {
+            if(store) {
+                res.status(409).json({
+                    message: "Mail Exists"
+                })
+            } else {
+                bcrypt.hash(req.body.password, 10, (err, hash) => {
+                    const store = new Store({
+                        _id: new mongoose.Types.ObjectId(),
+                        storeName: req.body.storeName,
+                        phone: req.body.phone,
+                        email: req.body.email,
+                        password: hash
+                    });
+                    if(err) {
+                        res.status(500).json({
+                            error: err
+                        })
+                    } else {
+                        store.save().then((data) => {
+                            console.log(data);
+                            res.status(200).json({
+                                "message": "Store Created"
+                            });
+                        }).catch((err) => {
+                            console.log(err);
+                            res.status(500).json({
+                                error: err
+                            });
+                        });
+                    }
+                })
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(500).json({
+                error: err
+            });
+        })
+});
+router.post('/business/login', (req, res) => {
+    Store.findOne({ email: req.body.email })
+        .exec()
+        .then(store => {
+            if (!store) {
+                return res.status(401).json({
+                    message: "Store doesn't exist"
+                });
+            }
+            bcrypt.compare(req.body.password, store.password, (err, result) => {
+                if (err) {
+                    return res.status(401).json({
+                        message: "Auth failed"
+                    });
+                }
+                if (result) {
+                    console.log("Store", store);
+                    const token = jwt.sign({fullName: store.storeName, email: store.email, userId: store._id}, process.env.ACCESS_TOKEN_SECRET);
                     return res.status(200).json({
                         message: "Auth successful",
                         token: token

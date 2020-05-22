@@ -1,4 +1,4 @@
-import {Business} from "./business";
+import {Store} from "./store";
 import {Item} from "./item";
 
-export const Cart = [ { business: Business, items: [Item] } ];
+export const Cart = [ { business: Store, items: [Item] } ];

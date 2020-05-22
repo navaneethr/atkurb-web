@@ -50,3 +50,19 @@
     }
   }
 }
+
+.fixed-top-left {
+  padding-bottom: 5px;
+  font-size: 14px;
+  color: $link-color;
+  cursor: pointer;
+  &:hover {
+    border-bottom: 1px solid $link-color;
+  }
+  &:active {
+    color: $link-color;
+  }
+  position: fixed;
+  left: 20px;
+  top: 20px;
+}

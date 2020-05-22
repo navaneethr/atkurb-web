@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import '../css/address.scss';
+import '../../css/billing.scss';
 
 
-class Address extends Component {
+class Billing extends Component {
 
     constructor() {
         super();
@@ -10,11 +10,11 @@ class Address extends Component {
 
     render() {
         return (
-            <div className="address-parent">
-                Address
+            <div className="billing-parent">
+                BILLING
             </div>
         );
     }
 }
 
-export default Address;
+export default Billing;

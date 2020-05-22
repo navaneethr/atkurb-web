@@ -4,9 +4,14 @@ import axios from "axios";
 import logo from "../assets/atKurb.png";
 import * as _ from 'lodash';
 import {auth} from "../auth/auth";
-import {ROUTES, CUSTOMER_TOKEN_NAME} from "../utils/constants";
+import {CUSTOMER_TOKEN_NAME, ROUTES, STORE_TOKEN_NAME} from "../utils/constants";
 import {withRouter} from 'react-router-dom';
-import {authenticateCustomer, denyAuthentication} from "../redux/actions/rootActions";
+import {
+    authenticateCustomer,
+    authenticateStore,
+    denyAuthenticationCustomer,
+    denyAuthenticationStore
+} from "../redux/actions/rootActions";
 import { connect } from "react-redux";
 import {AlertError, AlertSuccess, Button} from "./utils/Utils";
 
@@ -15,21 +20,22 @@ class StoreLanding extends Component {
     constructor() {
         super();
         this.state = {
-            fullName: "",
+            storeName: "",
             phone: "",
             email: "",
             password: "",
-            isLogin: true,
+            isLogin: false,
             isLoadingScreen: true,
             apiInProgress: false
         }
     }
 
     componentDidMount() {
-        // On Reload, if authToken is present, make fetch profile calls here to get required data else log them out and redirect to Landing Page
-        const authToken = localStorage.getItem(CUSTOMER_TOKEN_NAME);
-        if(!_.isEmpty(authToken)) {
-            console.log("Here");
+        // On Reload, if customerAuthToken is present, make fetch profile calls here to get required data else log them out and redirect to Landing Page
+        const customerAuthToken = localStorage.getItem(CUSTOMER_TOKEN_NAME);
+        const storeAuthToken = localStorage.getItem(STORE_TOKEN_NAME);
+
+        if(!_.isEmpty(customerAuthToken)) {
             const {history, location} = this.props;
             let { from } = location.state || { from: { pathname: "/" } };
             auth.authenticateCustomer(() => {
@@ -38,10 +44,19 @@ class StoreLanding extends Component {
                     this.props.authenticateCustomer();
                 });
             });
-        } else {
-            auth.logOut(() => {
+        } else if(!_.isEmpty(storeAuthToken)) {
+            const {history, location} = this.props;
+            let { from } = location.state || { from: { pathname: "/" } };
+            auth.authenticateStore(() => {
                 this.setState({isLoadingScreen: false}, () => {
-                    this.props.denyAuthentication();
+                    history.replace(from);
+                    this.props.authenticateStore();
+                });
+            });
+        } else {
+            auth.logOutStore(() => {
+                this.setState({isLoadingScreen: false}, () => {
+                    this.props.denyAuthenticationStore();
                 })
             });
         }
@@ -52,15 +67,15 @@ class StoreLanding extends Component {
         const {history} = this.props;
         const payload = {email, password};
         this.setState({apiInProgress: true});
-        axios.post("/api/auth/login", payload).then((res) => {
+        axios.post("/api/auth/business/login", payload).then((res) => {
             console.log(res.data);
             const {token} = res.data;
             if(!_.isEmpty(token)) {
-                auth.authenticateCustomer(() => {
-                    localStorage.setItem(CUSTOMER_TOKEN_NAME, token);
-                    this.props.authenticateCustomer();
+                auth.authenticateStore(() => {
+                    localStorage.setItem(STORE_TOKEN_NAME, token);
                     this.setState({apiInProgress: false});
-                    history.push(ROUTES.HOME);
+                    this.props.authenticateStore();
+                    history.push(ROUTES.STORE_LANDING);
                 });
             }
         }).catch((err) => {
@@ -72,10 +87,10 @@ class StoreLanding extends Component {
     }
 
     register() {
-        const {fullName, email, password, phone} = this.state;
-        const payload = {fullName, phone, email, password};
+        const {storeName, email, password, phone} = this.state;
+        const payload = {storeName, phone, email, password};
         this.setState({apiInProgress: true});
-        axios.post("/api/auth/register", payload).then((res) => {
+        axios.post("/api/auth/business/register", payload).then((res) => {
             this.setState({apiInProgress: false});
             console.log(res);
             const {message} = res.data;
@@ -93,28 +108,26 @@ class StoreLanding extends Component {
     }
 
     render() {
-        const {fullName, phone, email, password, isLogin, isLoadingScreen, apiInProgress} = this.state;
+        const {storeName, phone, email, password, isLogin, isLoadingScreen, apiInProgress} = this.state;
         return (
             !isLoadingScreen &&
             <div className="landing-parent">
-                {/*<span>RDX Boilerplate</span>
-                <button onClick={() => this.props.addValue(1)}>Redux Thunk - Add</button>
-                <span>{number}</span>*/}
                 <div className="brand-container">
                     <img className="brand-logo" src={logo} alt="atKurb"/>
                 </div>
+                <a className="registration-login-link fixed-top-left" onClick={() => this.props.history.push(ROUTES.LANDING)}>Click here if you wanna buy stuff</a>
                 {
                     !isLogin &&
                     <div className="registration-login-container">
                         <div className="registration-login-header">
-                            <span className="header-heading">Create an Account</span>
+                            <span className="header-heading">Create a Store</span>
                         </div>
                         <input
                             className="text-input"
                             type="text"
-                            onChange={(e) => this.setState({fullName: e.target.value})}
-                            placeholder="Full Name"
-                            value={fullName}
+                            onChange={(e) => this.setState({storeName: e.target.value})}
+                            placeholder="Store Name"
+                            value={storeName}
                         />
                         <input
                             className="text-input"
@@ -152,7 +165,7 @@ class StoreLanding extends Component {
                     isLogin &&
                     <div className="registration-login-container">
                         <div className="registration-login-header">
-                            <span className="header-heading">Login</span>
+                            <span className="header-heading">Store Login</span>
                         </div>
                         <input
                             className="text-input"
@@ -191,7 +204,9 @@ export const mapStateToProps = ({rootReducer}) => {
 export const mapDispatchToProps = (dispatch) => {
     return {
         authenticateCustomer: () => dispatch(authenticateCustomer()),
-        denyAuthentication: () => dispatch(denyAuthentication()),
+        authenticateStore: () => dispatch(authenticateStore()),
+        denyAuthenticationCustomer: () => dispatch(denyAuthenticationCustomer()),
+        denyAuthenticationStore: () => dispatch(denyAuthenticationStore()),
     }
 };
 

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import '../css/orders.scss';
+import '../../css/account.scss';
 
 
-class Orders extends Component {
+class Account extends Component {
 
     constructor() {
         super();
@@ -10,11 +10,11 @@ class Orders extends Component {
 
     render() {
         return (
-            <div className="orders-parent">
-                ORDERS
+            <div className="account-parent">
+                ACCOUNT
             </div>
         );
     }
 }
 
-export default Orders;
+export default Account;

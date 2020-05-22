@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import '../css/home.scss';
+import '../../css/home.scss';
 import { connect } from "react-redux";
-import {addValue} from "../redux/actions/homeActions";
+import {addValue} from "../../redux/actions/homeActions";
 import axios from "axios";
-import {CUSTOMER_TOKEN_NAME} from "../utils/constants";
+import {CUSTOMER_TOKEN_NAME} from "../../utils/constants";
 
 class Home extends Component {
 
