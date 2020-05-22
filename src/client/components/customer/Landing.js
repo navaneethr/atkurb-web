@@ -25,11 +25,14 @@ class Landing extends Component {
         }
     }
 
+    /**
+     * We check for access token and authenticate users based on it
+     */
     componentDidMount() {
         // On Reload, if customerAuthToken is present, make fetch profile calls here to get required data else log them out and redirect to Landing Page
         const customerAuthToken = localStorage.getItem(CUSTOMER_TOKEN_NAME);
         const storeAuthToken = localStorage.getItem(STORE_TOKEN_NAME);
-
+        // IF Customer Auth Token is found authenticate Customer
         if(!_.isEmpty(customerAuthToken)) {
             const {history, location} = this.props;
             let { from } = location.state || { from: { pathname: "/" } };
@@ -40,6 +43,7 @@ class Landing extends Component {
                 });
             });
         } else if(!_.isEmpty(storeAuthToken)) {
+            // else if store auth token found authenticate store
             const {history, location} = this.props;
             let { from } = location.state || { from: { pathname: "/" } };
             auth.authenticateStore(() => {
@@ -49,6 +53,9 @@ class Landing extends Component {
                 });
             });
         } else {
+            // Logout Customer
+            // Logout Store
+            // If Both auth tokens aren't found
             auth.logOutCustomer(() => {
                 this.setState({isLoadingScreen: false}, () => {
                     this.props.denyAuthenticationCustomer();
@@ -112,9 +119,6 @@ class Landing extends Component {
         return (
             !isLoadingScreen &&
             <div className="landing-parent">
-                {/*<span>RDX Boilerplate</span>
-                <button onClick={() => this.props.addValue(1)}>Redux Thunk - Add</button>
-                <span>{number}</span>*/}
                 <div className="brand-container">
                     <img className="brand-logo" src={logo} alt="atKurb"/>
                 </div>

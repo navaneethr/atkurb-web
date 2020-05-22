@@ -30,6 +30,9 @@ class StoreLanding extends Component {
         }
     }
 
+    /**
+     * We check for access token and authenticate users based on it
+     */
     componentDidMount() {
         // On Reload, if customerAuthToken is present, make fetch profile calls here to get required data else log them out and redirect to Landing Page
         const customerAuthToken = localStorage.getItem(CUSTOMER_TOKEN_NAME);
