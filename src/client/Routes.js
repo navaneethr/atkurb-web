@@ -31,15 +31,19 @@ class Routes extends Component {
                     {(isAuthenticatedCustomer) && <CustomerNavbar/>}
                     {(isAuthenticatedStore) && <StoreNavbar/>}
                     <Switch>
+                        {/*These Routes are only visible when the user is not authenticated*/}
                         <LoginRoute exact path={ROUTES.LANDING} component={Landing}/>
+                        <LoginRoute exact path={ROUTES.STORE} component={StoreLanding}/>
                         <LoginRoute exact path={ROUTES.STORE_LANDING} component={StoreLanding}/>
 
+                        {/*These Routes are only visible when the customer is authenticated*/}
                         <PrivateRouteCustomer exact path={ROUTES.HOME} component={Home}/>
                         <PrivateRouteCustomer exact path={ROUTES.PROFILE} component={Profile}/>
                         <PrivateRouteCustomer exact path={ROUTES.ORDERS} component={Orders}/>
                         <PrivateRouteCustomer exact path={ROUTES.BILLING} component={Billing}/>
                         <PrivateRouteCustomer exact path={ROUTES.PAYMENTS} component={Payments}/>
 
+                        {/*These Routes are only visible when the store is authenticated*/}
                         <PrivateRouteStore exact path={ROUTES.STORE_HOME} component={StoreHome}/>
                         <PrivateRouteStore exact path={ROUTES.STORE_INVENTORY} component={StoreInventory}/>
                         <PrivateRouteStore exact path={ROUTES.STORE_PROFILE} component={StoreProfile}/>
@@ -47,6 +51,7 @@ class Routes extends Component {
                         <PrivateRouteStore exact path={ROUTES.STORE_FINANCES} component={StoreFinances}/>
                         <PrivateRouteStore exact path={ROUTES.STORE_ORDERS} component={StoreOrders}/>
 
+                        {/*This Route handles all other routes and sends them to Home if the user is authenticated or Landing page if he is not*/}
                         <Route component={Landing} />
                     </Switch>
                     <ToastContainer/>

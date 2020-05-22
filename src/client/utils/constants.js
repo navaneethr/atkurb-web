@@ -1,6 +1,8 @@
 export const TABS = {
     LANDING: '',
+    STORE: 'store',
     STORE_LANDING: 'store/register',
+
     HOME: 'home',
     PROFILE: 'profile',
     ORDERS: 'orders',
@@ -17,6 +19,7 @@ export const TABS = {
 
 export const ROUTES = {
     LANDING: `/${TABS.LANDING}`,
+    STORE: `/${TABS.STORE}`,
     STORE_LANDING: `/${TABS.STORE_LANDING}`,
 
     HOME: `/${TABS.HOME}`,
