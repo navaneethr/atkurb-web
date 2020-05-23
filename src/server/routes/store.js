@@ -19,6 +19,7 @@ router.get('/products', authenticateToken, (req, res) => {
     const {storeId} = req.query;
     console.log(storeId);
     Item.find({"storeId" : storeId}).then((data) => {
+        console.log(data);
         res.status(200).json(data);
     }).catch((err) => {
         res.status(500).send(err)

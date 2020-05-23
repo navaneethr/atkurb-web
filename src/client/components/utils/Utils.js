@@ -6,6 +6,7 @@ import '../../css/common/utils.scss';
 import { IoMdCamera } from "react-icons/io";
 import Dropdown from 'react-dropdown';
 import '../../css/common/dropdown.scss';
+import { IoIosAddCircle, IoIosRemoveCircle } from "react-icons/io";
 
 const override = css`
   display: block;
@@ -119,11 +120,43 @@ export function ItemContainer({name, onNameChange, category, onCategoryChange, u
                 <Select options={categoryOptions} onChange={(value) => {onCategoryChange(value)}} value={category} placeholder="Category" />
                 <input className="text-input" type="number" placeholder="Unit Price" value={unitPrice} onChange={(e) => {onUnitPriceChange(e.target.value)}}/>
                 <input className="text-input" type="number" placeholder="Item Quantity" value={quantity} onChange={(e) => {onQuantityChange(e.target.value)}}/>
-                <Select options={unitOptions} onChange={(value) => {onUnitChange(value)}} value={unit} placeholder="Options" />
+                <Select options={unitOptions} onChange={(value) => {onUnitChange(value)}} value={unit} placeholder="Unit" />
                 <input className="text-input" type="number" placeholder="Stock" value={stockSize} onChange={(e) => {onStockSizeChange(e.target.value)}}/>
             </div>
             <div className="description-text-area-parent">
                 <input className="text-area-input" type="text" placeholder="Description" value={description} onChange={(e) => {onDescriptionChange(e.target.value)}}/>
+            </div>
+        </div>
+    )
+}
+
+export function Product({name, unit, unitPrice, quantity, onRemove, onAdd, requiredQuantity}) {
+    return (
+        <div className="shop-product">
+            <div className="product-image-container">
+                <div className="add-remove-bar">
+                    <div className="add-remove-sub-container">
+                        <IoIosRemoveCircle className="icon-class remove-icon" onClick={() => {onRemove()}}/>
+                    </div>
+                    <div className="add-remove-sub-container">
+                        {requiredQuantity}
+                    </div>
+                    <div className="add-remove-sub-container">
+                        <IoIosAddCircle className="icon-class" onClick={() => {onAdd()}}/>
+                    </div>
+                </div>
+
+            </div>
+            <div className="product-info-container">
+                <div className="product-info-sub-container">
+                    <div className="product-name">
+                        <span>{name}</span>
+                    </div>
+                    <div className="product-quantity-unit">
+                        <span>{`${quantity} ${unit}`}</span>
+                        <span>${parseFloat(unitPrice).toFixed(2)}</span>
+                    </div>
+                </div>
             </div>
         </div>
     )

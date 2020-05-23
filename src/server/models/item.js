@@ -11,7 +11,7 @@ const ItemSchema = {
         type: String
     },
     category: {
-        type: String,
+        type: Object,
         required: true,
     },
     unitPrice: {
@@ -23,7 +23,7 @@ const ItemSchema = {
         required: true,
     },
     unit: {
-        type: String,
+        type: Object,
         required: true,
     },
     photo: {

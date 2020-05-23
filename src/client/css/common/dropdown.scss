@@ -18,7 +18,7 @@
   border: 1px solid $border-light-grey;
   border-radius: 4px;
   box-sizing: border-box;
-  color: #505050;
+  color: $grey-text;
   cursor: default;
   outline: none;
   padding: 8px 52px 8px 10px;
@@ -26,11 +26,15 @@
   height: 40px;
   display: flex;
   align-items: center;
-  font-size: 13.33px;
+  font-size: 12px;
 }
 
 .Dropdown-control:hover {
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+}
+
+.Dropdown-placeholder {
+  color: $grey-text;
 }
 
 .Dropdown-arrow {
