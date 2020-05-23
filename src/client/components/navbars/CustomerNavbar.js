@@ -64,6 +64,9 @@ class CustomerNavbar extends Component {
                             <span className="menu-link" onClick={() => this.routerPush(ROUTES.PROFILE)}>Profile</span>
                         </div>
                         <div className="menu-item">
+                            <span className="menu-link" onClick={() => this.setState({openCart: !openCart, openSidebar: !openSidebar})}>Cart</span>
+                        </div>
+                        <div className="menu-item">
                             <span className="menu-link" onClick={() => this.routerPush(ROUTES.ORDERS)}>Orders</span>
                         </div>
                         <div className="menu-item">

@@ -53,3 +53,46 @@
     }
   }
 }
+
+@media only screen and (max-width: 768px)  {
+  .home-parent {
+    .stores-parent {
+      margin: 0 20px;
+      .stores-section {
+        .stores-container {
+          justify-content: center;
+          .store-item {
+            width: 250px;
+            height: 300px;
+            justify-content: center;
+            align-items: center;
+            display: flex;
+            margin: 10px;
+            background: $light-background;
+            border-radius: 4px;
+            flex-direction: column;
+            cursor: pointer;
+            .store-brand-container {
+              height: 250px;
+              width: 250px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            }
+            .store-info-container {
+              background: $light-blue;
+              width: 250px;
+              height: 50px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              color: $white;
+              border-radius: 0 0 4px 4px;
+              font-size: 12px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

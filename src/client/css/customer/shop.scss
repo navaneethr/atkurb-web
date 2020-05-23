@@ -24,7 +24,7 @@
         width: 150px;
         height: 200px;
         background: $light-background;
-        margin: 20px;
+        margin: 10px;
         display: flex;
         justify-content: center;
         flex-direction: column;
@@ -43,6 +43,33 @@
           justify-content: center;
           align-items: center;
           font-size: 12px;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 768px)  {
+  .shop-parent {
+    .shop-container {
+      .shop-header {
+
+        .shop-heading {
+
+        }
+      }
+      .products-container {
+        justify-content: center;
+        .shop-product {
+          width: 250px;
+          height: 300px;
+          .product-image-container {
+            height: 250px;
+            width: 250px;
+          }
+          .product-info-container {
+            width: 250px;
+          }
         }
       }
     }
