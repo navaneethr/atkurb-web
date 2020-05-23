@@ -5,7 +5,7 @@ import {ROUTES, STORE_TOKEN_NAME} from "../../utils/constants";
 import {auth} from "../../auth/auth";
 import { withRouter } from "react-router-dom";
 import {denyAuthenticationStore} from "../../redux/actions/rootActions";
-import { IoMdCart, IoIosClose } from "react-icons/io";
+import { IoIosClose } from "react-icons/io";
 
 
 class StoreNavbar extends Component {

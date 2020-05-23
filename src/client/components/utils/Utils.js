@@ -3,6 +3,7 @@ import { css } from "@emotion/core";
 import PulseLoader from "react-spinners/PulseLoader";
 import { toast } from 'react-toastify';
 import '../../css/common/utils.scss';
+import { IoMdCamera } from "react-icons/io";
 
 const override = css`
   display: block;
@@ -86,6 +87,29 @@ export function OrderContainer({date, itemsCount, cost, onViewCLick}) {
                 <div className="store-order-detail store-order-button">
                     <Button label="View" onClick={() => onViewCLick()}/>
                 </div>
+            </div>
+        </div>
+    )
+}
+
+export function ItemContainer({name, onNameChange, category, onCategoryChange, unitPrice, onUnitPriceChange, quantity, onQuantityChange, unit, onUnitChange, stockSize, onStockSizeChange, description, onDescriptionChange}) {
+    return (
+        <div className="add-item-container">
+            <div className="item-image-container">
+                <div className="camera-click-container">
+                    <IoMdCamera className="icon-class" onClick={() => {}}/>
+                </div>
+            </div>
+            <div className="item-inputs-container">
+                <input className="text-input" type="text" placeholder="Name" value={name} onChange={(e) => {onNameChange(e.target.value)}}/>
+                <input className="text-input" type="text" placeholder="Category" value={category} onChange={(e) => {onCategoryChange(e.target.value)}}/>
+                <input className="text-input" type="number" placeholder="Unit Price" value={unitPrice} onChange={(e) => {onUnitPriceChange(e.target.value)}}/>
+                <input className="text-input" type="number" placeholder="Item Quantity" value={quantity} onChange={(e) => {onQuantityChange(e.target.value)}}/>
+                <input className="text-input" type="text" placeholder="Unit" value={unit} onChange={(e) => {onUnitChange(e.target.value)}}/>
+                <input className="text-input" type="number" placeholder="Stock" value={stockSize} onChange={(e) => {onStockSizeChange(e.target.value)}}/>
+            </div>
+            <div className="description-text-area-parent">
+                <input className="text-area-input" type="text" placeholder="Description" value={description} onChange={(e) => {onDescriptionChange(e.target.value)}}/>
             </div>
         </div>
     )

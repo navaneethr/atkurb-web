@@ -1,3 +1,79 @@
+@import "../../app";
+
 .store-inventory-parent {
   padding-top: 80px;
+  .store-inventory-header {
+    margin: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    .store-inventory-heading {
+      margin: 10px;
+      font-size: 18px;
+    }
+    .button {
+      width: 100px;
+    }
+  }
+  .store-inventory-container {
+    margin: 0 20px;
+    padding: 0 20px;
+  }
+  .store-items-container {
+    margin: 0 20px;
+    padding: 0 20px;
+    display: flex;
+    .add-items-button-container {
+      margin: 10px;
+      max-width: 840px;
+      display: flex;
+      justify-content: flex-end;
+      .button {
+        margin: 10px 0;
+        width: 100px;
+      }
+    }
+    .items-list-container {
+      margin-left: 20px;
+      margin-right: 10px;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      background: $light-background;
+      flex: 1;
+      border-radius: 4px;
+      .list-item-header {
+        margin-bottom: 20px;
+        .list-item-heading {
+          font-size: 18px;
+        }
+      }
+      .list-items {
+        max-height: 500px;
+        overflow: auto;
+        .list-item-container {
+          margin-bottom: 10px;
+          background: $white;
+          border-radius: 4px;
+          cursor: pointer;
+          height: 40px;
+          padding: 0 20px;
+          align-items: center;
+          display: flex;
+          &:hover {
+            background: $light-blue;
+            color: $white;
+          }
+        }
+      }
+      .inventory-save-btn-container {
+        display: flex;
+        justify-content: flex-end;
+        .button {
+          margin: 10px 0;
+        }
+      }
+    }
+  }
 }

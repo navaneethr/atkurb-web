@@ -153,7 +153,7 @@ router.post('/business/login', (req, res) => {
                 }
                 if (result) {
                     console.log("Store", store);
-                    const token = jwt.sign({fullName: store.storeName, email: store.email, userId: store._id}, process.env.ACCESS_TOKEN_SECRET);
+                    const token = jwt.sign({storeName: store.storeName, email: store.email, storeId: store._id}, process.env.ACCESS_TOKEN_SECRET);
                     return res.status(200).json({
                         message: "Auth successful",
                         token: token

@@ -7,6 +7,7 @@ const sslRedirect = require('heroku-ssl-redirect');
 
 const userRoute = require('./routes/user');
 const authRoute = require('./routes/auth');
+const authInventory = require('./routes/inventory');
 
 mongoose.connect(process.env.DB_CONNECTION, {useNewUrlParser: true, useUnifiedTopology: true}, () => {
     console.log("MLAB Connected");
@@ -26,6 +27,7 @@ app.use(express.static('dist'));
 
 app.use('/api/user', userRoute);
 app.use('/api/auth', authRoute);
+app.use('/api/inventory', authInventory);
 
 
 // Make sure to always have this at the end - Do not Move

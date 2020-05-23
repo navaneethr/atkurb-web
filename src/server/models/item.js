@@ -1,9 +1,42 @@
-export const Item = {
-    id: "UUID",
-    name: "String",
-    description: "String",
-    category: "String", // Fruits || Vegetables || Grocery
-    price: "String",
-    itemWeight: 0, // 2 kg -> 2 is the weight
-    unit: "String" // Kg, Lb, Ml, litres, oz
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+
+const ItemSchema = {
+    _id: Schema.Types.ObjectId,
+    name: {
+        type: String,
+        required: true,
+    },
+    description: {
+        type: String
+    },
+    category: {
+        type: String,
+        required: true,
+    },
+    unitPrice: {
+        type: Number,
+        required: true,
+    },
+    itemSize: {
+        type: Number,
+        required: true,
+    },
+    unit: {
+        type: String,
+        required: true,
+    },
+    photo: {
+        type: String,
+    },
+    qtyLeft: {
+        type: Number,
+        required: true,
+    },
+    storeId: {
+        type: String,
+        required: true,
+    }
 };
+
+module.exports = mongoose.model('Item', ItemSchema);

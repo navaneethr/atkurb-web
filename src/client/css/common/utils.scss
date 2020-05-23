@@ -1,4 +1,5 @@
 @import "../../app";
+
 .store-order-container {
   height: 160px;
   min-width: 400px;
@@ -9,6 +10,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 20px;
   .button {
     width: 100px;
   }
@@ -42,6 +44,47 @@
     }
     .store-order-button {
       justify-content: flex-end;
+    }
+  }
+}
+
+.add-item-container {
+  display: flex;
+  flex-wrap: wrap;
+  background: $light-background;
+  padding: 10px;
+  margin: 0 10px;
+  border-radius: 4px;
+  max-width: 820px;
+  .item-image-container {
+    height: 160px;
+    width: 160px;
+    background: $grey-text;
+    margin: 10px;
+    position: relative;
+    border-radius: 4px;
+    .camera-click-container {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      .icon-class {
+        width: 30px;
+        height: 30px;
+        margin: 10px;
+        fill: $white;
+      }
+    }
+  }
+  .item-inputs-container {
+    width: 640px;
+  }
+  .description-text-area-parent {
+    width: 100%;
+    .text-area-input {
+      width: calc(100% - 20px);
     }
   }
 }
