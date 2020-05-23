@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const { v4 } = require('uuid');
 
 const outputDirectory = 'dist';
 
@@ -9,7 +10,7 @@ module.exports = {
     output: {
         path: path.join(__dirname, outputDirectory),
         publicPath: '/',
-        filename: 'bundle.js'
+        filename: `bundle.js?v=${v4()}`
     },
     module: {
         rules: [
@@ -57,3 +58,4 @@ module.exports = {
         })
     ]
 };
+
