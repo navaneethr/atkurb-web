@@ -1,0 +1,50 @@
+@import "../../app";
+
+.shop-parent {
+  padding-top: 80px;
+  margin: 20px;
+  .shop-container {
+    padding: 10px 20px;
+    .shop-header {
+      margin: 0 20px;
+      position: fixed;
+      top: 28px;
+      left: 40px;
+      z-index: 1;
+      height: 20px;
+      color: $white;
+      .shop-heading {
+        font-size: 18px;
+      }
+    }
+    .products-container {
+      display: flex;
+      flex-wrap: wrap;
+      .shop-product {
+        width: 150px;
+        height: 200px;
+        background: $light-background;
+        margin: 20px;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        border-radius: 4px;
+        cursor: pointer;
+        .product-image-container {
+          width: 150px;
+          height: 150px;
+        }
+        .product-info-container {
+          height: 50px;
+          background: $grey-text;
+          border-radius: 0 0 4px 4px;
+          color: $white;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-size: 12px;
+        }
+      }
+    }
+  }
+}

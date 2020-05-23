@@ -1,29 +1,43 @@
 import React, { Component } from 'react';
 import '../../css/customer/home.scss';
 import { connect } from "react-redux";
+import { withRouter } from 'react-router-dom';
 import {addValue} from "../../redux/actions/homeActions";
 import axios from "axios";
-import {CUSTOMER_TOKEN_NAME} from "../../utils/constants";
+import {CUSTOMER_TOKEN_NAME, ROUTES} from "../../utils/constants";
+import {AlertError} from "../utils/Utils";
 
 class Home extends Component {
 
     constructor() {
         super();
         this.state = {
-            searchStore: ""
+            searchStore: "",
+            storesNearby: [],
+            favStores: []
         }
     }
 
     componentDidMount() {
         const token = localStorage.getItem(CUSTOMER_TOKEN_NAME);
         const bearerToken = `Bearer ${token}`;
-        axios.get("/api/user", { 'headers': { 'Authorization': bearerToken} })
+        axios.get("/api/store/all", { 'headers': { 'Authorization': bearerToken} }).then((res) => {
+            console.log(res);
+            this.setState({storesNearby: res.data});
+        }).catch((error) => {
+            console.log(error);
+            AlertError("Failed to fetch stores, please retry");
+        })
+    }
+
+    onStoreClick(id) {
+        this.props.history.push(`${ROUTES.SHOP}/${id}`)
     }
 
     render() {
         console.log(this.props);
         const { number } = this.props.homeReducer;
-        const {searchStore} = this.state;
+        const {searchStore, storesNearby, favStores} = this.state;
         return (
             <div className="home-parent">
                 {/*<span>RDX Boilerplate</span>
@@ -41,82 +55,48 @@ class Home extends Component {
                     value={searchStore}
                 />
                 <div className="stores-parent">
-                    <div className="stores-section">
-                        <div className="heading-container">
-                            <span className="heading">Stores you frequently buy from</span>
-                        </div>
-                        <div className="stores-container">
-                            <div className="store-item">
-                                <div className="store-brand-container">
-                                    Store 1
-                                </div>
-                                <div className="store-info-container">
-                                    Dublin
-                                </div>
+                    {
+                        !_.isEmpty(favStores) &&
+                            <div className="stores-section">
+                            <div className="heading-container">
+                                <span className="heading">Stores you frequently buy from</span>
                             </div>
-                            <div className="store-item">
-                                <div className="store-brand-container">
-                                    Store 1
-                                </div>
-                                <div className="store-info-container">
-                                    Dublin
-                                </div>
-                            </div>
-                            <div className="store-item">
-                                <div className="store-brand-container">
-                                    Store 1
-                                </div>
-                                <div className="store-info-container">
-                                    Dublin
-                                </div>
-                            </div>
-                            <div className="store-item">
-                                <div className="store-brand-container">
-                                    Store 1
-                                </div>
-                                <div className="store-info-container">
-                                    Dublin
-                                </div>
+                            <div className="stores-container">
+                                {
+                                    favStores.map((store) => {
+                                        return (
+                                            <div className="store-item">
+                                                <div className="store-brand-container">
+                                                    Store 1
+                                                </div>
+                                                <div className="store-info-container">
+                                                    Dublin
+                                                </div>
+                                            </div>
+                                        )
+                                    })
+                                }
                             </div>
                         </div>
-                    </div>
+                    }
                     <div className="stores-section">
                         <div className="heading-container">
                             <span className="heading">Stores Nearby</span>
                         </div>
                         <div className="stores-container">
-                            <div className="store-item">
-                                <div className="store-brand-container">
-                                    Store 1
-                                </div>
-                                <div className="store-info-container">
-                                    Dublin
-                                </div>
-                            </div>
-                            <div className="store-item">
-                                <div className="store-brand-container">
-                                    Store 1
-                                </div>
-                                <div className="store-info-container">
-                                    Dublin
-                                </div>
-                            </div>
-                            <div className="store-item">
-                                <div className="store-brand-container">
-                                    Store 1
-                                </div>
-                                <div className="store-info-container">
-                                    Dublin
-                                </div>
-                            </div>
-                            <div className="store-item">
-                                <div className="store-brand-container">
-                                    Store 1
-                                </div>
-                                <div className="store-info-container">
-                                    Dublin
-                                </div>
-                            </div>
+                            {
+                                storesNearby.map(({storeName, _id}, key) => {
+                                    return (
+                                        <div className="store-item" key={key} onClick={() => this.onStoreClick(_id)}>
+                                            <div className="store-brand-container">
+                                            </div>
+                                            <div className="store-info-container">
+                                                {storeName && (storeName.length > 15 ? storeName.substring(0, 15) + "..." : storeName)}
+                                            </div>
+                                        </div>
+                                    )
+                                })
+                            }
                         </div>
                     </div>
                 </div>
@@ -135,4 +115,4 @@ export const mapDispatchToProps = (dispatch) => {
     }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home)
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Home))

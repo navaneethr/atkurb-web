@@ -5,6 +5,7 @@ export const TABS = {
 
     HOME: 'home',
     PROFILE: 'profile',
+    SHOP: 'shop',
     ORDERS: 'orders',
     BILLING: 'billing',
     PAYMENTS: 'payments',
@@ -24,6 +25,7 @@ export const ROUTES = {
 
     HOME: `/${TABS.HOME}`,
     PROFILE: `/${TABS.PROFILE}`,
+    SHOP: `/${TABS.SHOP}`,
     ORDERS: `/${TABS.ORDERS}`,
     BILLING: `/${TABS.BILLING}`,
     PAYMENTS: `/${TABS.PAYMENTS}`,

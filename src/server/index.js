@@ -7,6 +7,7 @@ const sslRedirect = require('heroku-ssl-redirect');
 
 const userRoute = require('./routes/user');
 const authRoute = require('./routes/auth');
+const authStore = require('./routes/store');
 const authInventory = require('./routes/inventory');
 
 mongoose.connect(process.env.DB_CONNECTION, {useNewUrlParser: true, useUnifiedTopology: true}, () => {
@@ -27,6 +28,7 @@ app.use(express.static('dist'));
 
 app.use('/api/user', userRoute);
 app.use('/api/auth', authRoute);
+app.use('/api/store', authStore);
 app.use('/api/inventory', authInventory);
 
 

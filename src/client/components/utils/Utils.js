@@ -4,6 +4,8 @@ import PulseLoader from "react-spinners/PulseLoader";
 import { toast } from 'react-toastify';
 import '../../css/common/utils.scss';
 import { IoMdCamera } from "react-icons/io";
+import Dropdown from 'react-dropdown';
+import '../../css/common/dropdown.scss';
 
 const override = css`
   display: block;
@@ -92,7 +94,19 @@ export function OrderContainer({date, itemsCount, cost, onViewCLick}) {
     )
 }
 
+export function Select(props) {
+    return (
+        <Dropdown {...props}/>
+    )
+}
+
 export function ItemContainer({name, onNameChange, category, onCategoryChange, unitPrice, onUnitPriceChange, quantity, onQuantityChange, unit, onUnitChange, stockSize, onStockSizeChange, description, onDescriptionChange}) {
+    const categoryOptions = [
+        'Vegetables', 'Fruits', 'Pantry', 'Dairy', 'Meat', 'Drinks & Beverages', 'Pharmacy', 'Nuts', 'Bakery', 'Wine, Beer & Spirits', 'Care', 'Snacks', 'Cookies'
+    ];
+    const unitOptions = [
+        'mg', 'gm', 'kg', 'lb', 'unit', 'ml', 'l', 'gallon'
+    ];
     return (
         <div className="add-item-container">
             <div className="item-image-container">
@@ -102,10 +116,10 @@ export function ItemContainer({name, onNameChange, category, onCategoryChange, u
             </div>
             <div className="item-inputs-container">
                 <input className="text-input" type="text" placeholder="Name" value={name} onChange={(e) => {onNameChange(e.target.value)}}/>
-                <input className="text-input" type="text" placeholder="Category" value={category} onChange={(e) => {onCategoryChange(e.target.value)}}/>
+                <Select options={categoryOptions} onChange={(value) => {onCategoryChange(value)}} value={category} placeholder="Category" />
                 <input className="text-input" type="number" placeholder="Unit Price" value={unitPrice} onChange={(e) => {onUnitPriceChange(e.target.value)}}/>
                 <input className="text-input" type="number" placeholder="Item Quantity" value={quantity} onChange={(e) => {onQuantityChange(e.target.value)}}/>
-                <input className="text-input" type="text" placeholder="Unit" value={unit} onChange={(e) => {onUnitChange(e.target.value)}}/>
+                <Select options={unitOptions} onChange={(value) => {onUnitChange(value)}} value={unit} placeholder="Options" />
                 <input className="text-input" type="number" placeholder="Stock" value={stockSize} onChange={(e) => {onStockSizeChange(e.target.value)}}/>
             </div>
             <div className="description-text-area-parent">

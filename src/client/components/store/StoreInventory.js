@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import '../../css/store/storeInventory.scss';
-import {Button, ItemContainer} from "../utils/Utils";
+import {AlertError, AlertSuccess, Button, ItemContainer} from "../utils/Utils";
 import * as _ from 'lodash';
 import axios from "axios";
 import {STORE_TOKEN_NAME} from "../../utils/constants";
@@ -62,9 +62,11 @@ class StoreInventory extends Component {
             }
         };
         axios.post('/api/inventory/add', {items}, config).then((res) => {
-
+            AlertSuccess("Added all the items to the Inventory");
+            this.setState({items: []});
         }).catch((err) => {
-
+            console.log(err);
+            AlertError("Failed to add items to the Inventory");
         })
     }
 
@@ -104,7 +106,7 @@ class StoreInventory extends Component {
                             {
                                 items.map((item, key) => {
                                     return (
-                                        <div key={key} className="list-item-container">Hello</div>
+                                        <div key={key} className="list-item-container">{item.name}</div>
                                     )
                                 })
                             }
@@ -121,7 +123,6 @@ class StoreInventory extends Component {
     renderInventory() {
         return (
             <div className="store-inventory-container">
-                Inventory
             </div>
         )
     }
