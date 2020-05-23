@@ -122,7 +122,6 @@ class Landing extends Component {
                 <div className="brand-container">
                     <img className="brand-logo" src={logo} alt="atKurb"/>
                 </div>
-                <a className="registration-login-link fixed-top-left" onClick={() => this.props.history.push(ROUTES.STORE_LANDING)}>Click here if you are a Store</a>
                 {
                     !isLogin &&
                     <div className="registration-login-container">
@@ -166,6 +165,9 @@ class Landing extends Component {
                         <div className="registration-login-link-container">
                             <a className="registration-login-link" onClick={() => this.setState({isLogin: !isLogin})}>Login</a>
                         </div>
+                        <div className="registration-login-link-container">
+                            <a className="registration-login-link" onClick={() => this.props.history.push(ROUTES.STORE_LANDING)}>Click here if you are a Store</a>
+                        </div>
                     </div>
                 }
                 {
@@ -199,6 +201,9 @@ class Landing extends Component {
                         </div>
                         <div className="registration-login-link-container">
                             <a className="registration-login-link" onClick={() => this.setState({isLogin: !isLogin})}>Create an Account</a>
+                        </div>
+                        <div className="registration-login-link-container">
+                            <a className="registration-login-link" onClick={() => this.props.history.push(ROUTES.STORE_LANDING)}>Click here if you are a Store</a>
                         </div>
                     </div>
                 }
