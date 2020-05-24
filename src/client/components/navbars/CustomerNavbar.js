@@ -34,6 +34,7 @@ class CustomerNavbar extends Component {
     render() {
         console.log(this.props);
         const { openCart, openSidebar } = this.state;
+        const {cart} = this.props.navbarReducer;
         return (
             <div className="navbar-parent">
                 <div className="top-navbar">
@@ -42,7 +43,10 @@ class CustomerNavbar extends Component {
                     </div>
                     <div className="right-navbar-container">
                         <input className="text-input zip-code-input"/>
-                        <IoMdCart className="icon-class" onClick={() => {this.setState({openCart: !openCart})}}/>
+                        <div className="navbar-item">
+                            <IoMdCart className="icon-class" onClick={() => {this.setState({openCart: !openCart})}}/>
+                            {!_.isEmpty(cart) && <span className="cart-items-count" onClick={() => {this.setState({openCart: !openCart})}}>{cart.length}</span>}
+                        </div>
                         <span className="profile-parent" onClick={() => {this.setState({openSidebar: !openSidebar})}}>NK</span>
                     </div>
                 </div>
@@ -85,8 +89,8 @@ class CustomerNavbar extends Component {
     }
 }
 
-export const mapStateToProps = ({rootReducer}) => {
-    return { rootReducer }
+export const mapStateToProps = ({rootReducer, navbarReducer}) => {
+    return { rootReducer, navbarReducer }
 };
 
 export const mapDispatchToProps = (dispatch) => {

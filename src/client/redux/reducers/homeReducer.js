@@ -1,7 +1,9 @@
-import { ADD } from "../actionTypes";
+import { ADD, GET_STORES } from "../actionTypes";
 
 const initialState = {
-    number: 0
+    number: 0,
+    storesNearby: [],
+    favStores: []
 };
 
 const homeReducer = (state = initialState, action) => {
@@ -10,6 +12,12 @@ const homeReducer = (state = initialState, action) => {
             return {
                 ...state,
                 number: state.number + action.payload
+            };
+        }
+        case GET_STORES: {
+            return {
+                ...state,
+                storesNearby: action.payload
             };
         }
         default:

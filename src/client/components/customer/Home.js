@@ -2,10 +2,8 @@ import React, { Component } from 'react';
 import '../../css/customer/home.scss';
 import { connect } from "react-redux";
 import { withRouter } from 'react-router-dom';
-import {addValue} from "../../redux/actions/homeActions";
-import axios from "axios";
-import {CUSTOMER_TOKEN_NAME, ROUTES} from "../../utils/constants";
-import {AlertError} from "../utils/Utils";
+import { addValue, getStores } from "../../redux/actions/homeActions";
+import { ROUTES } from "../../utils/constants";
 
 class Home extends Component {
 
@@ -19,15 +17,8 @@ class Home extends Component {
     }
 
     componentDidMount() {
-        const token = localStorage.getItem(CUSTOMER_TOKEN_NAME);
-        const bearerToken = `Bearer ${token}`;
-        axios.get("/api/store/all", { 'headers': { 'Authorization': bearerToken} }).then((res) => {
-            console.log(res);
-            this.setState({storesNearby: res.data});
-        }).catch((error) => {
-            console.log(error);
-            AlertError("Failed to fetch stores, please retry");
-        })
+        const { getStores } = this.props;
+        getStores();
     }
 
     onStoreClick(id) {
@@ -35,18 +26,11 @@ class Home extends Component {
     }
 
     render() {
-        console.log(this.props);
-        const { number } = this.props.homeReducer;
-        const {searchStore, storesNearby, favStores} = this.state;
+        console.log(this.props.homeReducer);
+        const { storesNearby, favStores } = this.props.homeReducer;
+        const {searchStore} = this.state;
         return (
             <div className="home-parent">
-                {/*<span>RDX Boilerplate</span>
-                <Button
-                    onClick={() => this.props.addValue(1)}
-                    label="Redux Thunk"
-                    loading={false}
-                />
-                <span>{number}</span>*/}
                 <input
                     className="text-input navbar-fixed-input"
                     type="text"
@@ -111,7 +95,8 @@ export const mapStateToProps = ({homeReducer}) => {
 
 export const mapDispatchToProps = (dispatch) => {
     return {
-        addValue: (payload) => dispatch(addValue(payload))
+        addValue: (payload) => dispatch(addValue(payload)),
+        getStores: () => dispatch(getStores())
     }
 };
 

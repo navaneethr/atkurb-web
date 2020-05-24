@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import '../../css/customer/shop.scss';
-import axios from 'axios';
-import {CUSTOMER_TOKEN_NAME} from "../../utils/constants";
-import {AlertError, Product} from "../utils/Utils";
+import { Product } from "../utils/Utils";
 import * as _ from 'lodash';
+import { getProducts } from "../../redux/actions/shopActions";
+import { updateCart } from "../../redux/actions/navbarActions";
+import { connect } from "react-redux";
+import { withRouter } from 'react-router-dom';
 
 class Shop extends Component {
 
@@ -16,24 +18,14 @@ class Shop extends Component {
     }
 
     componentDidMount() {
-        const AuthToken =  `Bearer ${localStorage.getItem(CUSTOMER_TOKEN_NAME)}`;
         const { storeId } = this.props.match.params;
         console.log(this.props);
-        const config = {
-            headers: {
-                Authorization: AuthToken,
-            }
-        };
-
-        axios.get(`/api/store/products?storeId=${storeId}`, config).then((res) => {
-            this.setState({products: res.data})
-        }).catch((err) => {
-            AlertError("Failed to load products, please refresh")
-        })
+        const { getProducts } = this.props;
+        getProducts(storeId);
     }
 
     getRequiredValue(prod) {
-        const {cart} = this.state;
+        const {cart} = this.props.navbarReducer;
         let requiredQty = "";
 
         if(_.isEmpty(_.find(cart, { 'id': prod._id }))) {
@@ -45,7 +37,9 @@ class Shop extends Component {
     }
 
     addItemToCart(prod) {
-        const {cart} = this.state;
+        const {cart} = this.props.navbarReducer;
+        const { updateCart } = this.props;
+
         const newCart = _.cloneDeep(cart);
         // if the product is in the cart already
         if(!_.isEmpty(_.find(newCart, { id: prod._id }))) {
@@ -58,17 +52,20 @@ class Shop extends Component {
             // we recheck if there is an object just to make sure before adding it to the state
             if(index > -1) {
                 newCart.splice(index, 1, productToUpdate);
-                this.setState({cart: newCart});
+                // this.setState({cart: newCart});
+                updateCart(newCart)
             }
         } else {
             // add product to cart
             const updatedCart = [...newCart, {id: prod._id, quantity: 1}];
-            this.setState({cart: updatedCart});
+            // this.setState({cart: updatedCart});
+            updateCart(updatedCart)
         }
     }
 
-    removeItemToCart(prod) {
-        const {cart} = this.state;
+    removeItemFromCart(prod) {
+        const {cart} = this.props.navbarReducer;
+        const { updateCart } = this.props;
         const newCart = _.cloneDeep(cart);
         // if the product is in the cart already
         if(!_.isEmpty(_.find(newCart, { id: prod._id }))) {
@@ -80,13 +77,15 @@ class Shop extends Component {
             if(productToUpdate.quantity === 1) {
                 // Remove the product
                 _.remove(newCart, (item) => item.id === productToUpdate.id);
-                this.setState({cart: newCart});
+                // this.setState({cart: newCart});
+                updateCart(newCart);
             } else {
                 // We reduce the quantity
                 productToUpdate = {...productToUpdate, quantity: productToUpdate.quantity - 1};
                 if(index > -1) {
                     newCart.splice(index, 1, productToUpdate);
-                    this.setState({cart: newCart});
+                    // this.setState({cart: newCart});
+                    updateCart(newCart);
                 }
             }
         }
@@ -94,8 +93,8 @@ class Shop extends Component {
     }
 
     render() {
-        const {products} = this.state;
-        console.log(products);
+        console.log(this.props);
+        const {products} = this.props.shopReducer;
 
         return (
             <div className="shop-parent">
@@ -113,7 +112,7 @@ class Shop extends Component {
                                         quantity={prod.quantity}
                                         unit={prod.unit.value}
                                         unitPrice={prod.unitPrice}
-                                        onRemove={() => {this.removeItemToCart(prod)}}
+                                        onRemove={() => {this.removeItemFromCart(prod)}}
                                         onAdd={() => {this.addItemToCart(prod)}}
                                         requiredQuantity={this.getRequiredValue(prod)}
                                     />
@@ -127,4 +126,15 @@ class Shop extends Component {
     }
 }
 
-export default Shop;
+export const mapStateToProps = ({shopReducer, navbarReducer}) => {
+    return { shopReducer, navbarReducer }
+};
+
+export const mapDispatchToProps = (dispatch) => {
+    return {
+        getProducts: (storeId) => dispatch(getProducts(storeId)),
+        updateCart: (cartItems) => dispatch(updateCart(cartItems))
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Shop))
