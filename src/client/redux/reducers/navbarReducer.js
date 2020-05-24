@@ -1,7 +1,8 @@
-import { UPDATE_CART } from "../actionTypes";
+import {GET_CART, GET_COMPLETE_CART, UPDATE_CART} from "../actionTypes";
 
 const initialState = {
-    cart: []
+    cart: [],
+    completeCart: []
 };
 
 const navbarReducer = (state = initialState, action) => {
@@ -10,6 +11,18 @@ const navbarReducer = (state = initialState, action) => {
             return {
                 ...state,
                 cart: action.payload
+            };
+        }
+        case GET_CART: {
+            return {
+                ...state,
+                cart: action.payload
+            };
+        }
+        case GET_COMPLETE_CART: {
+            return {
+                ...state,
+                completeCart: action.payload
             };
         }
         default:

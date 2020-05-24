@@ -72,6 +72,19 @@
     width: 400px;
     box-shadow: $box-shadow;
     z-index: 999;
+    .cart-container {
+      margin: 20px;
+      .cart-card-container {
+        height: 80px;
+        background: $pink;
+        border-radius: 4px;
+        padding: 10px;
+        box-sizing: border-box;
+        margin-bottom: 20px;
+        color: $white;
+        font-weight: bolder;
+      }
+    }
     .icon-class {
       fill: $primary;
       &:hover {

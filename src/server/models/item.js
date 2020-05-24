@@ -18,7 +18,7 @@ const ItemSchema = {
         type: Number,
         required: true,
     },
-    itemSize: {
+    unitQuantity: {
         type: Number,
         required: true,
     },
@@ -29,7 +29,7 @@ const ItemSchema = {
     photo: {
         type: String,
     },
-    qtyLeft: {
+    stockSize: {
         type: Number,
         required: true,
     },

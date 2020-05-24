@@ -28,27 +28,28 @@ class Shop extends Component {
         const {cart} = this.props.navbarReducer;
         let requiredQty = "";
 
-        if(_.isEmpty(_.find(cart, { 'id': prod._id }))) {
+        if(_.isEmpty(_.find(cart, { productId: prod._id }))) {
             requiredQty = 0;
         } else {
-            requiredQty = _.find(cart, { 'id': prod._id }).quantity;
+            requiredQty = _.find(cart, { productId: prod._id }).quantity;
         }
         return requiredQty;
     }
 
     addItemToCart(prod) {
         const {cart} = this.props.navbarReducer;
+        const { storeId } = this.props.match.params;
         const { updateCart } = this.props;
 
         const newCart = _.cloneDeep(cart);
         // if the product is in the cart already
-        if(!_.isEmpty(_.find(newCart, { id: prod._id }))) {
+        if(!_.isEmpty(_.find(newCart, { productId: prod._id }))) {
             // get the index of the product in the cart
-            let index = _.findIndex(newCart, { id: prod._id });
+            let index = _.findIndex(newCart, { productId: prod._id });
             // get the product object
-            let productToUpdate = _.find(newCart, { id: prod._id });
+            let productToUpdate = _.find(newCart, { productId: prod._id });
             // Update the product
-            productToUpdate = {...productToUpdate, quantity: productToUpdate.quantity + 1};
+            productToUpdate = {...productToUpdate, quantity: parseInt(productToUpdate.quantity) + 1, storeId};
             // we recheck if there is an object just to make sure before adding it to the state
             if(index > -1) {
                 newCart.splice(index, 1, productToUpdate);
@@ -57,7 +58,7 @@ class Shop extends Component {
             }
         } else {
             // add product to cart
-            const updatedCart = [...newCart, {id: prod._id, quantity: 1}];
+            const updatedCart = [...newCart, {productId: prod._id, quantity: 1, storeId}];
             // this.setState({cart: updatedCart});
             updateCart(updatedCart)
         }
@@ -65,23 +66,25 @@ class Shop extends Component {
 
     removeItemFromCart(prod) {
         const {cart} = this.props.navbarReducer;
-        const { updateCart } = this.props;
+        const { storeId } = this.props.match.params;
+        const { updateCart } = this.props
+        console.log(this.props);
         const newCart = _.cloneDeep(cart);
         // if the product is in the cart already
-        if(!_.isEmpty(_.find(newCart, { id: prod._id }))) {
+        if(!_.isEmpty(_.find(newCart, { productId: prod._id }))) {
             // get the index of the product in the cart
-            let index = _.findIndex(newCart, { id: prod._id });
+            let index = _.findIndex(newCart, { productId: prod._id });
             // get the product object
-            let productToUpdate = _.find(newCart, { id: prod._id });
+            let productToUpdate = _.find(newCart, { productId: prod._id });
             // If the quantity is 1 we remove the product from the cart
-            if(productToUpdate.quantity === 1) {
+            if(parseInt(productToUpdate.quantity) === 1) {
                 // Remove the product
-                _.remove(newCart, (item) => item.id === productToUpdate.id);
+                _.remove(newCart, (item) => item.productId === productToUpdate.productId);
                 // this.setState({cart: newCart});
                 updateCart(newCart);
             } else {
                 // We reduce the quantity
-                productToUpdate = {...productToUpdate, quantity: productToUpdate.quantity - 1};
+                productToUpdate = {...productToUpdate, quantity: parseInt(productToUpdate.quantity) - 1};
                 if(index > -1) {
                     newCart.splice(index, 1, productToUpdate);
                     // this.setState({cart: newCart});

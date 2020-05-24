@@ -10,7 +10,7 @@ const Item = {
     description: "",
     category: "",
     unitPrice: "",
-    quantity: "",
+    unitQuantity: "",
     unit: "",
     photo: "",
     stockSize: ""
@@ -24,7 +24,7 @@ class StoreInventory extends Component {
             showAddItems: false,
             item: Item,
             items: [],
-            requiredFields: ["name", "category", "unitPrice", "quantity", "unit", "stockSize"]
+            requiredFields: ["name", "category", "unitPrice", "unitQuantity", "unit", "stockSize"]
         };
     }
 
@@ -63,7 +63,6 @@ class StoreInventory extends Component {
         };
         axios.post('/api/inventory/add', {items}, config).then((res) => {
             AlertSuccess("Added all the items to the Inventory");
-            this.setState({items: []});
         }).catch((err) => {
             console.log(err);
             AlertError("Failed to add items to the Inventory");
@@ -72,7 +71,7 @@ class StoreInventory extends Component {
 
     renderAddItems() {
         const {items} = this.state;
-        const {name, category, unitPrice, quantity, unit, stockSize, description} = this.state.item;
+        const {name, category, unitPrice, unitQuantity, unit, stockSize, description} = this.state.item;
         return(
             <div className="store-items-container">
                 <div>
@@ -83,8 +82,8 @@ class StoreInventory extends Component {
                         onCategoryChange={(value) => this.changeItemState("category", value)}
                         unitPrice={unitPrice}
                         onUnitPriceChange={(value) => this.changeItemState("unitPrice", value)}
-                        quantity={quantity}
-                        onQuantityChange={(value) => this.changeItemState("quantity", value)}
+                        quantity={unitQuantity}
+                        onQuantityChange={(value) => this.changeItemState("unitQuantity", value)}
                         unit={unit}
                         onUnitChange={(value) => this.changeItemState("unit", value)}
                         stock={stockSize}

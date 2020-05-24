@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const sslRedirect = require('heroku-ssl-redirect');
 
 const userRoute = require('./routes/user');
+const cartRoute = require('./routes/cart');
 const authRoute = require('./routes/auth');
 const authStore = require('./routes/store');
 const authInventory = require('./routes/inventory');
@@ -27,6 +28,7 @@ app.use(bodyParser.json());
 app.use(express.static('dist'));
 
 app.use('/api/user', userRoute);
+app.use('/api/cart', cartRoute);
 app.use('/api/auth', authRoute);
 app.use('/api/store', authStore);
 app.use('/api/inventory', authInventory);

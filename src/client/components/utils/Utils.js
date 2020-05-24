@@ -101,7 +101,7 @@ export function Select(props) {
     )
 }
 
-export function ItemContainer({name, onNameChange, category, onCategoryChange, unitPrice, onUnitPriceChange, quantity, onQuantityChange, unit, onUnitChange, stockSize, onStockSizeChange, description, onDescriptionChange}) {
+export function ItemContainer({name, onNameChange, category, onCategoryChange, unitPrice, onUnitPriceChange, unitQuantity, onQuantityChange, unit, onUnitChange, stockSize, onStockSizeChange, description, onDescriptionChange}) {
     const categoryOptions = [
         'Vegetables', 'Fruits', 'Pantry', 'Dairy', 'Meat', 'Drinks & Beverages', 'Pharmacy', 'Nuts', 'Bakery', 'Wine, Beer & Spirits', 'Care', 'Snacks', 'Cookies'
     ];
@@ -119,7 +119,7 @@ export function ItemContainer({name, onNameChange, category, onCategoryChange, u
                 <input className="text-input" type="text" placeholder="Name" value={name} onChange={(e) => {onNameChange(e.target.value)}}/>
                 <Select options={categoryOptions} onChange={(value) => {onCategoryChange(value)}} value={category} placeholder="Category" />
                 <input className="text-input" type="number" placeholder="Unit Price" value={unitPrice} onChange={(e) => {onUnitPriceChange(e.target.value)}}/>
-                <input className="text-input" type="number" placeholder="Item Quantity" value={quantity} onChange={(e) => {onQuantityChange(e.target.value)}}/>
+                <input className="text-input" type="number" placeholder="Unit Quantity" value={unitQuantity} onChange={(e) => {onQuantityChange(e.target.value)}}/>
                 <Select options={unitOptions} onChange={(value) => {onUnitChange(value)}} value={unit} placeholder="Unit" />
                 <input className="text-input" type="number" placeholder="Stock" value={stockSize} onChange={(e) => {onStockSizeChange(e.target.value)}}/>
             </div>

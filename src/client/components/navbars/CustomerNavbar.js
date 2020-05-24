@@ -6,6 +6,7 @@ import {ROUTES, CUSTOMER_TOKEN_NAME} from "../../utils/constants";
 import {auth} from "../../auth/auth";
 import { Link, withRouter } from "react-router-dom";
 import {denyAuthenticationCustomer} from "../../redux/actions/rootActions";
+import {getCart, getCompleteCart} from "../../redux/actions/navbarActions";
 import { IoMdCart, IoIosClose } from "react-icons/io";
 
 
@@ -17,6 +18,11 @@ class CustomerNavbar extends Component {
             openCart: false,
             openSidebar: false
         }
+    }
+
+    componentDidMount() {
+        const {getCart} = this.props;
+        getCart();
     }
 
     logout = () => {
@@ -31,10 +37,23 @@ class CustomerNavbar extends Component {
         this.props.history.push(route)
     }
 
+    openCart() {
+        const { openCart } = this.state;
+        this.setState({openCart: !openCart, openSidebar: false}, () => {
+            const {openCart} = this.state;
+            const { getCompleteCart } = this.props;
+            console.log(openCart);
+            if(openCart) {
+                // Fetch Products
+                getCompleteCart();
+            }
+        })
+    }
+
     render() {
         console.log(this.props);
         const { openCart, openSidebar } = this.state;
-        const {cart} = this.props.navbarReducer;
+        const {cart, completeCart} = this.props.navbarReducer;
         return (
             <div className="navbar-parent">
                 <div className="top-navbar">
@@ -44,8 +63,8 @@ class CustomerNavbar extends Component {
                     <div className="right-navbar-container">
                         <input className="text-input zip-code-input"/>
                         <div className="navbar-item">
-                            <IoMdCart className="icon-class" onClick={() => {this.setState({openCart: !openCart})}}/>
-                            {!_.isEmpty(cart) && <span className="cart-items-count" onClick={() => {this.setState({openCart: !openCart})}}>{cart.length}</span>}
+                            <IoMdCart className="icon-class" onClick={() => {this.openCart()}}/>
+                            {!_.isEmpty(cart) && <span className="cart-items-count" onClick={() => {this.openCart()}}>{cart.length}</span>}
                         </div>
                         <span className="profile-parent" onClick={() => {this.setState({openSidebar: !openSidebar})}}>NK</span>
                     </div>
@@ -55,6 +74,23 @@ class CustomerNavbar extends Component {
                         <div className="sidebar-parent">
                             <div>
                                 <IoIosClose className="icon-class" onClick={() => {this.setState({openCart: false})}}/>
+                            </div>
+                            <div className="cart-container">
+                                {
+                                    completeCart.map((prod, i) => {
+                                        return (
+                                            <div className="cart-card-container" key={i}>
+                                                <div>
+                                                    <span>
+                                                         {prod.name}
+                                                    </span>
+                                                </div>
+                                                <div>
+                                                </div>
+                                            </div>
+                                        )
+                                    })
+                                }
                             </div>
                         </div>
                 }
@@ -68,7 +104,7 @@ class CustomerNavbar extends Component {
                             <span className="menu-link" onClick={() => this.routerPush(ROUTES.PROFILE)}>Profile</span>
                         </div>
                         <div className="menu-item">
-                            <span className="menu-link" onClick={() => this.setState({openCart: !openCart, openSidebar: !openSidebar})}>Cart</span>
+                            <span className="menu-link" onClick={() => this.openCart()}>Cart</span>
                         </div>
                         <div className="menu-item">
                             <span className="menu-link" onClick={() => this.routerPush(ROUTES.ORDERS)}>Orders</span>
@@ -96,6 +132,8 @@ export const mapStateToProps = ({rootReducer, navbarReducer}) => {
 export const mapDispatchToProps = (dispatch) => {
     return {
         denyAuthenticationCustomer: () => dispatch(denyAuthenticationCustomer()),
+        getCart: () => dispatch(getCart()),
+        getCompleteCart: () => dispatch(getCompleteCart())
     }
 };
 

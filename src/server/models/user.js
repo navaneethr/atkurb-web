@@ -21,6 +21,9 @@ const UserSchema = new Schema({
     password: {
         type: String,
         required: true
+    },
+    cart: {
+        type: [ { productId: String, storeId: String, quantity: String } ]
     }
 });
 
