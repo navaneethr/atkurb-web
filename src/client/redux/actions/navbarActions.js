@@ -3,14 +3,13 @@ import { AlertError } from "../../components/utils/Utils";
 import axios from "axios/index";
 import { CUSTOMER_TOKEN_NAME } from "../../utils/constants";
 
-const AuthToken =  `Bearer ${localStorage.getItem(CUSTOMER_TOKEN_NAME)}`;
-const config = {
-    headers: {
-        Authorization: AuthToken,
-    }
-};
-
 export const updateCart = (payload) => {
+    const AuthToken =  `Bearer ${localStorage.getItem(CUSTOMER_TOKEN_NAME)}`;
+    const config = {
+        headers: {
+            Authorization: AuthToken,
+        }
+    };
     return dispatch => {
         axios.post(`/api/cart/add`, payload, config).then((res) => {
             dispatch({
@@ -25,6 +24,12 @@ export const updateCart = (payload) => {
 };
 
 export const getCart = () => {
+    const AuthToken =  `Bearer ${localStorage.getItem(CUSTOMER_TOKEN_NAME)}`;
+    const config = {
+        headers: {
+            Authorization: AuthToken,
+        }
+    };
     return dispatch => {
         axios.get(`/api/cart`, config).then((res) => {
             dispatch({

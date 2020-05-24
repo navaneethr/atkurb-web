@@ -16,8 +16,10 @@ export const addValue = payload => {
 
 export const getStores = () => {
     return dispatch => {
+
         const token = localStorage.getItem(CUSTOMER_TOKEN_NAME);
         const bearerToken = `Bearer ${token}`;
+        
         axios.get("/api/store/all", { 'headers': { 'Authorization': bearerToken} }).then((res) => {
             dispatch({
                 type: GET_STORES,
