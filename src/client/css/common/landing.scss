@@ -10,8 +10,14 @@
     justify-content: center;
     align-items: center;
     display: flex;
+    flex-direction: column;
     .brand-logo {
       width: 250px;
+    }
+    .store-brand-text {
+      padding: 30px;
+      font-size: 48px;
+      font-weight: bold;
     }
   }
   .registration-login-container {
@@ -78,6 +84,11 @@
       flex: none;
       .brand-logo {
         width: 150px;
+      }
+      .store-brand-text {
+        padding: 40px 20px 0 20px;
+        font-size: 32px;
+        font-weight: bold;
       }
     }
     .registration-login-container {

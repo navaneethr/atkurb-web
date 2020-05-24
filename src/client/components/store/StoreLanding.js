@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../../css/common/landing.scss';
 import axios from "axios";
-import logo from "../../assets/atKurb.png";
+import store from "../../assets/store.svg";
 import * as _ from 'lodash';
 import {auth} from "../../auth/auth";
 import {CUSTOMER_TOKEN_NAME, ROUTES, STORE_TOKEN_NAME} from "../../utils/constants";
@@ -116,7 +116,10 @@ class StoreLanding extends Component {
             !isLoadingScreen &&
             <div className="landing-parent">
                 <div className="brand-container">
-                    <img className="brand-logo" src={logo} alt="atKurb"/>
+                    <img className="brand-logo" src={store} alt="atKurb"/>
+                    <div className="store-brand-text">
+                        <span>atKurb Store</span>
+                    </div>
                 </div>
                 {
                     !isLogin &&
