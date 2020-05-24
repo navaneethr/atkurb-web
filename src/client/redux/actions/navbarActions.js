@@ -44,6 +44,12 @@ export const getCart = () => {
 };
 
 export const getCompleteCart = () => {
+    const AuthToken =  `Bearer ${localStorage.getItem(CUSTOMER_TOKEN_NAME)}`;
+    const config = {
+        headers: {
+            Authorization: AuthToken,
+        }
+    };
     return dispatch => {
         axios.get(`/api/cart/complete`, config).then((res) => {
             dispatch({
