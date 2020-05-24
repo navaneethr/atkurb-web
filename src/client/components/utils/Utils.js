@@ -6,7 +6,7 @@ import '../../css/common/utils.scss';
 import { IoMdCamera } from "react-icons/io";
 import Dropdown from 'react-dropdown';
 import '../../css/common/dropdown.scss';
-import { IoIosAddCircle, IoIosRemoveCircle } from "react-icons/io";
+import { IoMdTrash, IoIosAddCircle, IoIosRemoveCircle } from "react-icons/io";
 
 const override = css`
   display: block;
@@ -135,9 +135,17 @@ export function Product({name, unit, unitPrice, quantity, onRemove, onAdd, requi
         <div className="shop-product">
             <div className="product-image-container">
                 <div className="add-remove-bar">
-                    <div className="add-remove-sub-container">
-                        <IoIosRemoveCircle className="icon-class remove-icon" onClick={() => {onRemove()}}/>
-                    </div>
+                    {
+                        parseInt(requiredQuantity) > 0 &&
+                            <div className="add-remove-sub-container">
+                                {
+                                    ((parseInt(requiredQuantity) === 1) ?
+                                        <IoMdTrash className="icon-class remove-icon" onClick={() => {onRemove()}}/> :
+                                        <IoIosRemoveCircle className="icon-class remove-icon" onClick={() => {onRemove()}}/>)
+                                }
+                            </div>
+                    }
+
                     <div className="add-remove-sub-container">
                         {requiredQuantity}
                     </div>
@@ -155,6 +163,44 @@ export function Product({name, unit, unitPrice, quantity, onRemove, onAdd, requi
                     <div className="product-quantity-unit">
                         <span>{`${quantity} ${unit}`}</span>
                         <span>${parseFloat(unitPrice).toFixed(2)}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+export function CartItem({prod, removeItem, addItem}) {
+    return (
+        <div className="cart-card-container">
+            <div className="cart-image-info-container">
+                <div className="cart-item-image">
+                </div>
+                <div className="cart-item-info-container">
+                    <span className="cart-item-info-span">{prod.name}</span>
+                    <span className="cart-item-info-span">{prod.quantity} X {prod.unitQuantity} {prod.unit.value}</span>
+                    <span className="cart-item-info-span">${(parseFloat(prod.quantity) * parseFloat(prod.unitPrice)).toFixed(2)}</span>
+                </div>
+            </div>
+            <div className="cart-add-remove-parent">
+                <div className="cart-add-remove-container">
+                    {
+                        parseInt(prod.quantity) > 0 &&
+                            <div className="add-remove-sub-container">
+                                {
+                                    ((parseInt(prod.quantity) === 1) ?
+                                        <IoMdTrash className="icon-class remove-icon" onClick={() => {removeItem(prod)}}/> :
+                                        <IoIosRemoveCircle className="icon-class remove-icon" onClick={() => {removeItem(prod)}}/>)
+                                }
+                            </div>
+                    }
+                    <div className="add-remove-sub-container">
+                        {prod.quantity}
+                    </div>
+                    <div className="add-remove-sub-container">
+                        <IoIosAddCircle className="icon-class" onClick={() => {
+                            addItem(prod)
+                        }}/>
                     </div>
                 </div>
             </div>

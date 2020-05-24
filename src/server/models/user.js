@@ -23,7 +23,7 @@ const UserSchema = new Schema({
         required: true
     },
     cart: {
-        type: [ { productId: String, storeId: String, quantity: String } ]
+        type: Array
     }
 });
 

@@ -15,7 +15,7 @@ export const updateCart = (payload) => {
             dispatch({
                 type: UPDATE_CART,
                 payload: res.data
-            })
+            });
         }).catch((err) => {
             console.log(err);
             AlertError("Failed to update cart, please refresh")
@@ -34,26 +34,6 @@ export const getCart = () => {
         axios.get(`/api/cart`, config).then((res) => {
             dispatch({
                 type: GET_CART,
-                payload: res.data
-            })
-        }).catch((err) => {
-            console.log(err);
-            AlertError("Failed to get cart items, please refresh")
-        })
-    }
-};
-
-export const getCompleteCart = () => {
-    const AuthToken =  `Bearer ${localStorage.getItem(CUSTOMER_TOKEN_NAME)}`;
-    const config = {
-        headers: {
-            Authorization: AuthToken,
-        }
-    };
-    return dispatch => {
-        axios.get(`/api/cart/complete`, config).then((res) => {
-            dispatch({
-                type: GET_COMPLETE_CART,
                 payload: res.data
             })
         }).catch((err) => {

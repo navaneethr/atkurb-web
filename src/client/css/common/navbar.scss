@@ -72,17 +72,64 @@
     width: 400px;
     box-shadow: $box-shadow;
     z-index: 999;
+    background: $white;
     .cart-container {
       margin: 20px;
       .cart-card-container {
-        height: 80px;
-        background: $pink;
+        height: 90px;
         border-radius: 4px;
-        padding: 10px;
         box-sizing: border-box;
         margin-bottom: 20px;
-        color: $white;
+        color: #505050;
         font-weight: bolder;
+        display: flex;
+        position: relative;
+        background: $pink;
+        justify-content: space-between;
+        .cart-image-info-container {
+          display: flex;
+          .cart-item-image {
+            height: 90px;
+            width: 90px;
+            background: $grey-text;
+            box-sizing: border-box;
+            border-radius: 4px 0 0 4px;
+          }
+          .cart-item-info-container {
+            padding: 10px;
+            font-size: 12px;
+            color: #000;
+            display: flex;
+            flex-direction: column;
+            .cart-item-info-span {
+              margin-bottom: 10px;
+            }
+          }
+        }
+        .cart-add-remove-parent {
+          display: flex;
+          justify-content: flex-end;
+          flex-direction: column;
+          .cart-add-remove-container {
+            margin: 10px;
+            height: 30px;
+            width: 90px;
+            border-radius: 4px;
+            display: flex;
+            background: $light-background;
+            .add-remove-sub-container {
+              height: 30px;
+              width: 30px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              .icon-class {
+                width: 25px;
+                height: 25px;
+              }
+            }
+          }
+        }
       }
     }
     .icon-class {
@@ -91,7 +138,6 @@
         fill: $grey-text;
       }
     }
-    background: $light-background;
     .menu-item {
       padding: 10px 40px;
       font-size: 20px;
