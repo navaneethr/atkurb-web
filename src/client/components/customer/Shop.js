@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../../css/customer/shop.scss';
 import { Product } from "../utils/Utils";
 import * as _ from 'lodash';
-import { getProducts } from "../../redux/actions/shopActions";
+import { getProducts, getStoreInfo } from "../../redux/actions/shopActions";
 import { updateCart } from "../../redux/actions/navbarActions";
 import { connect } from "react-redux";
 import { withRouter } from 'react-router-dom';
@@ -20,8 +20,9 @@ class Shop extends Component {
     componentDidMount() {
         const { storeId } = this.props.match.params;
         console.log(this.props);
-        const { getProducts } = this.props;
+        const { getProducts, getStoreInfo } = this.props;
         getProducts(storeId);
+        getStoreInfo(storeId);
     }
 
     getRequiredValue(prod) {
@@ -98,13 +99,13 @@ class Shop extends Component {
 
     render() {
         console.log(this.props);
-        const {products} = this.props.shopReducer;
+        const {products, storeInfo} = this.props.shopReducer;
 
         return (
             <div className="shop-parent">
                 <div className="shop-container">
                     <div className="shop-header">
-                        <span className="shop-heading">Anu Kirana Store</span>
+                        <span className="shop-heading">{storeInfo && storeInfo.storeName}</span>
                     </div>
                     <div className="products-container">
                         {
@@ -138,6 +139,7 @@ export const mapDispatchToProps = (dispatch) => {
     return {
         getProducts: (storeId) => dispatch(getProducts(storeId)),
         updateCart: (cartItems) => dispatch(updateCart(cartItems)),
+        getStoreInfo: (storeId) => dispatch(getStoreInfo(storeId))
     }
 };
 

@@ -15,6 +15,18 @@ router.get('/all', authenticateToken, (req, res) => {
         })
 });
 
+router.get('/', authenticateToken, (req, res) => {
+    const {storeId} = req.query;
+    Store.findOne({_id: storeId})
+        .then((data) => {
+            const {storeName, phone, email, _id} = data;
+            res.status(200).json({storeName, phone, email, _id})
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+});
+
 router.get('/products', authenticateToken, (req, res) => {
     const {storeId} = req.query;
     console.log(storeId);
