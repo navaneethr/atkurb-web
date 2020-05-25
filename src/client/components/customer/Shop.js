@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import '../../css/customer/shop.scss';
 import { Product } from "../utils/Utils";
 import * as _ from 'lodash';
-import { getProducts, getStoreInfo } from "../../redux/actions/shopActions";
+import { getProducts, getStoreInfo, selectProductsCategory } from "../../redux/actions/shopActions";
 import { updateCart } from "../../redux/actions/navbarActions";
 import { connect } from "react-redux";
 import { withRouter } from 'react-router-dom';
+import {categoryOptions} from "../../utils/constants";
 
 class Shop extends Component {
 
@@ -97,12 +98,31 @@ class Shop extends Component {
 
     }
 
+    selectCategory(category) {
+        console.log(this.props);
+        const { selectProductsCategory } = this.props;
+        selectProductsCategory(category);
+    }
+
     render() {
         console.log(this.props);
-        const {products, storeInfo} = this.props.shopReducer;
+        const {products, storeInfo, selectedCategory} = this.props.shopReducer;
 
         return (
             <div className="shop-parent">
+                <div className="category-navbar">
+                    {
+                        [{label: "Show All", value: "all"}, ...categoryOptions].map(( {label, value}, i) => {
+                            return (
+                                <div className="category-option-parent" key={i}>
+                                    <div className={`category-option ${(selectedCategory === value) && `category-option-active`}`} onClick={() => this.selectCategory(value)}>
+                                        {label}
+                                    </div>
+                                </div>
+                            )
+                        })
+                    }
+                </div>
                 <div className="shop-container">
                     <div className="shop-header">
                         <span className="shop-heading">{storeInfo && storeInfo.storeName}</span>
@@ -139,7 +159,8 @@ export const mapDispatchToProps = (dispatch) => {
     return {
         getProducts: (storeId) => dispatch(getProducts(storeId)),
         updateCart: (cartItems) => dispatch(updateCart(cartItems)),
-        getStoreInfo: (storeId) => dispatch(getStoreInfo(storeId))
+        getStoreInfo: (storeId) => dispatch(getStoreInfo(storeId)),
+        selectProductsCategory: (category) => dispatch(selectProductsCategory(category)),
     }
 };
 

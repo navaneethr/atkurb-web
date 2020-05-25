@@ -1,8 +1,9 @@
-import { GET_PRODUCTS, GET_STORE_INFO } from "../actionTypes";
+import { GET_PRODUCTS, GET_STORE_INFO, UPDATE_PRODUCTS_CATEGORY } from "../actionTypes";
 
 const initialState = {
     products: [],
-    storeInfo: null
+    storeInfo: null,
+    selectedCategory: "all"
 };
 
 const shopReducer = (state = initialState, action) => {
@@ -17,6 +18,12 @@ const shopReducer = (state = initialState, action) => {
             return {
                 ...state,
                 storeInfo: action.payload
+            };
+        }
+        case UPDATE_PRODUCTS_CATEGORY: {
+            return {
+                ...state,
+                selectedCategory: action.payload
             };
         }
         default:

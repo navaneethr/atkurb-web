@@ -1,4 +1,4 @@
-import {GET_PRODUCTS, GET_STORE_INFO} from "../actionTypes";
+import {GET_PRODUCTS, GET_STORE_INFO, UPDATE_PRODUCTS_CATEGORY} from "../actionTypes";
 import { AlertError } from "../../components/utils/Utils";
 import axios from "axios/index";
 import { CUSTOMER_TOKEN_NAME } from "../../utils/constants";
@@ -40,5 +40,15 @@ export const getStoreInfo = (storeId) => {
             console.log(err);
             AlertError("Failed to update cart, please refresh")
         })
+    }
+};
+
+export const selectProductsCategory = (category) => {
+    // Make a Category fetch and update the products based on the selected category
+    return dispatch => {
+        dispatch({
+            type: UPDATE_PRODUCTS_CATEGORY,
+            payload: category
+        });
     }
 };

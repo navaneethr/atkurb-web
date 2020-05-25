@@ -38,5 +38,21 @@ export const ROUTES = {
     STORE_INVENTORY: `/${TABS.STORE_INVENTORY}`,
 };
 
+export const categoryOptions = [
+    {label:"Vegetables",value:"vegetables"},
+    {label:"Fruits",value:"fruits"},
+    {label:"Pantry",value:"pantry"},
+    {label:"Dairy & Eggs",value:"dairyAndEggs"},
+    {label:"Meat",value:"meat"},
+    {label:"Drinks & Beverages",value:"drinksAndBeverages"},
+    {label:"Nuts",value:"nuts"},
+    {label:"Bakery",value:"bakery"},
+    {label:"Wine, Beer & Spirits",value:"windBeerAndSpirits"},
+    {label:"Pharmacy & Health",value:"pharmacyAndHealth"},
+    {label:"Snacks",value:"snacks"},
+    {label:"Cookies",value:"cookies"},
+    {label:"Others",value:"others"}
+];
+
 export const CUSTOMER_TOKEN_NAME = "atKurbCustomerAuthToken";
 export const STORE_TOKEN_NAME = "atKurbStoreAuthToken";

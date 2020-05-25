@@ -7,6 +7,7 @@ import { IoMdCamera } from "react-icons/io";
 import Dropdown from 'react-dropdown';
 import '../../css/common/dropdown.scss';
 import { IoMdTrash, IoIosAddCircle, IoIosRemoveCircle } from "react-icons/io";
+import {categoryOptions} from "../../utils/constants";
 
 const override = css`
   display: block;
@@ -102,11 +103,8 @@ export function Select(props) {
 }
 
 export function ItemContainer({name, onNameChange, category, onCategoryChange, unitPrice, onUnitPriceChange, unitQuantity, onQuantityChange, unit, onUnitChange, stockSize, onStockSizeChange, description, onDescriptionChange}) {
-    const categoryOptions = [
-        'Vegetables', 'Fruits', 'Pantry', 'Dairy', 'Meat', 'Drinks & Beverages', 'Pharmacy', 'Nuts', 'Bakery', 'Wine, Beer & Spirits', 'Care', 'Snacks', 'Cookies'
-    ];
     const unitOptions = [
-        'mg', 'gm', 'kg', 'lb', 'unit', 'ml', 'l', 'gallon'
+        'mg', 'gm', 'kg', 'lb', 'unit', 'ml', 'l', 'gallon', 'oz', 'dozen'
     ];
     return (
         <div className="add-item-container">
