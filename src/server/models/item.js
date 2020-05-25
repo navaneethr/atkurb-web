@@ -40,3 +40,10 @@ const ItemSchema = {
 };
 
 module.exports = mongoose.model('Item', ItemSchema);
+
+
+const apple = {
+    id: "",
+    name: "",
+
+}

@@ -19,11 +19,13 @@ class Shop extends Component {
     }
 
     componentDidMount() {
-        const { storeId } = this.props.match.params;
+        const { storeId, category } = this.props.match.params;
         console.log(this.props);
-        const { getProducts, getStoreInfo } = this.props;
-        getProducts(storeId);
+        const { getStoreInfo, selectProductsCategory } = this.props;
+        // Select Products Category also fetches items
+        selectProductsCategory({category: 'all', storeId});
         getStoreInfo(storeId);
+        console.log(category);
     }
 
     getRequiredValue(prod) {
@@ -100,8 +102,9 @@ class Shop extends Component {
 
     selectCategory(category) {
         console.log(this.props);
-        const { selectProductsCategory } = this.props;
-        selectProductsCategory(category);
+        const { selectProductsCategory, history } = this.props;
+        const { storeInfo } = this.props.shopReducer;
+        selectProductsCategory({category, storeId: storeInfo._id});
     }
 
     render() {
@@ -160,7 +163,7 @@ export const mapDispatchToProps = (dispatch) => {
         getProducts: (storeId) => dispatch(getProducts(storeId)),
         updateCart: (cartItems) => dispatch(updateCart(cartItems)),
         getStoreInfo: (storeId) => dispatch(getStoreInfo(storeId)),
-        selectProductsCategory: (category) => dispatch(selectProductsCategory(category)),
+        selectProductsCategory: (payload) => dispatch(selectProductsCategory(payload)),
     }
 };
 

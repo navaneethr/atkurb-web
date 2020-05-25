@@ -43,12 +43,23 @@ export const getStoreInfo = (storeId) => {
     }
 };
 
-export const selectProductsCategory = (category) => {
+export const selectProductsCategory = ({category, storeId}) => {
     // Make a Category fetch and update the products based on the selected category
+    const AuthToken =  `Bearer ${localStorage.getItem(CUSTOMER_TOKEN_NAME)}`;
+    const config = {
+        headers: {
+            Authorization: AuthToken,
+        }
+    };
     return dispatch => {
-        dispatch({
-            type: UPDATE_PRODUCTS_CATEGORY,
-            payload: category
-        });
+        axios.get(`/api/store/products?storeId=${storeId}&category=${category}`, config).then((res) => {
+            dispatch({
+                type: UPDATE_PRODUCTS_CATEGORY,
+                payload: {products: res.data, category}
+            });
+        }).catch((err) => {
+            console.log(err);
+            AlertError("Failed to load products, please refresh")
+        })
     }
 };

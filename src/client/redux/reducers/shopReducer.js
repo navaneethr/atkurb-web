@@ -23,7 +23,8 @@ const shopReducer = (state = initialState, action) => {
         case UPDATE_PRODUCTS_CATEGORY: {
             return {
                 ...state,
-                selectedCategory: action.payload
+                selectedCategory: action.payload.category,
+                products: action.payload.products
             };
         }
         default:

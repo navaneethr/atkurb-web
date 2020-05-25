@@ -41,6 +41,7 @@ class Routes extends Component {
                         <PrivateRouteCustomer exact path={ROUTES.HOME} component={Home}/>
                         <PrivateRouteCustomer exact path={ROUTES.PROFILE} component={Profile}/>
                         <PrivateRouteCustomer exact path={`${ROUTES.SHOP}/:storeId`} component={Shop}/>
+                        <PrivateRouteCustomer exact path={`${ROUTES.SHOP}/:storeId/:category`} component={Shop}/>
                         <PrivateRouteCustomer exact path={ROUTES.ORDERS} component={Orders}/>
                         <PrivateRouteCustomer exact path={ROUTES.BILLING} component={Billing}/>
                         <PrivateRouteCustomer exact path={ROUTES.PAYMENTS} component={Payments}/>

@@ -3,6 +3,7 @@ const router = express.Router();
 const authenticateToken = require('../utils/authenticateToken');
 const Store = require('../models/store');
 const Item = require('../models/item');
+const _ = require('lodash');
 
 router.get('/all', authenticateToken, (req, res) => {
     Store.find()
@@ -28,14 +29,23 @@ router.get('/', authenticateToken, (req, res) => {
 });
 
 router.get('/products', authenticateToken, (req, res) => {
-    const {storeId} = req.query;
-    console.log(storeId);
-    Item.find({"storeId" : storeId}).then((data) => {
-        console.log(data);
-        res.status(200).json(data);
-    }).catch((err) => {
-        res.status(500).send(err)
-    });
+    const {storeId, category} = req.query;
+    console.log(storeId, category);
+    if(_.isEmpty(category) || category === "all") {
+        Item.find({"storeId" : storeId}).then((data) => {
+            console.log(data);
+            res.status(200).json(data);
+        }).catch((err) => {
+            res.status(500).send(err)
+        });
+    } else {
+        Item.find({"storeId" : storeId, "category.value": category}).then((data) => {
+            console.log(data);
+            res.status(200).json(data);
+        }).catch((err) => {
+            res.status(500).send(err)
+        });
+    }
 });
 
 module.exports = router;
