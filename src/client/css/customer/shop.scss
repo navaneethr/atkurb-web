@@ -34,15 +34,16 @@
       }
     }
     .category-option-active {
-      background: $light-blue;
+      background: $secondary;
       border: none;
+      color: $white;
+      font-weight: bolder;
     }
   }
   .shop-container {
     padding: 10px 20px;
     margin-top: 60px;
     .shop-header {
-      margin: 0 20px;
       position: fixed;
       top: 28px;
       left: 40px;
@@ -64,7 +65,10 @@
   .shop-parent {
     .shop-container {
       .shop-header {
-
+        white-space: nowrap;
+        width: 200px;
+        overflow: hidden;
+        text-overflow: ellipsis;
         .shop-heading {
 
         }
