@@ -72,7 +72,7 @@
     width: 400px;
     box-shadow: $box-shadow;
     z-index: 999;
-    background: $white;
+    background: $light-blue;
     .cart-container {
       margin: 20px;
       .cart-card-container {
@@ -91,9 +91,15 @@
           .cart-item-image {
             height: 90px;
             width: 90px;
-            background: $grey-text;
             box-sizing: border-box;
             border-radius: 4px 0 0 4px;
+            background: $white;
+            img {
+              height: 100%;
+              width: 100%;
+              padding: 20px;
+              box-sizing: border-box;
+            }
           }
           .cart-item-info-container {
             padding: 10px;

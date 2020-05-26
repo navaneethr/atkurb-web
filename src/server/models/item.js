@@ -26,7 +26,7 @@ const ItemSchema = {
         type: Object,
         required: true,
     },
-    photo: {
+    imgUrl: {
         type: String,
     },
     stockSize: {
@@ -40,10 +40,3 @@ const ItemSchema = {
 };
 
 module.exports = mongoose.model('Item', ItemSchema);
-
-
-const apple = {
-    id: "",
-    name: "",
-
-}

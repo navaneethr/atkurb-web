@@ -128,10 +128,11 @@ export function ItemContainer({name, onNameChange, category, onCategoryChange, u
     )
 }
 
-export function Product({name, unit, unitPrice, quantity, onRemove, onAdd, requiredQuantity}) {
+export function Product({name, unit, unitPrice, quantity, onRemove, onAdd, requiredQuantity, imgUrl}) {
     return (
         <div className="shop-product">
             <div className="product-image-container">
+                <img src={imgUrl}/>
                 <div className="add-remove-bar">
                     {
                         parseInt(requiredQuantity) > 0 &&
@@ -173,6 +174,7 @@ export function CartItem({prod, removeItem, addItem}) {
         <div className="cart-card-container">
             <div className="cart-image-info-container">
                 <div className="cart-item-image">
+                    <img src={prod.imgUrl}/>
                 </div>
                 <div className="cart-item-info-container">
                     <span className="cart-item-info-span">{prod.name}</span>

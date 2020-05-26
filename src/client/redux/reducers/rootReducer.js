@@ -2,6 +2,7 @@ import { combineReducers } from "redux";
 import homeReducer from "./homeReducer";
 import shopReducer from "./shopReducer";
 import navbarReducer from "./navbarReducer";
+import storeInventoryReducer from "./storeInventoryReducer";
 import {AUTHENTICATE_CUSTOMER, AUTHENTICATE_STORE, DENY_AUTHENTICATION_STORE, DENY_AUTHENTICATION_CUSTOMER} from "../actionTypes";
 
 const initialState = {
@@ -40,4 +41,4 @@ const rootReducer = (state = initialState, action) => {
     }
 };
 
-export default combineReducers({ rootReducer, homeReducer, shopReducer, navbarReducer });
+export default combineReducers({ rootReducer, homeReducer, shopReducer, navbarReducer, storeInventoryReducer });

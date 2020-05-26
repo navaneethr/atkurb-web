@@ -143,6 +143,7 @@ class Shop extends Component {
                                         onRemove={() => {this.removeItemFromCart(prod)}}
                                         onAdd={() => {this.addItemToCart(prod)}}
                                         requiredQuantity={this.getRequiredValue(prod)}
+                                        imgUrl={prod.imgUrl}
                                     />
                                 )
                             })
