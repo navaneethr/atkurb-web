@@ -1,4 +1,4 @@
-import { GET_PRODUCTS, GET_STORE_INFO, UPDATE_PRODUCTS_CATEGORY } from "../actionTypes";
+import { GET_PRODUCTS, GET_STORE_INFO, UPDATE_PRODUCTS_CATEGORY } from "../actions/shopActions";
 
 const initialState = {
     products: [],

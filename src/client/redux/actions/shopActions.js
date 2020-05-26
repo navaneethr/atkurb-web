@@ -1,7 +1,10 @@
-import {GET_PRODUCTS, GET_STORE_INFO, UPDATE_PRODUCTS_CATEGORY} from "../actionTypes";
 import { AlertError } from "../../components/utils/Utils";
 import axios from "axios/index";
 import { CUSTOMER_TOKEN_NAME } from "../../utils/constants";
+
+export const GET_STORE_INFO = "GET_STORE_INFO";
+export const UPDATE_PRODUCTS_CATEGORY = "UPDATE_PRODUCTS_CATEGORY";
+export const GET_PRODUCTS = "GET_PRODUCTS";
 
 export const getProducts = (storeId) => {
     const AuthToken =  `Bearer ${localStorage.getItem(CUSTOMER_TOKEN_NAME)}`;

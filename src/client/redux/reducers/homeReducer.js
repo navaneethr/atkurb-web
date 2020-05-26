@@ -1,4 +1,4 @@
-import { ADD, GET_STORES } from "../actionTypes";
+import { ADD, GET_STORES } from "../actions/homeActions";
 
 const initialState = {
     number: 0,

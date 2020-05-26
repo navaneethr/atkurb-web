@@ -1,4 +1,4 @@
-import {GET_PRODUCT_SUGGESTIONS, UPDATE_SEARCH_VALUE} from "../actionTypes";
+import {GET_PRODUCT_SUGGESTIONS, UPDATE_SEARCH_VALUE} from "../actions/storeInventoryActions";
 
 const initialState = {
     searchValue: "",

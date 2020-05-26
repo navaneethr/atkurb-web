@@ -1,7 +1,9 @@
-import { UPDATE_CART, GET_CART, GET_COMPLETE_CART } from "../actionTypes";
 import { AlertError } from "../../components/utils/Utils";
 import axios from "axios/index";
 import { CUSTOMER_TOKEN_NAME } from "../../utils/constants";
+
+export const UPDATE_CART = "UPDATE_CART";
+export const GET_CART = "GET_CART";
 
 export const updateCart = (payload) => {
     const AuthToken =  `Bearer ${localStorage.getItem(CUSTOMER_TOKEN_NAME)}`;

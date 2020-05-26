@@ -1,4 +1,5 @@
-import {GET_CART, GET_COMPLETE_CART, UPDATE_CART} from "../actionTypes";
+import {GET_CART, UPDATE_CART} from "../actions/navbarActions";
+
 
 const initialState = {
     cart: [],

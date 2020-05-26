@@ -3,7 +3,8 @@ import homeReducer from "./homeReducer";
 import shopReducer from "./shopReducer";
 import navbarReducer from "./navbarReducer";
 import storeInventoryReducer from "./storeInventoryReducer";
-import {AUTHENTICATE_CUSTOMER, AUTHENTICATE_STORE, DENY_AUTHENTICATION_STORE, DENY_AUTHENTICATION_CUSTOMER} from "../actionTypes";
+
+import {AUTHENTICATE_CUSTOMER, AUTHENTICATE_STORE, DENY_AUTHENTICATION_STORE, DENY_AUTHENTICATION_CUSTOMER}  from "../actions/rootActions";
 
 const initialState = {
     isAuthenticatedCustomer: false,

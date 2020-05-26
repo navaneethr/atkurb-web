@@ -1,7 +1,9 @@
-import {ADD, GET_STORES} from "../actionTypes";
 import {AlertError} from "../../components/utils/Utils";
 import axios from "axios/index";
 import {CUSTOMER_TOKEN_NAME} from "../../utils/constants";
+
+export const ADD = "ADD";
+export const GET_STORES = "GET_STORES";
 
 export const addValue = payload => {
     return dispatch => {
@@ -19,7 +21,7 @@ export const getStores = () => {
 
         const token = localStorage.getItem(CUSTOMER_TOKEN_NAME);
         const bearerToken = `Bearer ${token}`;
-        
+
         axios.get("/api/store/all", { 'headers': { 'Authorization': bearerToken} }).then((res) => {
             dispatch({
                 type: GET_STORES,

@@ -1,8 +1,9 @@
-import {
-    GET_PRODUCT_SUGGESTIONS, UPDATE_SEARCH_VALUE,
-} from "../actionTypes";
+
 import {STORE_TOKEN_NAME} from "../../utils/constants";
 import axios from "axios";
+
+export const GET_PRODUCT_SUGGESTIONS = "GET_PRODUCT_SUGGESTIONS";
+export const UPDATE_SEARCH_VALUE = "UPDATE_SEARCH_VALUE";
 
 export const getSuggestedProducts = (searchValue) => {
     const AuthToken =  `Bearer ${localStorage.getItem(STORE_TOKEN_NAME)}`;
