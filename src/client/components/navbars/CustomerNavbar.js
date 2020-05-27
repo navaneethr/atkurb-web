@@ -9,7 +9,7 @@ import {denyAuthenticationCustomer} from "../../redux/actions/rootActions";
 import {getCart, updateCart} from "../../redux/actions/navbarActions";
 import { IoMdCart, IoIosClose, IoIosResize, IoMdExit, IoIosCard, IoMdPin, IoMdListBox, IoMdPerson } from "react-icons/io";
 import {CartItem} from "../utils/Utils";
-import {RiStore2Line, RiFileList2Line} from "react-icons/ri";
+import {RiStore2Line} from "react-icons/ri";
 
 class CustomerNavbar extends Component {
 
@@ -27,6 +27,15 @@ class CustomerNavbar extends Component {
         getCart();
     }
 
+    componentDidUpdate() {
+        const {openCart, openSidebar} = this.state;
+        if(openCart || openSidebar) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }
+    }
+
     logout = () => {
         auth.logOutCustomer(() => {
             this.props.denyAuthenticationCustomer();
@@ -41,13 +50,7 @@ class CustomerNavbar extends Component {
 
     openCart() {
         const { openCart } = this.state;
-        this.setState({openCart: !openCart, openSidebar: false}, () => {
-            const {openCart} = this.state;
-            console.log(openCart);
-            if(openCart) {
-                // Fetch Products
-            }
-        })
+        this.setState({openCart: !openCart, openSidebar: false})
     }
 
     addItemToCart(prod) {
