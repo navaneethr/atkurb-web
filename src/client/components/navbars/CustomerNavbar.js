@@ -7,8 +7,9 @@ import {auth} from "../../auth/auth";
 import { Link, withRouter } from "react-router-dom";
 import {denyAuthenticationCustomer} from "../../redux/actions/rootActions";
 import {getCart, updateCart} from "../../redux/actions/navbarActions";
-import { IoMdCart, IoIosClose, IoIosAddCircle, IoIosRemoveCircle  } from "react-icons/io";
+import { IoMdCart, IoIosClose, IoIosResize, IoMdExit, IoIosCard, IoMdPin, IoMdListBox, IoMdPerson } from "react-icons/io";
 import {CartItem} from "../utils/Utils";
+import {RiStore2Line, RiFileList2Line} from "react-icons/ri";
 
 class CustomerNavbar extends Component {
 
@@ -16,7 +17,8 @@ class CustomerNavbar extends Component {
         super();
         this.state = {
             openCart: false,
-            openSidebar: false
+            openSidebar: false,
+            openCartExpanded: false
         }
     }
 
@@ -115,7 +117,7 @@ class CustomerNavbar extends Component {
 
     render() {
         console.log(this.props);
-        const { openCart, openSidebar } = this.state;
+        const { openCart, openSidebar, openCartExpanded } = this.state;
         const {cart} = this.props.navbarReducer;
         return (
             <div className="navbar-parent">
@@ -134,9 +136,10 @@ class CustomerNavbar extends Component {
                 </div>
                 {
                     openCart &&
-                        <div className="sidebar-parent">
-                            <div>
+                        <div className={`sidebar-parent ${openCartExpanded && "sidebar-parent-expanded"}`}>
+                            <div className="sidebar-icons-parent">
                                 <IoIosClose className="icon-class" onClick={() => {this.setState({openCart: false})}}/>
+                                <IoIosResize className="icon-class icon-class-resize" onClick={() => {this.setState({openCartExpanded: !openCartExpanded})}}/>
                             </div>
                             <div className="cart-container">
                                 {
@@ -158,29 +161,36 @@ class CustomerNavbar extends Component {
                 {
                     openSidebar &&
                     <div className="sidebar-parent">
-                        <div>
+                        <div className="sidebar-icons-parent">
                             <IoIosClose className="icon-class" onClick={() => {this.setState({openSidebar: false})}}/>
                         </div>
-                        <div className="menu-item">
-                            <span className="menu-link" onClick={() => this.routerPush(ROUTES.HOME)}>Stores</span>
+                        <div className="menu-item" onClick={() => this.routerPush(ROUTES.HOME)}>
+                            <RiStore2Line className="icon-class"/>
+                            <span className="menu-link">Stores</span>
+                        </div>
+                        <div className="menu-item" onClick={() => this.routerPush(ROUTES.PROFILE)}>
+                            <IoMdPerson className="icon-class"/>
+                            <span className="menu-link">Profile</span>
+                        </div>
+                        <div className="menu-item" onClick={() => this.openCart()}>
+                            <IoMdCart className="icon-class"/>
+                            <span className="menu-link">Cart</span>
+                        </div>
+                        <div className="menu-item" onClick={() => this.routerPush(ROUTES.ORDERS)}>
+                            <IoMdListBox className="icon-class"/>
+                            <span className="menu-link">Orders</span>
                         </div>
                         <div className="menu-item">
-                            <span className="menu-link" onClick={() => this.routerPush(ROUTES.PROFILE)}>Profile</span>
+                            <IoMdPin className="icon-class" onClick={() => this.routerPush(ROUTES.ADDRESSES)}/>
+                            <span className="menu-link">Addresses</span>
                         </div>
-                        <div className="menu-item">
-                            <span className="menu-link" onClick={() => this.openCart()}>Cart</span>
+                        <div className="menu-item" onClick={() => this.routerPush(ROUTES.PAYMENTS)}>
+                            <IoIosCard className="icon-class"/>
+                            <span className="menu-link">Payments</span>
                         </div>
-                        <div className="menu-item">
-                            <span className="menu-link" onClick={() => this.routerPush(ROUTES.ORDERS)}>Orders</span>
-                        </div>
-                        <div className="menu-item">
-                            <span className="menu-link" onClick={() => this.routerPush(ROUTES.ADDRESSES)}>Addresses</span>
-                        </div>
-                        <div className="menu-item">
-                            <span className="menu-link" onClick={() => this.routerPush(ROUTES.PAYMENTS)}>Payments</span>
-                        </div>
-                        <div className="menu-item">
-                            <span className="menu-link" onClick={this.logout}>Logout</span>
+                        <div className="menu-item" onClick={this.logout}>
+                            <IoMdExit className="icon-class"/>
+                            <span className="menu-link">Logout</span>
                         </div>
                     </div>
                 }

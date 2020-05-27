@@ -75,6 +75,20 @@
     background: $light-background;
     display: flex;
     flex-direction: column;
+    .sidebar-icons-parent {
+      justify-content: space-between;
+      display: flex;
+      padding: 0 20px 0 10px;
+      .icon-class {
+        fill: $primary;
+        &:hover {
+          fill: $grey-text;
+        }
+      }
+      .icon-class-resize {
+        width: 25px;
+      }
+    }
     .cart-container {
       margin: 20px;
       flex: 1;
@@ -144,24 +158,47 @@
         }
       }
     }
-    .icon-class {
-      fill: $primary;
-      &:hover {
-        fill: $grey-text;
-      }
-    }
     .menu-item {
-      padding: 10px 40px;
+      padding: 10px 30px;
       font-size: 20px;
+      display: flex;
+      &:hover {
+        .icon-class {
+            fill: $secondary;
+        }
+        .menu-link {
+          color: $secondary;
+          font-weight: bolder;
+        }
+      }
+      .icon-class {
+        height: 25px;
+        width: 25px;
+        fill: $primary;
+      }
       .menu-link {
         padding-bottom: 5px;
-        font-size: 18px;
-        color: $grey-text;
+        font-size: 14px;
+        color: $primary;
         cursor: pointer;
-        &:hover {
-          font-weight: bolder;
-          color: $primary;
-        }
+        height: 25px;
+        display: flex;
+        align-items: center;
+        margin-left: 20px;
+      }
+    }
+  }
+  .sidebar-parent-expanded {
+    left: 0;
+    right: 0;
+    width: auto;
+    .cart-container {
+      display: flex;
+      flex-wrap: wrap;
+      flex: initial;
+      .cart-card-container {
+        width: 300px;
+        margin: 10px;
       }
     }
   }
