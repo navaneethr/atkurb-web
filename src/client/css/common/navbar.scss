@@ -94,8 +94,10 @@
             box-sizing: border-box;
             border-radius: 4px 0 0 4px;
             background: $white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             img {
-              height: 100%;
               width: 100%;
               padding: 20px;
               box-sizing: border-box;
