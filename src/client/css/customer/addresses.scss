@@ -1,32 +1,31 @@
 @import "../../app";
-.account-parent {
+.addresses-parent {
   padding-top: 80px;
   display: flex;
   justify-content: center;
-  .view-edit-account-container {
+  .address-container {
     padding: 20px;
     max-width: 800px;
-    .account-header {
+    .address-header {
       margin: 15px 0 ;
       position: fixed;
       top: 10px;
       left: 40px;
       z-index: 999;
       color: $white;
-      .account-heading {
+      .address-heading {
         font-size: 20px;
-        font-weight: bolder;
       }
     }
-    .account-form {
-      .account-label-input {
+    .address-form {
+      .address-label-input {
         display: flex;
         justify-content: center;
         align-items: center;
-        .account-label {
+        .address-label {
           font-size: 12px;
           color: $grey-text;
-          width: 100px;
+          width: 60px;
         }
         .text-input {
 

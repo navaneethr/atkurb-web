@@ -12,7 +12,6 @@ import CustomerNavbar from "./components/navbars/CustomerNavbar";
 import StoreNavbar from "./components/navbars/StoreNavbar";
 import Profile from "./components/customer/Profile";
 import Orders from "./components/customer/Orders";
-import Billing from "./components/customer/Billing";
 import Payments from "./components/customer/Payments";
 import StoreHome from "./components/store/StoreHome";
 import StoreInventory from "./components/store/StoreInventory";
@@ -21,6 +20,7 @@ import StoreAnalytics from "./components/store/StoreAnalytics";
 import StoreFinances from "./components/store/StoreFinances";
 import StoreOrders from "./components/store/StoreOrders";
 import Shop from "./components/customer/Shop";
+import Addresses from "./components/customer/Addresses";
 
 class Routes extends Component {
 
@@ -43,8 +43,8 @@ class Routes extends Component {
                         <PrivateRouteCustomer exact path={`${ROUTES.SHOP}/:storeId`} component={Shop}/>
                         <PrivateRouteCustomer exact path={`${ROUTES.SHOP}/:storeId/:category`} component={Shop}/>
                         <PrivateRouteCustomer exact path={ROUTES.ORDERS} component={Orders}/>
-                        <PrivateRouteCustomer exact path={ROUTES.BILLING} component={Billing}/>
                         <PrivateRouteCustomer exact path={ROUTES.PAYMENTS} component={Payments}/>
+                        <PrivateRouteCustomer exact path={ROUTES.ADDRESSES} component={Addresses}/>
 
                         {/*These Routes are only visible when the store is authenticated*/}
                         <PrivateRouteStore exact path={ROUTES.STORE_HOME} component={StoreHome}/>

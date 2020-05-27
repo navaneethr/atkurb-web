@@ -162,6 +162,9 @@ class CustomerNavbar extends Component {
                             <IoIosClose className="icon-class" onClick={() => {this.setState({openSidebar: false})}}/>
                         </div>
                         <div className="menu-item">
+                            <span className="menu-link" onClick={() => this.routerPush(ROUTES.HOME)}>Stores</span>
+                        </div>
+                        <div className="menu-item">
                             <span className="menu-link" onClick={() => this.routerPush(ROUTES.PROFILE)}>Profile</span>
                         </div>
                         <div className="menu-item">
@@ -171,7 +174,7 @@ class CustomerNavbar extends Component {
                             <span className="menu-link" onClick={() => this.routerPush(ROUTES.ORDERS)}>Orders</span>
                         </div>
                         <div className="menu-item">
-                            <span className="menu-link" onClick={() => this.routerPush(ROUTES.BILLING)}>Billing</span>
+                            <span className="menu-link" onClick={() => this.routerPush(ROUTES.ADDRESSES)}>Addresses</span>
                         </div>
                         <div className="menu-item">
                             <span className="menu-link" onClick={() => this.routerPush(ROUTES.PAYMENTS)}>Payments</span>

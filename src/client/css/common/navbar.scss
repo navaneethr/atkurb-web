@@ -32,7 +32,7 @@
           border-radius: 50%;
           background: $white;
           font-weight: bold;
-          font-size: 14px;
+          font-size: 8px;
           cursor: pointer;
         }
         &:hover {
@@ -72,9 +72,13 @@
     width: 400px;
     box-shadow: $box-shadow;
     z-index: 999;
-    background: $light-blue;
+    background: $light-background;
+    display: flex;
+    flex-direction: column;
     .cart-container {
       margin: 20px;
+      flex: 1;
+      overflow-y: auto;
       .cart-card-container {
         height: 90px;
         border-radius: 4px;

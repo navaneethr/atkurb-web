@@ -7,8 +7,8 @@ export const TABS = {
     PROFILE: 'profile',
     SHOP: 'shop',
     ORDERS: 'orders',
-    BILLING: 'billing',
     PAYMENTS: 'payments',
+    ADDRESSES: 'addresses',
 
     STORE_HOME: 'store/home',
     STORE_PROFILE: 'store/profile',
@@ -27,7 +27,6 @@ export const ROUTES = {
     PROFILE: `/${TABS.PROFILE}`,
     SHOP: `/${TABS.SHOP}`,
     ORDERS: `/${TABS.ORDERS}`,
-    BILLING: `/${TABS.BILLING}`,
     PAYMENTS: `/${TABS.PAYMENTS}`,
 
     STORE_HOME: `/${TABS.STORE_HOME}`,
@@ -36,6 +35,7 @@ export const ROUTES = {
     STORE_FINANCES: `/${TABS.STORE_FINANCES}`,
     STORE_ANALYTICS: `/${TABS.STORE_ANALYTICS}`,
     STORE_INVENTORY: `/${TABS.STORE_INVENTORY}`,
+    ADDRESSES: `/${TABS.ADDRESSES}`,
 };
 
 export const categoryOptions = [
