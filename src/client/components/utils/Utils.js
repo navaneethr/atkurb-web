@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import { css } from "@emotion/core";
 import PulseLoader from "react-spinners/PulseLoader";
 import { toast } from 'react-toastify';
@@ -102,13 +102,16 @@ export function Select(props) {
     )
 }
 
-export function ItemContainer({name, onNameChange, category, onCategoryChange, unitPrice, onUnitPriceChange, unitQuantity, onQuantityChange, unit, onUnitChange, stockSize, onStockSizeChange, description, onDescriptionChange}) {
+
+
+export function ItemContainer({imgUrl, name, onNameChange, category, onCategoryChange, unitPrice, onUnitPriceChange, unitQuantity, onQuantityChange, unit, onUnitChange, stockSize, onStockSizeChange, description, onDescriptionChange}) {
     const unitOptions = [
         'mg', 'gm', 'kg', 'lb', 'unit', 'ml', 'l', 'gallon', 'oz', 'dozen'
     ];
     return (
         <div className="add-item-container">
             <div className="item-image-container">
+                <img src={imgUrl} />
                 <div className="camera-click-container">
                     <IoMdCamera className="icon-class" onClick={() => {}}/>
                 </div>
@@ -205,5 +208,26 @@ export function CartItem({prod, removeItem, addItem}) {
                 </div>
             </div>
         </div>
+    )
+}
+
+export const AsyncInput = ({onChange, ...props}) => {
+    const [value, setValue] = React.useState('');
+
+    React.useEffect(() => {
+        const timeout = setTimeout(() => {
+            onChange(value)
+        }, 500);
+
+        return () => clearTimeout(timeout)
+    }, [value]);
+
+    return (
+        <input
+            type="text"
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+            {...props}
+        />
     )
 }

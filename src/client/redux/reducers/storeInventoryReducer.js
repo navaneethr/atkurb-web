@@ -2,8 +2,7 @@ import {GET_PRODUCT_SUGGESTIONS, UPDATE_SEARCH_VALUE} from "../actions/storeInve
 
 const initialState = {
     searchValue: "",
-    suggestedProducts: [],
-    suggestedOptions: []
+    suggestedProducts: []
 };
 
 const storeInventoryReducer = (state = initialState, action) => {
@@ -11,9 +10,7 @@ const storeInventoryReducer = (state = initialState, action) => {
         case GET_PRODUCT_SUGGESTIONS: {
             return {
                 ...state,
-                suggestedProducts: action.payload,
-                suggestedOptions: action.payload.map(({name, _id}) => ({label: name, value: _id}))
-
+                suggestedProducts: action.payload
             };
         }
         case UPDATE_SEARCH_VALUE: {

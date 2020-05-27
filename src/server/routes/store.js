@@ -39,7 +39,7 @@ router.get('/products', authenticateToken, (req, res) => {
             res.status(500).send(err)
         });
     } else {
-        Item.find({"storeId" : storeId, "category.value": category}).then((data) => {
+        Item.find({"storeId" : storeId, "category": category}).then((data) => {
             console.log(data);
             res.status(200).json(data);
         }).catch((err) => {

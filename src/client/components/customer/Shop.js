@@ -138,7 +138,7 @@ class Shop extends Component {
                                         key={i}
                                         name={prod.name}
                                         quantity={prod.unitQuantity}
-                                        unit={prod.unit.value}
+                                        unit={prod.unit}
                                         unitPrice={prod.unitPrice}
                                         onRemove={() => {this.removeItemFromCart(prod)}}
                                         onAdd={() => {this.addItemToCart(prod)}}

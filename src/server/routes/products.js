@@ -2,16 +2,27 @@ const express = require('express');
 const router = express.Router();
 const authenticateToken = require('../utils/authenticateToken');
 const Product = require('../models/products');
+const _ = require('lodash');
 
 router.get('', authenticateToken, (req, res) => {
     let {searchValue} = req.query;
-    Product.find({"name": new RegExp(".*"+searchValue+".*", "i")}).then((data) => {
-        res.status(200).json(data);
-    }).catch((err) => {
-        res.status(500).json({
-            error: err
-        })
-    });
+    if(_.isEmpty(searchValue)) {
+        Product.find().limit(10).then((data) => {
+            res.status(200).json(data);
+        }).catch((err) => {
+            res.status(500).json({
+                error: err
+            })
+        });
+    } else {
+        Product.find({"name": new RegExp(".*"+searchValue+".*", "i")}).then((data) => {
+            res.status(200).json(data);
+        }).catch((err) => {
+            res.status(500).json({
+                error: err
+            })
+        });
+    }
 });
 
 router.post('/add', authenticateToken, (req, res) => {

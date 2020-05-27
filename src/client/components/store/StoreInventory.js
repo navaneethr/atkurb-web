@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import '../../css/store/storeInventory.scss';
-import {AlertError, AlertSuccess, Button, ItemContainer} from "../utils/Utils";
+import {AlertError, AlertSuccess, AsyncInput, Button, CartItem, ItemContainer} from "../utils/Utils";
 import * as _ from 'lodash';
 import axios from "axios";
 import {STORE_TOKEN_NAME} from "../../utils/constants";
+import {getSuggestedProducts} from "../../redux/actions/storeInventoryActions";
+import {connect} from "react-redux";
+import {withRouter} from 'react-router-dom';
+import {productList, x} from "../../../../products";
 
 const Item = {
     name: "",
@@ -12,7 +16,7 @@ const Item = {
     unitPrice: "",
     unitQuantity: "",
     unit: "",
-    photo: "",
+    imgUrl: "",
     stockSize: ""
 };
 
@@ -21,11 +25,16 @@ class StoreInventory extends Component {
     constructor() {
         super();
         this.state = {
-            showAddItems: false,
+            showAddItems: true,
             item: Item,
             items: [],
-            requiredFields: ["name", "category", "unitPrice", "unitQuantity", "unit", "stockSize"]
+            requiredFields: ["name", "category", "unitPrice", "unitQuantity", "unit", "stockSize"],
         };
+    }
+
+    componentDidMount() {
+        const {getSuggestedProducts} = this.props;
+        getSuggestedProducts();
     }
 
     changeItemState(accessor, value) {
@@ -69,23 +78,72 @@ class StoreInventory extends Component {
         })
     }
 
+    addFromSuggestedProducts(prod) {
+        console.log(prod);
+        const itemObj = {
+            ...Item,
+            category: prod.category,
+            description: prod.description,
+            imgUrl: prod.imgUrl,
+            name: prod.name,
+            productDateStoreId: prod._id
+        };
+        console.log(itemObj);
+        this.setState({item: itemObj});
+    }
+
     renderAddItems() {
         const {items} = this.state;
-        const {name, category, unitPrice, unitQuantity, unit, stockSize, description} = this.state.item;
+        const {getSuggestedProducts} = this.props;
+        const {suggestedProducts} = this.props.storeInventoryReducer;
+        const {imgUrl, name, category, unitPrice, unitQuantity, unit, stockSize, description} = this.state.item;
         return(
             <div className="store-items-container">
+                <div className="search-products-container">
+                    <div className="async-input-container">
+                        <AsyncInput
+                            className="text-input"
+                            type="text"
+                            onChange={(value) => getSuggestedProducts(value)}
+                            placeholder="Search Products to Add .."
+                        />
+                    </div>
+                    <div className="suggested-products-parent">
+                        {
+                            suggestedProducts.map((prod, i) => {
+                                return (
+                                    <div key={i} className="suggested-product">
+                                        <div className="suggested-product-img">
+                                            <img src={prod.imgUrl} />
+                                        </div>
+                                        <div className="suggested-info-and-btn">
+                                            <div className="suggested-product-info">
+                                                <span className="suggested-product-name">{prod.name}</span>
+                                                <span className="suggested-product-desc">{prod.description}</span>
+                                            </div>
+                                            <div className="suggested-product-btn">
+                                                <Button label="Select" onClick={() => {this.addFromSuggestedProducts(prod)}}/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )
+                            })
+                        }
+                    </div>
+                </div>
                 <div>
                     <ItemContainer
+                        imgUrl={imgUrl}
                         name={name}
                         onNameChange={(value) => this.changeItemState("name", value)}
                         category={category}
-                        onCategoryChange={(value) => this.changeItemState("category", value)}
+                        onCategoryChange={({value}) => this.changeItemState("category", value)}
                         unitPrice={unitPrice}
                         onUnitPriceChange={(value) => this.changeItemState("unitPrice", value)}
                         quantity={unitQuantity}
                         onQuantityChange={(value) => this.changeItemState("unitQuantity", value)}
                         unit={unit}
-                        onUnitChange={(value) => this.changeItemState("unit", value)}
+                        onUnitChange={({value}) => this.changeItemState("unit", value)}
                         stock={stockSize}
                         onStockSizeChange={(value) => this.changeItemState("stockSize", value)}
                         description={description}
@@ -133,7 +191,7 @@ class StoreInventory extends Component {
                 <div className="store-inventory-header">
                     <span className="store-inventory-heading">{showAddItems ? "Add Items" : "Inventory"}</span>
                     {!showAddItems && <Button label="Add Items" onClick={() => this.setState({showAddItems: true})}/>}
-                    {showAddItems && <Button label="Close" onClick={() => this.setState({showAddItems: false})}/>}
+                    {showAddItems && <Button label="My Inventory" onClick={() => this.setState({showAddItems: false})}/>}
                 </div>
                 {showAddItems && this.renderAddItems()}
                 {!showAddItems && this.renderInventory()}
@@ -142,4 +200,14 @@ class StoreInventory extends Component {
     }
 }
 
-export default StoreInventory;
+export const mapStateToProps = ({storeInventoryReducer}) => {
+    return { storeInventoryReducer }
+};
+
+export const mapDispatchToProps = (dispatch) => {
+    return {
+        getSuggestedProducts: (payload = "") => dispatch(getSuggestedProducts(payload))
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(StoreInventory))

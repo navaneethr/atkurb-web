@@ -36,6 +36,9 @@ const ItemSchema = {
     storeId: {
         type: String,
         required: true,
+    },
+    productDateStoreId: {
+        type: String
     }
 };
 
