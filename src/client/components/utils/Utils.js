@@ -8,6 +8,7 @@ import Dropdown from 'react-dropdown';
 import '../../css/common/dropdown.scss';
 import { IoMdTrash, IoIosAddCircle, IoIosRemoveCircle } from "react-icons/io";
 import {categoryOptions} from "../../utils/constants";
+import LazyLoad from 'react-lazyload';
 
 const override = css`
   display: block;
@@ -135,7 +136,9 @@ export function Product({name, unit, unitPrice, quantity, onRemove, onAdd, requi
     return (
         <div className="shop-product">
             <div className="product-image-container">
-                <img src={imgUrl}/>
+                <LazyLoad throttle={200} height={300}>
+                    <img src={imgUrl}/>
+                </LazyLoad>
                 <div className="add-remove-bar">
                     {
                         parseInt(requiredQuantity) > 0 &&
