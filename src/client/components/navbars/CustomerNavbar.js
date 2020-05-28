@@ -8,7 +8,7 @@ import { Link, withRouter } from "react-router-dom";
 import {denyAuthenticationCustomer} from "../../redux/actions/rootActions";
 import {getCart, updateCart} from "../../redux/actions/navbarActions";
 import { IoMdCart, IoIosClose, IoIosResize, IoMdExit, IoIosCard, IoMdPin, IoMdListBox, IoMdPerson } from "react-icons/io";
-import {CartItem} from "../utils/Utils";
+import {Button, CartItem} from "../utils/Utils";
 import {RiStore2Line} from "react-icons/ri";
 import * as _ from "lodash";
 
@@ -176,6 +176,7 @@ class CustomerNavbar extends Component {
                                                             })
                                                         }
                                                     </div>
+                                                    <Button label="Place Order"/>
                                                 </div>
                                             )
                                         })
