@@ -10,6 +10,7 @@ import {getCart, updateCart} from "../../redux/actions/navbarActions";
 import { IoMdCart, IoIosClose, IoIosResize, IoMdExit, IoIosCard, IoMdPin, IoMdListBox, IoMdPerson } from "react-icons/io";
 import {CartItem} from "../utils/Utils";
 import {RiStore2Line} from "react-icons/ri";
+import * as _ from "lodash";
 
 class CustomerNavbar extends Component {
 
@@ -55,7 +56,6 @@ class CustomerNavbar extends Component {
 
     addItemToCart(prod) {
         const {cart} = this.props.navbarReducer;
-        const { storeId } = this.props.match.params;
         console.log(prod);
         const { updateCart } = this.props;
 
@@ -70,7 +70,7 @@ class CustomerNavbar extends Component {
             let productToUpdate = _.find(newCart, { _id: prod._id });
             console.log(3);
             // Update the product
-            productToUpdate = {...productToUpdate, ...prod, quantity: parseInt(productToUpdate.quantity) + 1, storeId};
+            productToUpdate = {...productToUpdate, ...prod, quantity: parseInt(productToUpdate.quantity) + 1};
             console.log(4);
             // we recheck if there is an object just to make sure before adding it to the state
             if(index > -1) {
@@ -81,7 +81,7 @@ class CustomerNavbar extends Component {
             }
         } else {
             // add product to cart
-            const updatedCart = [...newCart, {...prod, quantity: 1, storeId}];
+            const updatedCart = [...newCart, {...prod, quantity: 1}];
             // this.setState({cart: updatedCart});
             console.log(updatedCart);
             updateCart(updatedCart);
@@ -121,7 +121,9 @@ class CustomerNavbar extends Component {
     render() {
         console.log(this.props);
         const { openCart, openSidebar, openCartExpanded } = this.state;
-        const {cart} = this.props.navbarReducer;
+        const {cart, cartStores} = this.props.navbarReducer;
+        const cartItemsByStore = _.groupBy(cart, 'storeId');
+        console.log(cartStores, cartItemsByStore);
         return (
             <div className="navbar-parent">
                 <div className="top-navbar">
@@ -146,18 +148,38 @@ class CustomerNavbar extends Component {
                             </div>
                             <div className="cart-container">
                                 {
-                                    cart.map((prod, i) => {
-                                        console.log("prod", prod);
-                                        return (
-                                            <CartItem
-                                                key={i}
-                                                prod={prod}
-                                                addItem={(prod) => this.addItemToCart(prod)}
-                                                removeItem={(prod) => this.removeItemFromCart(prod)}
-                                            />
-                                        )
-                                    })
+                                    cartStores.length > 1 &&
+                                        <div className="one-plus-store-warning">
+                                            <span>You have products in the cart from more than one store</span>
+                                        </div>
                                 }
+                                    {
+                                        // Important Code - DON'T DELETE THE CODE BELOW - WILL BREAK THINGS
+                                        (cartStores.length === Object.keys(cartItemsByStore).length) && cartStores.map((store, i) => {
+                                            console.log(store);
+                                            return (
+                                                <div className="single-store-container" key={i}>
+                                                    <div className="store-name-container">
+                                                        <span>{store.storeName}</span>
+                                                    </div>
+                                                    <div className="cart-sub-container">
+                                                        {
+                                                            cartItemsByStore[store._id].map((prod, i) => {
+                                                                return (
+                                                                    <CartItem
+                                                                        key={i}
+                                                                        prod={prod}
+                                                                        addItem={(prod) => this.addItemToCart(prod)}
+                                                                        removeItem={(prod) => this.removeItemFromCart(prod)}
+                                                                    />
+                                                                )
+                                                            })
+                                                        }
+                                                    </div>
+                                                </div>
+                                            )
+                                        })
+                                    }
                             </div>
                         </div>
                 }

@@ -1,8 +1,9 @@
-import {GET_CART, UPDATE_CART} from "../actions/navbarActions";
+import {GET_ASSOCIATED_BUSINESSES, GET_CART, UPDATE_CART} from "../actions/navbarActions";
 
 
 const initialState = {
     cart: [],
+    cartStores: []
 };
 
 const navbarReducer = (state = initialState, action) => {
@@ -17,6 +18,12 @@ const navbarReducer = (state = initialState, action) => {
             return {
                 ...state,
                 cart: action.payload
+            };
+        }
+        case GET_ASSOCIATED_BUSINESSES: {
+            return {
+                ...state,
+                cartStores: action.payload
             };
         }
         default:

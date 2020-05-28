@@ -16,6 +16,20 @@ router.get('/all', authenticateToken, (req, res) => {
         })
 });
 
+router.post('/', authenticateToken, (req, res) => {
+    const storeIds = req.body.storeIds;
+    console.log(storeIds);
+    Store.find({'_id': {$in: storeIds}})
+        .then((data) => {
+            console.log(data);
+            data = data.map(({_id, storeName, phone, email}) => ({_id, storeName, phone, email}));
+            res.status(200).json(data)
+        })
+        .catch(() => {
+            res.status(500).send(err);
+        })
+});
+
 router.get('/', authenticateToken, (req, res) => {
     const {storeId} = req.query;
     Store.findOne({_id: storeId})

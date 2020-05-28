@@ -42,7 +42,6 @@ class Shop extends Component {
 
     addItemToCart(prod) {
         const {cart} = this.props.navbarReducer;
-        const { storeId } = this.props.match.params;
         const { updateCart } = this.props;
 
         const newCart = _.cloneDeep(cart);
@@ -53,7 +52,7 @@ class Shop extends Component {
             // get the product object
             let productToUpdate = _.find(newCart, { _id: prod._id });
             // Update the product
-            productToUpdate = {...productToUpdate, ...prod, quantity: parseInt(productToUpdate.quantity) + 1, storeId};
+            productToUpdate = {...productToUpdate, ...prod, quantity: parseInt(productToUpdate.quantity) + 1};
             // we recheck if there is an object just to make sure before adding it to the state
             if(index > -1) {
                 newCart.splice(index, 1, productToUpdate);
@@ -63,7 +62,7 @@ class Shop extends Component {
             }
         } else {
             // add product to cart
-            const updatedCart = [...newCart, {...prod, quantity: 1, storeId}];
+            const updatedCart = [...newCart, {...prod, quantity: 1}];
             // this.setState({cart: updatedCart});
             console.log(updatedCart);
             updateCart(updatedCart);
