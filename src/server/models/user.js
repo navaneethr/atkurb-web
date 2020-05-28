@@ -12,6 +12,10 @@ const UserSchema = new Schema({
         unique: true,
         required: true
     },
+    gender: {
+        type: String,
+        default: null
+    },
     email: {
         type: String,
         required: true,
@@ -24,6 +28,21 @@ const UserSchema = new Schema({
     },
     cart: {
         type: Array
+    },
+    associatedBusinesses: {
+        type: Array
+    },
+    dateOfBirth: {
+        type : Date,
+        default: null
+    },
+    createdAt: {
+        type : Date,
+        default: Date.now
+    },
+    lastLogin: {
+        type : Date,
+        default: null
     }
 });
 

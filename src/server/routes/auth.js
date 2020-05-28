@@ -73,15 +73,19 @@ router.post("/login", (req, res) => {
                 }
                 if (result) {
                     console.log("User", user);
-                    const token = jwt.sign({fullName: user.fullName, email: user.email, userId: user._id}, process.env.ACCESS_TOKEN_SECRET);
-                    return res.status(200).json({
-                        message: "Auth successful",
-                        token: token
+                    user.update({lastLogin: Date.now()}).then(() => {
+                        const token = jwt.sign({fullName: user.fullName, email: user.email, userId: user._id}, process.env.ACCESS_TOKEN_SECRET);
+                        return res.status(200).json({
+                            message: "Auth successful",
+                            token: token
+                        });
+                    }).catch((err) => {
+                        res.status(401).json({
+                            message: "Auth failed",
+                            err
+                        });
                     });
                 }
-                res.status(401).json({
-                    message: "Auth failed"
-                });
             });
         })
         .catch(err => {

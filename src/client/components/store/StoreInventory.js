@@ -7,7 +7,6 @@ import {STORE_TOKEN_NAME} from "../../utils/constants";
 import {getSuggestedProducts} from "../../redux/actions/storeInventoryActions";
 import {connect} from "react-redux";
 import {withRouter} from 'react-router-dom';
-import {productList, x} from "../../../../products";
 
 const Item = {
     name: "",

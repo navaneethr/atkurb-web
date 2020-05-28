@@ -45,21 +45,18 @@ router.get('/', authenticateToken, (req, res) => {
 router.get('/products', authenticateToken, (req, res) => {
     const {storeId, category} = req.query;
     console.log(storeId, category);
-    if(_.isEmpty(category) || category === "all") {
-        Item.find({"storeId" : storeId}).then((data) => {
+    Store.findOne({"_id" : storeId}).then((store) => {
+        storeItemIds = store.items.map(({itemId}) => itemId);
+        const cat = (_.isEmpty(category) || category === "all") ? {} : {"category": category};
+        Item.find({"_id" : { $in : storeItemIds }, "storeId": storeId, ...cat}).then((data) => {
             console.log(data);
             res.status(200).json(data);
         }).catch((err) => {
             res.status(500).send(err)
         });
-    } else {
-        Item.find({"storeId" : storeId, "category": category}).then((data) => {
-            console.log(data);
-            res.status(200).json(data);
-        }).catch((err) => {
-            res.status(500).send(err)
-        });
-    }
+    }).catch((err) => {
+        res.status(500).send(err)
+    });
 });
 
 module.exports = router;
