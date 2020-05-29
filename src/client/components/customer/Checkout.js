@@ -34,6 +34,17 @@ class Checkout extends Component {
                     </div>
                     <div className="info-checkout-container">
                         <div className="info-only-container">
+                            <div className="checkout-card-container">
+                                {
+                                    checkOutItems.map((item, i) => {
+                                        return (
+                                            <div key={i} className="checkout-item-parent">
+                                                <img src={item.imgUrl} />
+                                            </div>
+                                        )
+                                    })
+                                }
+                            </div>
                             <div className="checkout-card-container checkout-card-address-container">
                                 <div className="checkout-address-header">Pickup Address</div>
                                 <div className="checkout-pickup-address">
@@ -54,17 +65,6 @@ class Checkout extends Component {
                             </div>
                             <div className="checkout-card-container checkout-card-other-info-container">
                                 <div className="checkout-info-header">Payment</div>
-                            </div>
-                            <div className="checkout-card-container">
-                                {
-                                    checkOutItems.map((item, i) => {
-                                        return (
-                                            <div key={i} className="checkout-item-parent">
-                                                <img src={item.imgUrl} />
-                                            </div>
-                                        )
-                                    })
-                                }
                             </div>
                         </div>
                         <div className="checkout-only-container">
