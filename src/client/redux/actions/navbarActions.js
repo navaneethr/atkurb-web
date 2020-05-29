@@ -6,6 +6,7 @@ import * as _ from "lodash";
 export const UPDATE_CART = "UPDATE_CART";
 export const GET_CART = "GET_CART";
 export const GET_ASSOCIATED_BUSINESSES = "GET_ASSOCIATED_BUSINESSES";
+export const UPDATE_STORE_CHECKOUT = "UPDATE_STORE_CHECKOUT";
 
 export const updateCart = (payload) => {
     const AuthToken =  `Bearer ${localStorage.getItem(CUSTOMER_TOKEN_NAME)}`;
@@ -47,7 +48,8 @@ export const getCart = () => {
                 type: GET_CART,
                 payload: res.data
             });
-            return axios.post('/api/store', {storeIds: Object.keys(_.groupBy(res.data, 'storeId'))}, config);
+            const cart = res.data.cart;
+            return axios.post('/api/store', {storeIds: Object.keys(_.groupBy(cart, 'storeId'))}, config);
         }).then((res) => {
             dispatch({
                 type: GET_ASSOCIATED_BUSINESSES,
@@ -56,6 +58,26 @@ export const getCart = () => {
         }).catch((err) => {
             console.log(err);
             AlertError("Failed to get cart items, please refresh")
+        })
+    }
+};
+
+export const checkOutStore = (storeId) => {
+    const AuthToken =  `Bearer ${localStorage.getItem(CUSTOMER_TOKEN_NAME)}`;
+    const config = {
+        headers: {
+            Authorization: AuthToken,
+        }
+    };
+    return dispatch => {
+        axios.post(`/api/user/update/checkout`, {storeId}, config).then((res) => {
+            dispatch({
+                type: UPDATE_STORE_CHECKOUT,
+                payload: storeId
+            });
+        }).catch((err) => {
+            console.log(err);
+            AlertError("Failed to add items to checkout")
         })
     }
 };

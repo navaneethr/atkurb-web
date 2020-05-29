@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import '../../css/common/navbar.scss';
 import { connect } from "react-redux";
-import {addValue} from "../../redux/actions/homeActions";
 import {ROUTES, CUSTOMER_TOKEN_NAME} from "../../utils/constants";
 import {auth} from "../../auth/auth";
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import {denyAuthenticationCustomer} from "../../redux/actions/rootActions";
-import {getCart, updateCart} from "../../redux/actions/navbarActions";
+import {getCart, updateCart, checkOutStore} from "../../redux/actions/navbarActions";
 import { IoMdCart, IoIosClose, IoIosResize, IoMdExit, IoIosCard, IoMdPin, IoMdListBox, IoMdPerson } from "react-icons/io";
 import {Button, CartItem} from "../utils/Utils";
 import {RiStore2Line} from "react-icons/ri";
@@ -49,7 +48,7 @@ class CustomerNavbar extends Component {
         this.props.history.push(route)
     }
 
-    openCart() {
+    openCloseCart() {
         const { openCart } = this.state;
         this.setState({openCart: !openCart, openSidebar: false})
     }
@@ -118,6 +117,13 @@ class CustomerNavbar extends Component {
 
     }
 
+    checkOutWithStoreClicked(storeId) {
+        const {checkOutStore} = this.props;
+        checkOutStore(storeId);
+        this.routerPush(ROUTES.CHECKOUT);
+        this.openCloseCart()
+    }
+
     render() {
         console.log(this.props);
         const { openCart, openSidebar, openCartExpanded } = this.state;
@@ -133,8 +139,8 @@ class CustomerNavbar extends Component {
                     <div className="right-navbar-container">
                         <input className="text-input zip-code-input"/>
                         <div className="navbar-item">
-                            <IoMdCart className="icon-class" onClick={() => {this.openCart()}}/>
-                            {!_.isEmpty(cart) && <span className="cart-items-count" onClick={() => {this.openCart()}}>{cart.length}</span>}
+                            <IoMdCart className="icon-class" onClick={() => {this.openCloseCart()}}/>
+                            {!_.isEmpty(cart) && <span className="cart-items-count" onClick={() => {this.openCloseCart()}}>{cart.length}</span>}
                         </div>
                         <span className="profile-parent" onClick={() => {this.setState({openSidebar: !openSidebar})}}>NK</span>
                     </div>
@@ -176,7 +182,7 @@ class CustomerNavbar extends Component {
                                                             })
                                                         }
                                                     </div>
-                                                    <Button label="Place Order"/>
+                                                    <Button label={`Checkout with ${store.storeName}`} onClick={() => {this.checkOutWithStoreClicked(store._id)}}/>
                                                 </div>
                                             )
                                         })
@@ -198,7 +204,7 @@ class CustomerNavbar extends Component {
                             <IoMdPerson className="icon-class"/>
                             <span className="menu-link">Profile</span>
                         </div>
-                        <div className="menu-item" onClick={() => this.openCart()}>
+                        <div className="menu-item" onClick={() => this.openCloseCart()}>
                             <IoMdCart className="icon-class"/>
                             <span className="menu-link">Cart</span>
                         </div>
@@ -234,7 +240,7 @@ export const mapDispatchToProps = (dispatch) => {
         denyAuthenticationCustomer: () => dispatch(denyAuthenticationCustomer()),
         getCart: () => dispatch(getCart()),
         updateCart: (cartItems) => dispatch(updateCart(cartItems)),
-
+        checkOutStore: (storeId) => dispatch(checkOutStore(storeId))
     }
 };
 

@@ -71,7 +71,7 @@
     bottom: 0;
     width: 400px;
     box-shadow: $box-shadow;
-    z-index: 999;
+    z-index: 1999;
     background: $light-background;
     display: flex;
     flex-direction: column;
@@ -252,6 +252,13 @@
   .sidebar-parent {
     left: 0;
     width: auto !important;
+    .sidebar-icons-parent {
+      svg {
+        &:last-child {
+          display: none;
+        }
+      }
+    }
   }
   .sidebar-parent-expanded {
     .cart-container {
@@ -266,7 +273,7 @@
         width: auto !important;
         margin: 0 0 20px 0 !important;
         &:last-child {
-          margin-bottom: 0 !important;
+          margin-bottom: 10px !important;
         }
       }
     }

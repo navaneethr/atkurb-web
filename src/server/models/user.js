@@ -43,6 +43,10 @@ const UserSchema = new Schema({
     lastLogin: {
         type : Date,
         default: null
+    },
+    checkOutStore: {
+        type: String, // Store Id
+        default: null
     }
 });
 

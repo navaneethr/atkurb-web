@@ -21,6 +21,7 @@ import StoreFinances from "./components/store/StoreFinances";
 import StoreOrders from "./components/store/StoreOrders";
 import Shop from "./components/customer/Shop";
 import Addresses from "./components/customer/Addresses";
+import Checkout from "./components/customer/Checkout";
 
 class Routes extends Component {
 
@@ -45,6 +46,7 @@ class Routes extends Component {
                         <PrivateRouteCustomer exact path={ROUTES.ORDERS} component={Orders}/>
                         <PrivateRouteCustomer exact path={ROUTES.PAYMENTS} component={Payments}/>
                         <PrivateRouteCustomer exact path={ROUTES.ADDRESSES} component={Addresses}/>
+                        <PrivateRouteCustomer exact path={ROUTES.CHECKOUT} component={Checkout}/>
 
                         {/*These Routes are only visible when the store is authenticated*/}
                         <PrivateRouteStore exact path={ROUTES.STORE_HOME} component={StoreHome}/>

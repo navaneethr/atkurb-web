@@ -6,7 +6,7 @@ const User = require('../models/user');
 router.get('/', authenticateToken, (req, res) => {
     const {userId} = req.user;
     User.findOne({_id: userId}).then(user => {
-        res.status(200).json(user.cart);
+        res.status(200).json({cart: user.cart, checkOutStore: user.checkOutStore});
 
     }).catch((err) => {
         res.status(500).json(err)
