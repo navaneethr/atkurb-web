@@ -90,7 +90,7 @@
       }
     }
     .cart-container {
-      margin: 20px;
+      margin: 0 20px 20px 20px;
       flex: 1;
       overflow-y: auto;
       .one-plus-store-warning {
@@ -253,10 +253,8 @@
     left: 0;
     width: auto !important;
     .sidebar-icons-parent {
-      svg {
-        &:last-child {
-          display: none;
-        }
+      .icon-class-resize {
+        display: none;
       }
     }
   }
