@@ -184,7 +184,7 @@ export function CartItem({prod, removeItem, addItem}) {
                 </div>
                 <div className="cart-item-info-container">
                     <span className="cart-item-info-span">{prod.name}</span>
-                    <span className="cart-item-info-span">{prod.quantity} X {prod.unitQuantity} {prod.unit.value}</span>
+                    <span className="cart-item-info-span">{prod.quantity} X {prod.unitQuantity} {prod.unit}</span>
                     <span className="cart-item-info-span">${(parseFloat(prod.quantity) * parseFloat(prod.unitPrice)).toFixed(2)}</span>
                 </div>
             </div>

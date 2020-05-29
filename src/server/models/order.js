@@ -2,8 +2,15 @@ import {Item} from "./item";
 import {User} from "./user";
 
 export const Order = {
-    id: "UUID",
-    items: [ { requiredQuantity: 0, item: Item } ],
+    _id: "",
+    items: [],
     associatedUser: User,
-    date: "Timestamp"
+    date: "",
+    orderCompleteTS: "",
+    cost: {
+        serviceFee: "",
+        taxes: "",
+        itemsCost: "",
+        shopperTip: ""
+    }
 };
