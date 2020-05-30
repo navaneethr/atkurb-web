@@ -1,8 +1,9 @@
-import {GET_ORDERS} from "../actions/orderActions";
+import {GET_ORDERS, FETCH_ORDERS_IN_PROGRESS} from "../actions/orderActions";
 
 const initialState = {
     orders: [],
-    orderRelatedStores: []
+    orderRelatedStores: [],
+    fetchingOrdersInProgress: false
 };
 
 const orderReducer = (state = initialState, action) => {
@@ -12,6 +13,12 @@ const orderReducer = (state = initialState, action) => {
                 ...state,
                 orders: action.payload.items,
                 orderRelatedStores: action.payload.storeDetails
+            };
+        }
+        case FETCH_ORDERS_IN_PROGRESS: {
+            return {
+                ...state,
+                fetchingOrdersInProgress: action.payload
             };
         }
         default:

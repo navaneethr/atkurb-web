@@ -9,6 +9,7 @@ export const GET_CART = "GET_CART";
 export const GET_ASSOCIATED_BUSINESSES = "GET_ASSOCIATED_BUSINESSES";
 export const UPDATE_STORE_CHECKOUT = "UPDATE_STORE_CHECKOUT";
 export const PLACE_ORDER = "PLACE_ORDER";
+export const CHECKOUT_PAGE_IN_PROGRESS = "CHECKOUT_PAGE_IN_PROGRESS";
 
 export const getUserDetails = () => {
     const AuthToken =  `Bearer ${localStorage.getItem(CUSTOMER_TOKEN_NAME)}`;
@@ -18,13 +19,13 @@ export const getUserDetails = () => {
         }
     };
     return dispatch => {
+        dispatch({ type: CHECKOUT_PAGE_IN_PROGRESS, payload: true });
         axios.get(`/api/user`, config).then((res) => {
-            dispatch({
-                type: GET_USER_DETAILS,
-                payload: res.data
-            });
+            dispatch({ type: GET_USER_DETAILS, payload: res.data });
+            dispatch({ type: CHECKOUT_PAGE_IN_PROGRESS, payload: false });
         }).catch((err) => {
             console.log(err);
+            dispatch({ type: CHECKOUT_PAGE_IN_PROGRESS, payload: false });
             AlertError("Failed to get cart items, please refresh")
         })
     }
@@ -38,20 +39,16 @@ export const updateCart = (payload) => {
         }
     };
     return dispatch => {
+        dispatch({ type: CHECKOUT_PAGE_IN_PROGRESS, payload: true });
         axios.post(`/api/cart/add`, payload, config).then((res) => {
-            dispatch({
-                type: UPDATE_CART,
-                payload: res.data
-            });
-            console.log(res.data);
+            dispatch({ type: UPDATE_CART, payload: res.data });
             return axios.post('/api/store', {storeIds: Object.keys(_.groupBy(payload, 'storeId'))}, config);
         }).then((res) => {
-            dispatch({
-                type: GET_ASSOCIATED_BUSINESSES,
-                payload:  res.data
-            })
+            dispatch({ type: CHECKOUT_PAGE_IN_PROGRESS, payload: false });
+            dispatch({ type: GET_ASSOCIATED_BUSINESSES, payload:  res.data })
         }).catch((err) => {
             console.log(err);
+            dispatch({ type: CHECKOUT_PAGE_IN_PROGRESS, payload: false });
             AlertError("Failed to update cart, please refresh")
         })
     }
@@ -65,20 +62,17 @@ export const getCart = () => {
         }
     };
     return dispatch => {
+        dispatch({ type: CHECKOUT_PAGE_IN_PROGRESS, payload: true });
         axios.get(`/api/cart`, config).then((res) => {
-            dispatch({
-                type: GET_CART,
-                payload: res.data
-            });
+            dispatch({ type: GET_CART, payload: res.data  });
             const cart = res.data.cart;
             return axios.post('/api/store', {storeIds: Object.keys(_.groupBy(cart, 'storeId'))}, config);
         }).then((res) => {
-            dispatch({
-                type: GET_ASSOCIATED_BUSINESSES,
-                payload:  res.data
-            })
+            dispatch({ type: GET_ASSOCIATED_BUSINESSES, payload:  res.data })
+            dispatch({ type: CHECKOUT_PAGE_IN_PROGRESS, payload: false });
         }).catch((err) => {
             console.log(err);
+            dispatch({ type: CHECKOUT_PAGE_IN_PROGRESS, payload: false });
             AlertError("Failed to get cart items, please refresh")
         })
     }
@@ -92,13 +86,13 @@ export const checkOutStore = (storeId) => {
         }
     };
     return dispatch => {
+        dispatch({ type: CHECKOUT_PAGE_IN_PROGRESS, payload: true });
         axios.post(`/api/user/update/checkout`, {storeId}, config).then((res) => {
-            dispatch({
-                type: UPDATE_STORE_CHECKOUT,
-                payload: storeId
-            });
+            dispatch({ type: UPDATE_STORE_CHECKOUT, payload: storeId });
+            dispatch({ type: CHECKOUT_PAGE_IN_PROGRESS, payload: false });
         }).catch((err) => {
             console.log(err);
+            dispatch({ type: CHECKOUT_PAGE_IN_PROGRESS, payload: false });
             AlertError("Failed to add items to checkout")
         })
     }
@@ -113,20 +107,17 @@ export const placeOrder = (payload, history) => {
     };
     console.log(payload)
     return dispatch => {
+        dispatch({ type: CHECKOUT_PAGE_IN_PROGRESS, payload: true });
         axios.post(`/api/order/place`, payload, config).then((res) => {
-            dispatch({
-                type: PLACE_ORDER,
-                payload: res.data
-            });
+            dispatch({ type: PLACE_ORDER, payload: res.data});
             return axios.post('/api/store', {storeIds: Object.keys(_.groupBy(res.data.cart, 'storeId'))}, config);
         }).then((res) => {
-            dispatch({
-                type: GET_ASSOCIATED_BUSINESSES,
-                payload:  res.data
-            });
+            dispatch({ type: GET_ASSOCIATED_BUSINESSES, payload:  res.data });
+            dispatch({ type: CHECKOUT_PAGE_IN_PROGRESS, payload: false });
             history.push(ROUTES.ORDERS);
         }).catch((err) => {
             console.log(err);
+            dispatch({ type: CHECKOUT_PAGE_IN_PROGRESS, payload: false });
             AlertError("Failed to place order")
         })
     }

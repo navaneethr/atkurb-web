@@ -4,7 +4,8 @@ import {
     UPDATE_CART,
     UPDATE_STORE_CHECKOUT,
     PLACE_ORDER,
-    GET_USER_DETAILS
+    GET_USER_DETAILS,
+    CHECKOUT_PAGE_IN_PROGRESS
 } from "../actions/navbarActions";
 
 
@@ -12,7 +13,9 @@ const initialState = {
     cart: [],
     cartStores: [],
     checkOutStore: null,
-    userDetails: null
+    userDetails: null,
+    fetchInProgress: false
+
 };
 
 const navbarReducer = (state = initialState, action) => {
@@ -46,6 +49,12 @@ const navbarReducer = (state = initialState, action) => {
             return {
                 ...state,
                 checkOutStore: action.payload
+            };
+        }
+        case CHECKOUT_PAGE_IN_PROGRESS: {
+            return {
+                ...state,
+                fetchInProgress: action.payload
             };
         }
         case PLACE_ORDER: {

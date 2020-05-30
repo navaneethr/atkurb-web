@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import '../../css/customer/checkout.scss';
-import {checkOutStore, placeOrder, getCart} from "../../redux/actions/navbarActions";
+import {placeOrder} from "../../redux/actions/navbarActions";
 import {connect} from "react-redux";
 import { withRouter } from "react-router-dom";
 import {ROUTES} from "../../utils/constants";
-import {Button} from "../utils/Utils";
+import {Button, Loader} from "../utils/Utils";
 
 
 class Checkout extends Component {
@@ -55,7 +55,7 @@ class Checkout extends Component {
     }
 
     render() {
-        const {cart, checkOutStore, cartStores} = this.props.navbarReducer;
+        const {cart, checkOutStore, cartStores, fetchInProgress} = this.props.navbarReducer;
         const {shopperTip} = this.state;
         const checkOutItems = cart.filter((item) => item.storeId === checkOutStore);
         let storeDetails = cartStores.filter(({_id}) => _id === checkOutStore);
@@ -67,11 +67,20 @@ class Checkout extends Component {
         const grandTotal = subTotal + tax + serviceFee + parseFloat(_.isEmpty(shopperTip) || (shopperTip < 0) ? 0 : shopperTip);
         return (
             <div className="checkout-parent">
-                <div className="fixed-top-left">
-                    <span className="checkout-heading" onClick={() => this.props.history.push(`${ROUTES.SHOP}/${checkOutStore}`)}>Got back to {storeName}</span>
-                </div>
                 {
-                    !_.isEmpty(checkOutItems) &&
+                    !_.isEmpty(checkOutStore) &&
+                    <div className="fixed-top-left">
+                        <span className="checkout-heading" onClick={() => this.props.history.push(`${ROUTES.SHOP}/${checkOutStore}`)}>Got back to {storeName}</span>
+                    </div>
+                }
+                {
+                    fetchInProgress &&
+                    <div className="warning-checkout-parent">
+                        <Loader loading={fetchInProgress} color="#295454" size={15}/>
+                    </div>
+                }
+                {
+                    !fetchInProgress && !_.isEmpty(checkOutItems) &&
                     <div className="checkout-container">
                         <div className="checkout-header">
                             <span className="checkout-heading">Checkout</span>
@@ -144,7 +153,7 @@ class Checkout extends Component {
                     </div>
                 }
                 {
-                    _.isEmpty(checkOutItems) &&
+                    !fetchInProgress && _.isEmpty(checkOutItems) &&
                     <div className="warning-checkout-parent">
                         You either do not have anything in your cart or you din't checkout the cart items
                     </div>
