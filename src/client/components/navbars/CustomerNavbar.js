@@ -47,6 +47,7 @@ class CustomerNavbar extends Component {
 
     routerPush(route) {
         this.props.history.push(route)
+        this.setState({openCart: false, openSidebar: false})
     }
 
     openCloseCart() {
@@ -127,6 +128,7 @@ class CustomerNavbar extends Component {
 
     render() {
         console.log(this.props);
+        const {history} = this.props;
         const { openCart, openSidebar, openCartExpanded } = this.state;
         const {cart, cartStores} = this.props.navbarReducer;
         const cartItemsByStore = _.groupBy(cart, 'storeId');
@@ -146,6 +148,7 @@ class CustomerNavbar extends Component {
                         <span className="profile-parent" onClick={() => {this.setState({openSidebar: !openSidebar})}}>NK</span>
                     </div>
                 </div>
+
                 {
                     openCart &&
                         <div className={`sidebar-parent ${openCartExpanded && "sidebar-parent-expanded"}`}>
@@ -154,6 +157,13 @@ class CustomerNavbar extends Component {
                                 <IoIosResize className="icon-class icon-class-resize" onClick={() => {this.setState({openCartExpanded: !openCartExpanded})}}/>
                             </div>
                             <div className="cart-container">
+                                {
+                                    cart.length < 1 &&
+                                    <div className="empty-cart-container">
+                                        <span>You do not items in your cart</span>
+                                        <Button label="Shop Now" onClick={() => { this.routerPush(ROUTES.HOME) }}/>
+                                    </div>
+                                }
                                 {
                                     cartStores.length > 1 &&
                                         <div className="one-plus-store-warning">
@@ -213,8 +223,8 @@ class CustomerNavbar extends Component {
                             <IoMdListBox className="icon-class"/>
                             <span className="menu-link">Orders</span>
                         </div>
-                        <div className="menu-item">
-                            <IoMdPin className="icon-class" onClick={() => this.routerPush(ROUTES.ADDRESSES)}/>
+                        <div className="menu-item" onClick={() => this.routerPush(ROUTES.ADDRESSES)}>
+                            <IoMdPin className="icon-class"/>
                             <span className="menu-link">Addresses</span>
                         </div>
                         <div className="menu-item" onClick={() => this.routerPush(ROUTES.PAYMENTS)}>

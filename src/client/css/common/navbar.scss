@@ -93,6 +93,16 @@
       margin: 0 20px 20px 20px;
       flex: 1;
       overflow-y: auto;
+      .empty-cart-container {
+        margin: 100px 20px;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        .button {
+          margin: 20px;
+        }
+      }
       .one-plus-store-warning {
         font-size: 14px;
         margin: 20px 0;
