@@ -49,4 +49,18 @@ router.post('/place', authenticateToken, (req, res) => {
     })
 });
 
+router.get('', authenticateToken, (req, res) => {
+    User.findOne({_id: req.user.userId}).then((data) => {
+        const {orders} = data.toObject();
+        return Order.find({'_id': { $in: orders }})
+    }).then((data) => {
+        res.status(200).json(data);
+    }).catch((err) => {
+        res.status(500).json({
+            error: err
+        })
+    })
+
+});
+
 module.exports = router;

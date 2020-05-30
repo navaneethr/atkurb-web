@@ -1,6 +1,6 @@
 import { AlertError } from "../../components/utils/Utils";
 import axios from "axios/index";
-import { CUSTOMER_TOKEN_NAME } from "../../utils/constants";
+import {CUSTOMER_TOKEN_NAME, ROUTES} from "../../utils/constants";
 import * as _ from "lodash";
 
 export const GET_USER_DETAILS = "GET_USER_DETAILS";
@@ -104,7 +104,7 @@ export const checkOutStore = (storeId) => {
     }
 };
 
-export const placeOrder = (payload) => {
+export const placeOrder = (payload, history) => {
     const AuthToken =  `Bearer ${localStorage.getItem(CUSTOMER_TOKEN_NAME)}`;
     const config = {
         headers: {
@@ -123,7 +123,8 @@ export const placeOrder = (payload) => {
             dispatch({
                 type: GET_ASSOCIATED_BUSINESSES,
                 payload:  res.data
-            })
+            });
+            history.push(ROUTES.ORDERS);
         }).catch((err) => {
             console.log(err);
             AlertError("Failed to place order")
