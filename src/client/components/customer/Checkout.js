@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import '../../css/customer/checkout.scss';
-import {checkOutStore} from "../../redux/actions/navbarActions";
+import {checkOutStore, placeOrder, getCart} from "../../redux/actions/navbarActions";
 import {connect} from "react-redux";
 import { withRouter } from "react-router-dom";
 import {ROUTES} from "../../utils/constants";
@@ -12,7 +12,7 @@ class Checkout extends Component {
     constructor() {
         super();
         this.state = {
-            shoppersTip: 0
+            shopperTip: 0
         }
     }
 
@@ -20,9 +20,43 @@ class Checkout extends Component {
 
     }
 
+    placeOrder() {
+        const {placeOrder, getCart} = this.props;
+        const {cart, checkOutStore, cartStores, userDetails} = this.props.navbarReducer;
+        const {shopperTip} = this.state;
+        const checkOutItems = cart.filter((item) => item.storeId === checkOutStore);
+        let storeDetails = cartStores.filter(({_id}) => _id === checkOutStore);
+        storeDetails = storeDetails.length > 0 ? storeDetails[0] : null;
+        const subTotal = cart.reduce((acc, item) => acc + (item.unitPrice*item.quantity), 0);
+        const tax = subTotal*0.09;
+        const serviceFee = 2.49;
+        const payload = {
+            storeId: storeDetails._id,
+            items: checkOutItems,
+            associatedUser: userDetails._id,
+            userPhone: userDetails.phone,
+            userEmail: userDetails.email,
+            cost: {
+                serviceFee: serviceFee,
+                taxes: tax,
+                itemsCost: subTotal,
+                shopperTip: shopperTip,
+            },
+            orderStatus: {
+                pending: true,
+                accepted: false,
+                fulfilled: false
+            }
+        };
+
+        placeOrder(payload);
+        // Add the payload to orders table then take the order id and push it to user's orders and business orders array
+        // Then remove added items from the cart
+    }
+
     render() {
         const {cart, checkOutStore, cartStores} = this.props.navbarReducer;
-        const {shoppersTip} = this.state;
+        const {shopperTip} = this.state;
         const checkOutItems = cart.filter((item) => item.storeId === checkOutStore);
         let storeDetails = cartStores.filter(({_id}) => _id === checkOutStore);
         storeDetails = storeDetails.length > 0 ? storeDetails[0] : null;
@@ -30,7 +64,7 @@ class Checkout extends Component {
         const subTotal = cart.reduce((acc, item) => acc + (item.unitPrice*item.quantity), 0);
         const tax = subTotal*0.09;
         const serviceFee = 2.49;
-        const grandTotal = subTotal + tax + serviceFee + parseFloat(_.isEmpty(shoppersTip) || (shoppersTip < 0) ? 0 : shoppersTip);
+        const grandTotal = subTotal + tax + serviceFee + parseFloat(_.isEmpty(shopperTip) || (shopperTip < 0) ? 0 : shopperTip);
         return (
             <div className="checkout-parent">
                 <div className="fixed-top-left">
@@ -91,7 +125,7 @@ class Checkout extends Component {
                                 </div>
                                 <div className="order-cost-section">
                                     <span className="order-cost-child">Shopper's Tip</span>
-                                    <span className="order-cost-child">$ <input type="number" min={0} value={shoppersTip} onChange={(e) => this.setState({shoppersTip: e.target.value})}/></span>
+                                    <span className="order-cost-child">$ <input type="number" min={0} value={shopperTip} onChange={(e) => this.setState({shopperTip: e.target.value})}/></span>
                                 </div>
                             </div>
                             <div className="order-cost-parent">
@@ -101,7 +135,7 @@ class Checkout extends Component {
                                 </div>
                             </div>
                             <div className="checkout-button-container">
-                                <Button label="Place Order"/>
+                                <Button label="Place Order" onClick={() => {this.placeOrder()}}/>
                             </div>
                         </div>
                     </div>
@@ -117,7 +151,9 @@ export const mapStateToProps = ({rootReducer, navbarReducer}) => {
 
 export const mapDispatchToProps = (dispatch) => {
     return {
-        checkOutStore: (storeId) => dispatch(checkOutStore(storeId))
+        checkOutStore: (storeId) => dispatch(checkOutStore(storeId)),
+        placeOrder: (order) => dispatch(placeOrder(order)),
+        getCart: () => dispatch(getCart()),
     }
 };
 

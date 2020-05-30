@@ -5,7 +5,7 @@ import {ROUTES, CUSTOMER_TOKEN_NAME} from "../../utils/constants";
 import {auth} from "../../auth/auth";
 import { withRouter } from "react-router-dom";
 import {denyAuthenticationCustomer} from "../../redux/actions/rootActions";
-import {getCart, updateCart, checkOutStore} from "../../redux/actions/navbarActions";
+import {getCart, updateCart, checkOutStore, getUserDetails} from "../../redux/actions/navbarActions";
 import { IoMdCart, IoIosClose, IoIosResize, IoMdExit, IoIosCard, IoMdPin, IoMdListBox, IoMdPerson } from "react-icons/io";
 import {Button, CartItem} from "../utils/Utils";
 import {RiStore2Line} from "react-icons/ri";
@@ -23,8 +23,9 @@ class CustomerNavbar extends Component {
     }
 
     componentDidMount() {
-        const {getCart} = this.props;
+        const {getCart, getUserDetails} = this.props;
         getCart();
+        getUserDetails();
     }
 
     componentDidUpdate() {
@@ -240,7 +241,8 @@ export const mapDispatchToProps = (dispatch) => {
         denyAuthenticationCustomer: () => dispatch(denyAuthenticationCustomer()),
         getCart: () => dispatch(getCart()),
         updateCart: (cartItems) => dispatch(updateCart(cartItems)),
-        checkOutStore: (storeId) => dispatch(checkOutStore(storeId))
+        checkOutStore: (storeId) => dispatch(checkOutStore(storeId)),
+        getUserDetails: () => dispatch(getUserDetails()),
     }
 };
 

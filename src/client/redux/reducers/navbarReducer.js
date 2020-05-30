@@ -1,14 +1,28 @@
-import {GET_ASSOCIATED_BUSINESSES, GET_CART, UPDATE_CART, UPDATE_STORE_CHECKOUT} from "../actions/navbarActions";
+import {
+    GET_ASSOCIATED_BUSINESSES,
+    GET_CART,
+    UPDATE_CART,
+    UPDATE_STORE_CHECKOUT,
+    PLACE_ORDER,
+    GET_USER_DETAILS
+} from "../actions/navbarActions";
 
 
 const initialState = {
     cart: [],
     cartStores: [],
-    checkOutStore: null
+    checkOutStore: null,
+    userDetails: null
 };
 
 const navbarReducer = (state = initialState, action) => {
     switch (action.type) {
+        case GET_USER_DETAILS: {
+            return {
+                ...state,
+                userDetails: action.payload
+            };
+        }
         case UPDATE_CART: {
             return {
                 ...state,
@@ -32,6 +46,16 @@ const navbarReducer = (state = initialState, action) => {
             return {
                 ...state,
                 checkOutStore: action.payload
+            };
+        }
+        case PLACE_ORDER: {
+            console.log(action.payload);
+            const {cart} = action.payload;
+            return {
+                ...state,
+                cart: cart,
+                checkOutStore: null,
+                userDetails: action.payload
             };
         }
         default:

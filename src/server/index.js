@@ -11,6 +11,7 @@ const authRoute = require('./routes/auth');
 const storeRoute = require('./routes/store');
 const inventoryRoute = require('./routes/inventory');
 const productsRoute = require('./routes/products');
+const orderRoute = require('./routes/order');
 
 mongoose.connect(process.env.DB_CONNECTION, {useNewUrlParser: true, useUnifiedTopology: true}, () => {
     console.log("MLAB Connected");
@@ -34,6 +35,7 @@ app.use('/api/auth', authRoute);
 app.use('/api/store', storeRoute);
 app.use('/api/inventory', inventoryRoute);
 app.use('/api/products', productsRoute);
+app.use('/api/order', orderRoute);
 
 
 // Make sure to always have this at the end - Do not Move

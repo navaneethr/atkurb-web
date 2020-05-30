@@ -4,7 +4,14 @@ const authenticateToken = require('../utils/authenticateToken');
 const User = require('../models/user');
 
 router.get('/', authenticateToken, (req, res) => {
-    res.send({ user: req.user });
+    User.findOne({_id: req.user.userId}).then((data) => {
+        const {password, lastLogin, createdAt, ...rest} = data.toObject();
+        res.status(200).json({...rest})
+    }).catch((err) => {
+        res.status(500).json({
+            error: err
+        })
+    })
 });
 
 router.post('/', authenticateToken, (req, res) => {

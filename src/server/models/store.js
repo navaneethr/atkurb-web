@@ -25,6 +25,9 @@ const StoreSchema = new Schema({
     },
     items: {
         type: [Object]
+    },
+    orders: {
+        type: Array
     }
 });
 

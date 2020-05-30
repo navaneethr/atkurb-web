@@ -47,6 +47,9 @@ const UserSchema = new Schema({
     checkOutStore: {
         type: String, // Store Id
         default: null
+    },
+    orders: {
+        type: Array
     }
 });
 

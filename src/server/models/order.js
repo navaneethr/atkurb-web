@@ -1,16 +1,60 @@
-import {Item} from "./item";
-import {User} from "./user";
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-export const Order = {
-    _id: "",
-    items: [],
-    associatedUser: User,
-    date: "",
-    orderCompleteTS: "",
+const OrderSchema = {
+    _id: Schema.Types.ObjectId,
+    storeId: {
+        type: String,
+        required: true
+    },
+    items: {
+        type: Array,
+        required: true
+    },
+    associatedUser: {
+        type: String,
+        required: true,
+    },
+    userPhone:  {
+        type: String,
+        required: true,
+    },
+    userEmail:  {
+        type: String,
+        required: true,
+    },
+    date:  {
+        type: Date,
+        default: Date.now
+    },
+    orderCompleteTS: {
+        type: Date,
+        default: null
+    },
+    orderAcceptedTS: {
+        type: Date,
+        default: null
+    },
     cost: {
-        serviceFee: "",
-        taxes: "",
-        itemsCost: "",
-        shopperTip: ""
+        type: Object,
+        required: true,
+        default: {
+            serviceFee: "0",
+            taxes: "0",
+            itemsCost: "0",
+            shopperTip: "0"
+        }
+    },
+    orderStatus: {
+        type: Object,
+        required: true,
+        default: {
+            pending: false,
+            accepted: false,
+            fulfilled: false
+        }
     }
+
 };
+
+module.exports = mongoose.model('Order', OrderSchema);
