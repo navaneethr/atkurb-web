@@ -1,7 +1,8 @@
 import {GET_ORDERS} from "../actions/orderActions";
 
 const initialState = {
-    orders: []
+    orders: [],
+    orderRelatedStores: []
 };
 
 const orderReducer = (state = initialState, action) => {
@@ -9,7 +10,8 @@ const orderReducer = (state = initialState, action) => {
         case GET_ORDERS: {
             return {
                 ...state,
-                orders: action.payload
+                orders: action.payload.items,
+                orderRelatedStores: action.payload.storeDetails
             };
         }
         default:
