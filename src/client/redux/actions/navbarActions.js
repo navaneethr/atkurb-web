@@ -11,6 +11,10 @@ export const UPDATE_STORE_CHECKOUT = "UPDATE_STORE_CHECKOUT";
 export const PLACE_ORDER = "PLACE_ORDER";
 export const CHECKOUT_PAGE_IN_PROGRESS = "CHECKOUT_PAGE_IN_PROGRESS";
 
+import io from 'socket.io-client';
+
+const socket = io('http://localhost:5000');
+
 export const getUserDetails = () => {
     const AuthToken =  `Bearer ${localStorage.getItem(CUSTOMER_TOKEN_NAME)}`;
     const config = {
@@ -115,6 +119,7 @@ export const placeOrder = (payload, history) => {
             dispatch({ type: GET_ASSOCIATED_BUSINESSES, payload:  res.data });
             dispatch({ type: CHECKOUT_PAGE_IN_PROGRESS, payload: false });
             history.push(ROUTES.ORDERS);
+            socket.emit('hello', {message: "Hello"});
         }).catch((err) => {
             console.log(err);
             dispatch({ type: CHECKOUT_PAGE_IN_PROGRESS, payload: false });

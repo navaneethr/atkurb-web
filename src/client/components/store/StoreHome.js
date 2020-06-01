@@ -5,6 +5,7 @@ import {addValue} from "../../redux/actions/homeActions";
 import axios from "axios";
 import {STORE_TOKEN_NAME} from "../../utils/constants";
 import {Button, OrderContainer} from "../utils/Utils";
+import moment from 'moment';
 
 class StoreHome extends Component {
 
@@ -18,10 +19,12 @@ class StoreHome extends Component {
     componentDidMount() {
         const token = localStorage.getItem(STORE_TOKEN_NAME);
         const bearerToken = `Bearer ${token}`;
+
     }
 
     render() {
         const {searchStore} = this.state;
+        const { storeOrders } = this.props.storeNavbarReducer;
         return (
             <div className="store-home-parent">
                 <div className="store-home-container">
@@ -31,12 +34,19 @@ class StoreHome extends Component {
                             <span className="store-orders-view-all">View All</span>
                         </div>
                         <div className="store-orders">
-                            <OrderContainer
-                                date={"20 May 2020, 12:54 PM"}
-                                itemsCount={"10"}
-                                cost={"$50.45"}
-                                onViewCLick={() => {}}
-                            />
+                            {
+                                storeOrders.map((order, i) => {
+                                    return (
+                                        <OrderContainer
+                                            key={i}
+                                            date={moment(order.date).format('MMMM Do YYYY, h:mm:ss a')}
+                                            itemsCount={order.items.length}
+                                            cost={"$50.45"}
+                                            onViewCLick={() => {}}
+                                        />
+                                    )
+                                })
+                            }
                         </div>
                     </div>
                     <div className="store-orders-container">
@@ -59,8 +69,8 @@ class StoreHome extends Component {
     }
 }
 
-export const mapStateToProps = ({homeReducer}) => {
-    return { homeReducer }
+export const mapStateToProps = ({homeReducer, storeNavbarReducer}) => {
+    return { homeReducer, storeNavbarReducer }
 };
 
 export const mapDispatchToProps = (dispatch) => {

@@ -1,9 +1,13 @@
 require('dotenv').config();
 const express = require('express');
 const app = express();
+const http = require('http');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const sslRedirect = require('heroku-ssl-redirect');
+const socketio = require('socket.io');
+const server = http.createServer(app);
+const io = socketio(server);
 
 const userRoute = require('./routes/user');
 const cartRoute = require('./routes/cart');
@@ -37,7 +41,6 @@ app.use('/api/inventory', inventoryRoute);
 app.use('/api/products', productsRoute);
 app.use('/api/order', orderRoute);
 
-
 // Make sure to always have this at the end - Do not Move
 if(process.env.PROD == "true") {
     app.get('*', function (req, res) {
@@ -45,4 +48,12 @@ if(process.env.PROD == "true") {
     })
 }
 
-app.listen(process.env.PORT || 5000, () => console.log(`Listening on port ${process.env.PORT || 5000}!`));
+io.on('connection', (socket) => {
+    console.log("New Socket Connection");
+    socket.on('hello', ({message}) => {
+        console.log("Hello There");
+        io.emit('hello', {message: "Hello World"})
+    })
+});
+
+server.listen(process.env.PORT || 5000, () => console.log(`Listening on port ${process.env.PORT || 5000}!`));

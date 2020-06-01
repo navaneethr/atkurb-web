@@ -3,6 +3,7 @@ import homeReducer from "./homeReducer";
 import shopReducer from "./shopReducer";
 import navbarReducer from "./navbarReducer";
 import storeInventoryReducer from "./storeInventoryReducer";
+import storeNavbarReducer from "./storeNavbarReducer";
 import orderReducer from "./orderReducer";
 
 import {AUTHENTICATE_CUSTOMER, AUTHENTICATE_STORE, DENY_AUTHENTICATION_STORE, DENY_AUTHENTICATION_CUSTOMER}  from "../actions/rootActions";
@@ -43,4 +44,4 @@ const rootReducer = (state = initialState, action) => {
     }
 };
 
-export default combineReducers({ rootReducer, homeReducer, shopReducer, navbarReducer, storeInventoryReducer, orderReducer });
+export default combineReducers({ rootReducer, homeReducer, shopReducer, navbarReducer, storeInventoryReducer, orderReducer, storeNavbarReducer });

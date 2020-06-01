@@ -6,6 +6,10 @@ import {auth} from "../../auth/auth";
 import { withRouter } from "react-router-dom";
 import {denyAuthenticationStore} from "../../redux/actions/rootActions";
 import { IoIosClose } from "react-icons/io";
+import {getOrdersForStore} from "../../redux/actions/storeNavbarActions";
+import io from 'socket.io-client';
+
+const socket = io('http://localhost:5000');
 
 
 class StoreNavbar extends Component {
@@ -16,6 +20,14 @@ class StoreNavbar extends Component {
             openCart: false,
             openSidebar: false
         }
+    }
+
+    componentDidMount() {
+        const { getOrdersForStore } = this.props;
+        getOrdersForStore();
+        socket.on('hello', ({message}) => {
+            console.log("Hello There", message);
+        })
     }
 
     logout = () => {
@@ -81,6 +93,7 @@ export const mapStateToProps = ({rootReducer}) => {
 export const mapDispatchToProps = (dispatch) => {
     return {
         denyAuthenticationStore: () => dispatch(denyAuthenticationStore()),
+        getOrdersForStore: () => dispatch(getOrdersForStore()),
     }
 };
 

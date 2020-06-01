@@ -7,6 +7,7 @@ const User = require('../models/user');
 const mongoose = require('mongoose');
 const _ = require('lodash');
 
+
 router.post('/place', authenticateToken, (req, res) => {
     const payload = req.body;
     console.log(payload.storeId);
@@ -70,6 +71,19 @@ router.get('', authenticateToken, (req, res) => {
         })
     })
 
+});
+
+router.get('/store', authenticateToken, (req, res) => {
+    Store.findOne({_id: req.store.storeId}).then((data) => {
+        const {orders} = data.toObject();
+        return Order.find({'_id': { $in: orders }})
+    }).then((data) => {
+       res.status(200).json(data);
+    }).catch((err) => {
+        res.status(500).json({
+            error: err
+        })
+    })
 });
 
 module.exports = router;
