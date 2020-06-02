@@ -117,9 +117,9 @@ class StoreLanding extends Component {
             <div className="landing-parent">
                 <div className="brand-container">
                     <img className="brand-logo" src={store} alt="atKurb"/>
-                    <div className="store-brand-text">
-                        <span>atKurb Store</span>
-                    </div>
+                    {/*<div className="store-brand-text">*/}
+                        {/*<span>atKurb Store</span>*/}
+                    {/*</div>*/}
                 </div>
                 {
                     !isLogin &&
@@ -164,9 +164,12 @@ class StoreLanding extends Component {
                         <div className="registration-login-link-container">
                             <a className="registration-login-link" onClick={() => this.setState({isLogin: !isLogin})}>Store Login</a>
                         </div>
-                        <div className="registration-login-link-container">
-                            <a className="registration-login-link" onClick={() => this.props.history.push(ROUTES.LANDING)}>Click here if you wanna buy stuff</a>
-                        </div>
+                        <Button
+                            className="button"
+                            onClick={() => this.props.history.push(ROUTES.LANDING)}
+                            label="Are you a Customer ?"
+                            loading={apiInProgress}
+                        />
                     </div>
                 }
                 {
@@ -201,9 +204,12 @@ class StoreLanding extends Component {
                         <div className="registration-login-link-container">
                             <a className="registration-login-link" onClick={() => this.setState({isLogin: !isLogin})}>Create a Store</a>
                         </div>
-                        <div className="registration-login-link-container">
-                            <a className="registration-login-link" onClick={() => this.props.history.push(ROUTES.LANDING)}>Click here if you wanna buy stuff</a>
-                        </div>
+                        <Button
+                            className="button"
+                            onClick={() => this.props.history.push(ROUTES.LANDING)}
+                            label="Are you a Customer ?"
+                            loading={apiInProgress}
+                        />
                     </div>
                 }
             </div>

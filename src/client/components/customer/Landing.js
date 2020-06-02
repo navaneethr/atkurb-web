@@ -168,9 +168,12 @@ class Landing extends Component {
                         <div className="registration-login-link-container">
                             <a className="registration-login-link" onClick={() => this.setState({isLogin: !isLogin})}>Login</a>
                         </div>
-                        <div className="registration-login-link-container">
-                            <a className="registration-login-link" onClick={() => this.props.history.push(ROUTES.STORE_LANDING)}>Click here if you are a Store</a>
-                        </div>
+                        <Button
+                            className="button"
+                            onClick={() => this.props.history.push(ROUTES.STORE_LANDING)}
+                            label="Are you a Store ?"
+                            loading={apiInProgress}
+                        />
                     </div>
                 }
                 {
@@ -202,12 +205,16 @@ class Landing extends Component {
                         <div className="registration-login-link-container">
                             <a className="registration-login-link">Forgot Password</a>
                         </div>
+
                         <div className="registration-login-link-container">
                             <a className="registration-login-link" onClick={() => this.setState({isLogin: !isLogin})}>Create an Account</a>
                         </div>
-                        <div className="registration-login-link-container">
-                            <a className="registration-login-link" onClick={() => this.props.history.push(ROUTES.STORE_LANDING)}>Click here if you are a Store</a>
-                        </div>
+                        <Button
+                            className="button"
+                            onClick={() => this.props.history.push(ROUTES.STORE_LANDING)}
+                            label="Are you a Store ?"
+                            loading={apiInProgress}
+                        />
                     </div>
                 }
             </div>
