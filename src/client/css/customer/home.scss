@@ -38,13 +38,11 @@
             align-items: center;
           }
           .store-info-container {
-            background: $light-blue;
             width: 150px;
             height: 50px;
             display: flex;
             justify-content: center;
             align-items: center;
-            color: $white;
             border-radius: 0 0 4px 4px;
             font-size: 12px;
           }
@@ -80,13 +78,12 @@
               align-items: center;
             }
             .store-info-container {
-              background: $light-blue;
+              background: $light-background;
               width: 250px;
               height: 50px;
               display: flex;
               justify-content: center;
               align-items: center;
-              color: $white;
               border-radius: 0 0 4px 4px;
               font-size: 12px;
             }

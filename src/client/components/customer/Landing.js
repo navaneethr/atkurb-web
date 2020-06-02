@@ -121,9 +121,9 @@ class Landing extends Component {
             <div className="landing-parent">
                 <div className="brand-container">
                     <img className="brand-logo" src={logo} alt="atKurb"/>
-                    <div className="store-brand-text">
+                    {/*<div className="store-brand-text">
                         <span>Shop atKurb</span>
-                    </div>
+                    </div>*/}
                 </div>
                 {
                     !isLogin &&

@@ -28,13 +28,12 @@
       background: #FFFFFF;
       border-radius: 4px;
       box-sizing: border-box;
-      border: 1px solid $border-light-grey;
       font-size: 10px;
       min-width: 150px;
       cursor: pointer;
+      border: none;
       &:hover {
-        background: $light-blue;
-        border: none;
+        border: 1px solid $border-light-grey;
       }
     }
     .category-option-active {

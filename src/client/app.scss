@@ -1,5 +1,9 @@
-$primary: #295454;
-$secondary: #369589;
+$primary: #378c0e;
+$secondary: #ef504f;
+$orange: #f7931f;
+$banana: #FFCF00;
+$x-light-pink: #FEEFE5;
+
 $light-blue: #6ACCD1;
 $beige: #F2D3A1;
 $pink: #FE9A86;
@@ -81,7 +85,7 @@ body {
   height: 40px;
   width: 40px;
   cursor: pointer;
-  fill: $light-blue;
+  fill: $white;
   &:hover {
     fill: $white;
   }

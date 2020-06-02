@@ -82,7 +82,7 @@
         width: 30px;
         height: 30px;
         margin: 10px;
-        fill: $border-light-grey;
+        fill: $white;
       }
     }
   }
@@ -135,7 +135,7 @@
         .icon-class {
           width: 25px;
           height: 25px;
-          fill: $primary;
+          fill: $secondary;
           padding: 0;
           &:hover {
             fill: $secondary;
