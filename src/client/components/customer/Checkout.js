@@ -5,6 +5,10 @@ import {connect} from "react-redux";
 import { withRouter } from "react-router-dom";
 import {ROUTES} from "../../utils/constants";
 import {Button, Loader} from "../utils/Utils";
+import { loadStripe } from '@stripe/stripe-js';
+const stripePromise = loadStripe("pk_test_E9DhYZpvYfrwNAMKD4NbA3nB00tUNYLQLe");
+import { Elements, CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
+import poweredByStripe from '../../assets/poweredByStripe.png';
 
 
 class Checkout extends Component {
@@ -116,9 +120,6 @@ class Checkout extends Component {
                                 <div className="checkout-card-container checkout-card-other-info-container">
                                     <div className="checkout-info-header">Your Contact Information</div>
                                 </div>
-                                <div className="checkout-card-container checkout-card-other-info-container">
-                                    <div className="checkout-info-header">Payment</div>
-                                </div>
                             </div>
                             <div className="checkout-only-container">
                                 <div className="order-cost-parent">
@@ -145,8 +146,13 @@ class Checkout extends Component {
                                         <span className="order-cost-child">${grandTotal.toFixed(2)}</span>
                                     </div>
                                 </div>
+                                <Elements
+                                    stripe={stripePromise}
+                                >
+                                    <CheckoutForm/>
+                                </Elements>
                                 <div className="checkout-button-container">
-                                    <Button label="Place Order" onClick={() => {this.placeOrder()}}/>
+                                    <Button label="Order now & Pay at store" onClick={() => {this.placeOrder()}}/>
                                 </div>
                             </div>
                         </div>
@@ -176,3 +182,27 @@ export const mapDispatchToProps = (dispatch) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Checkout));
+
+
+const CheckoutForm = () => {
+    const stripe = useStripe();
+    const elements = useElements();
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        const {error, paymentMethod} = await stripe.createPaymentMethod({
+            type: 'card',
+            card: elements.getElement(CardElement),
+        });
+    };
+
+    return (
+        <form onSubmit={handleSubmit} className="payment-form">
+            <CardElement />
+            <div className="stripe-button-container">
+                <Button type="submit" label="Pay Now" disabled={!stripe}/>
+                <img src={poweredByStripe} />
+            </div>
+        </form>
+    );
+};
