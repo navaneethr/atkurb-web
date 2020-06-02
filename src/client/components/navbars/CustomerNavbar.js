@@ -130,9 +130,12 @@ class CustomerNavbar extends Component {
         console.log(this.props);
         const {history} = this.props;
         const { openCart, openSidebar, openCartExpanded } = this.state;
-        const {cart, cartStores} = this.props.navbarReducer;
+        const {cart, cartStores, userDetails} = this.props.navbarReducer;
         const cartItemsByStore = _.groupBy(cart, 'storeId');
         console.log(cartStores, cartItemsByStore);
+        let initials = !_.isEmpty(userDetails) && userDetails.fullName.split(" ");
+        initials = !_.isEmpty(userDetails) && (initials.length > 1 ? initials[0].substring(0,1).toUpperCase() + initials[1].substring(0,1).toUpperCase() : initials[0].substring(0,1).toUpperCase() );
+        console.log("initials", initials);
         return (
             <div className="navbar-parent">
                 <div className="top-navbar">
@@ -145,7 +148,7 @@ class CustomerNavbar extends Component {
                             <IoMdCart className="icon-class" onClick={() => {this.openCloseCart()}}/>
                             {!_.isEmpty(cart) && <span className="cart-items-count" onClick={() => {this.openCloseCart()}}>{cart.length}</span>}
                         </div>
-                        <span className="profile-parent" onClick={() => {this.setState({openSidebar: !openSidebar})}}>NK</span>
+                        <span className="profile-parent" onClick={() => {this.setState({openSidebar: !openSidebar})}}>{initials}</span>
                     </div>
                 </div>
 
