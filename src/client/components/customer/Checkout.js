@@ -201,7 +201,7 @@ const CheckoutForm = () => {
             <CardElement />
             <div className="stripe-button-container">
                 <Button type="submit" label="Pay Now" disabled={!stripe}/>
-                <img src={poweredByStripe} />
+                <img src={poweredByStripe} onClick={handleSubmit}/>
             </div>
         </form>
     );
