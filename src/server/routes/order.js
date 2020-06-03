@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const router = express.Router();
 const authenticateToken = require('../utils/authenticateToken');
@@ -6,14 +7,8 @@ const Store = require('../models/store');
 const User = require('../models/user');
 const mongoose = require('mongoose');
 const _ = require('lodash');
-const nodemailer = require('nodemailer');
-const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: 'nkrameshwaram@gmail.com',
-        pass: '@Spring2017'
-    }
-});
+const Stripe = require('stripe');
+const stripe = new Stripe(process.env.STRIPE_SECRET);
 
 function generateHtmlEmail(items, fullName, cost) {
     const images = items.reduce((acc, curr) => { return acc + `<div style="border-radius: 4px; box-sizing: border-box; height: 80px; width: 80px; background: white; margin: 10px; padding: 20px;"><img style="width: 100%" src="${curr.imgUrl}"}/></div>`}, "");
@@ -40,8 +35,6 @@ function generateHtmlEmail(items, fullName, cost) {
     `
 }
 
-
-
 router.post('/place', authenticateToken, (req, res) => {
     const payload = req.body;
     console.log(payload.storeId);
@@ -65,24 +58,9 @@ router.post('/place', authenticateToken, (req, res) => {
         }
     });
 
-
-
     order.save().then((data) => {
         console.log(data);
         const orderId = data._id;
-        const mailOptions = {
-            from: 'nkrameshwaram@gmail.com',
-            to: req.user.email,
-            subject: 'Thank you for your Order - AtKurb',
-            html: generateHtmlEmail(payload.items, req.user.fullName, payload.cost)
-        };
-        transporter.sendMail(mailOptions, function(error, info){
-            if (error) {
-                console.log(error);
-            } else {
-                console.log('Email sent: ' + info.response);
-            }
-        });
         return Promise.all([
                 Store.updateOne({_id: payload.storeId}, { $push: { orders: [orderId] }}),
                 User.updateOne({_id: payload.associatedUser}, { $push: { orders: [orderId] }, $pullAll: {cart: payload.items }, $set: {checkOutStore: ""} })
@@ -136,6 +114,20 @@ router.get('/store', authenticateToken, (req, res) => {
             error: err
         })
     })
+});
+
+
+router.post('/pay', authenticateToken, async (req, res) => {
+    try {
+        const { amount } = req.body;
+        const paymentIntent = await stripe.paymentIntents.create({
+            amount,
+            currency: 'usd'
+        });
+        res.status(200).send(paymentIntent.client_secret)
+    } catch(err) {
+        res.status(500).json({error: err});
+    }
 });
 
 module.exports = router;

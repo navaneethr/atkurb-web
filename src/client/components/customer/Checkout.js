@@ -1,15 +1,15 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import '../../css/customer/checkout.scss';
 import {placeOrder} from "../../redux/actions/navbarActions";
 import {connect} from "react-redux";
 import { withRouter } from "react-router-dom";
-import {ROUTES} from "../../utils/constants";
-import {Button, Loader} from "../utils/Utils";
+import {CUSTOMER_TOKEN_NAME, ROUTES} from "../../utils/constants";
+import {AlertError, AlertSuccess, Button, Loader} from "../utils/Utils";
 import { loadStripe } from '@stripe/stripe-js';
 const stripePromise = loadStripe("pk_test_E9DhYZpvYfrwNAMKD4NbA3nB00tUNYLQLe");
 import { Elements, CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import poweredByStripe from '../../assets/poweredByStripe.png';
-
+import axios from 'axios';
 
 class Checkout extends Component {
 
@@ -149,7 +149,7 @@ class Checkout extends Component {
                                 <Elements
                                     stripe={stripePromise}
                                 >
-                                    <CheckoutForm/>
+                                    <CheckoutForm onSuccessPayment={() => this.placeOrder()}/>
                                 </Elements>
                                 <div className="checkout-button-container">
                                     <Button label="Order now & Pay at store" onClick={() => {this.placeOrder()}}/>
@@ -184,24 +184,72 @@ export const mapDispatchToProps = (dispatch) => {
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Checkout));
 
 
-const CheckoutForm = () => {
+const CheckoutForm = ({onSuccessPayment}) => {
     const stripe = useStripe();
     const elements = useElements();
+    const [processing, setProcessing] = useState(false);
+    const AuthToken =  `Bearer ${localStorage.getItem(CUSTOMER_TOKEN_NAME)}`;
+    const config = {
+        headers: {
+            Authorization: AuthToken,
+        }
+    };
+
 
     const handleSubmit = async (event) => {
+        // Block native form submission.
+
+        setProcessing(true);
+        console.log(processing);
         event.preventDefault();
-        const {error, paymentMethod} = await stripe.createPaymentMethod({
+
+        if (!stripe || !elements) {
+            // Stripe.js has not loaded yet. Make sure to disable
+            // form submission until Stripe.js has loaded.
+            return;
+        }
+
+        const {data: clientSecret} = await axios.post('/api/order/pay', {amount: 1000}, config );
+
+        // Get a reference to a mounted CardElement. Elements knows how
+        // to find your CardElement because there can only ever be one of
+        // each type of element.
+        const cardElement = elements.getElement(CardElement);
+
+        // Use your card Element with other Stripe.js APIs
+        const { error, paymentMethod} = await stripe.createPaymentMethod({
             type: 'card',
-            card: elements.getElement(CardElement),
+            card: cardElement,
         });
+
+        if(!error) {
+            const {error, paymentIntent} = await stripe.confirmCardPayment(clientSecret, {
+                payment_method: paymentMethod.id
+            });
+            if(error) {
+                // Payment Failed
+                console.log(error)
+                AlertError("Payment Failed, Please Retry !");
+            } else {
+                setProcessing(false);
+                AlertSuccess("Thank you for you Payment !");
+                console.log(paymentIntent);
+                onSuccessPayment();
+            }
+        } else {
+            AlertError("Please enter the card details !");
+            setProcessing(false);
+        }
     };
 
     return (
         <form onSubmit={handleSubmit} className="payment-form">
             <CardElement />
             <div className="stripe-button-container">
-                <Button type="submit" label="Pay Now" disabled={!stripe}/>
-                <img src={poweredByStripe} onClick={handleSubmit}/>
+                <Button type="submit" label="Pay Now" disabled={!stripe || processing} loading={processing}/>
+                {
+                    !processing && <img src={poweredByStripe} onClick={handleSubmit}/>
+                }
             </div>
         </form>
     );

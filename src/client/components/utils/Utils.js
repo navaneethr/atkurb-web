@@ -26,10 +26,10 @@ export function Loader({loading, color, size}) {
     )
 }
 
-export function Button({loading, label, className, ...props}) {
+export function Button({loading, disabled, label, className, ...props}) {
     className = `button ${className}`;
     return (
-        <button {...props} className={className} disabled={loading}>
+        <button {...props} className={className} disabled={loading || disabled}>
             {loading ? <Loader loading={loading} color="#f3f3f3" size={10}/> : label}
         </button>
     )
