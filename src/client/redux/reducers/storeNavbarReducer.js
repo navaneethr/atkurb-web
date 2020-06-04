@@ -1,10 +1,14 @@
 import {
-    GET_STORE_ORDERS
+    GET_STORE_ORDERS,
+    CHANGE_STORE_DETAILS,
+    CHANGE_STORE_ADDRESS_DETAILS,
+    GET_STORE_INFO
 } from "../actions/storeNavbarActions";
 
 
 const initialState = {
-    storeOrders: []
+    storeOrders: [],
+    storeDetails: null
 };
 
 const storeNavbarReducer = (state = initialState, action) => {
@@ -15,9 +19,38 @@ const storeNavbarReducer = (state = initialState, action) => {
                 storeOrders: action.payload
             };
         }
+        case GET_STORE_INFO: {
+            return {
+                ...state,
+                storeDetails: action.payload
+            };
+        }
+        case CHANGE_STORE_DETAILS: {
+            return {
+                ...state,
+                storeDetails: {
+                    ...state.storeDetails,
+                    [action.payload.accessor]: action.payload.value
+                }
+            };
+        }
+        case CHANGE_STORE_ADDRESS_DETAILS: {
+            return {
+                ...state,
+                storeDetails: {
+                    ...state.storeDetails,
+                    address: {
+                        ...state.storeDetails.address,
+                        [action.payload.accessor]: action.payload.value
+                    }
+                }
+            };
+        }
         default:
             return state;
     }
 };
+
+
 
 export default storeNavbarReducer;

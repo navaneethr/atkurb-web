@@ -1,6 +1,25 @@
-/*import {Order} from "./order";*/
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const AddressSchema = new Schema({
+    line1: {
+        type: String
+    },
+    line2: {
+        type: String
+    },
+    city: {
+        type: String
+    },
+    state: {
+        type: String
+    },
+    country: {
+        type: String
+    },
+    zip: {
+        type: String
+    },
+});
 
 const StoreSchema = new Schema({
     _id: Schema.Types.ObjectId,
@@ -28,23 +47,18 @@ const StoreSchema = new Schema({
     },
     orders: {
         type: Array
+    },
+    address: {
+        type: AddressSchema,
+        default: {
+            line1: "",
+            line2: "",
+            city: "",
+            state: "",
+            country: "",
+            zip: ""
+        }
     }
 });
 
 module.exports = mongoose.model('Store', StoreSchema);
-
-
-/*export const Store = {
-    id: "UUID",
-    name: "String",
-    phone: "String",
-    email: "String",
-    password: "String",
-    addressLine1: "String",
-    addressLine2: "String",
-    city: "String",
-    state: "String",
-    country: "String",
-    zip: "String",
-    orders: [Order]
-};*/

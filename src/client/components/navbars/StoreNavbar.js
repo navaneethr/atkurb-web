@@ -6,7 +6,7 @@ import {auth} from "../../auth/auth";
 import { withRouter } from "react-router-dom";
 import {denyAuthenticationStore} from "../../redux/actions/rootActions";
 import { IoIosClose, IoIosListBox } from "react-icons/io";
-import {getOrdersForStore} from "../../redux/actions/storeNavbarActions";
+import {getOrdersForStore, getStoreInfo} from "../../redux/actions/storeNavbarActions";
 import io from 'socket.io-client';
 import {AlertError, AlertSuccess, Button} from "../utils/Utils";
 import axios from "axios";
@@ -25,7 +25,8 @@ class StoreNavbar extends Component {
     }
 
     componentDidMount() {
-        const { getOrdersForStore } = this.props;
+        const { getOrdersForStore, getStoreInfo } = this.props;
+        getStoreInfo();
         getOrdersForStore();
         socket.on('hello', ({message}) => {
             console.log("Hello There", message);
@@ -146,14 +147,16 @@ class StoreNavbar extends Component {
     }
 }
 
-export const mapStateToProps = ({rootReducer, storeInventoryReducer}) => {
-    return { rootReducer, storeInventoryReducer }
+export const mapStateToProps = ({rootReducer, storeInventoryReducer, storeNavbarReducer}) => {
+    return { rootReducer, storeInventoryReducer, storeNavbarReducer }
 };
 
 export const mapDispatchToProps = (dispatch) => {
     return {
         denyAuthenticationStore: () => dispatch(denyAuthenticationStore()),
         getOrdersForStore: () => dispatch(getOrdersForStore()),
+        getStoreInfo: () => dispatch(getStoreInfo()),
+
     }
 };
 

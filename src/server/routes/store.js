@@ -30,16 +30,30 @@ router.post('/', authenticateToken, (req, res) => {
         })
 });
 
-router.get('/', authenticateToken, (req, res) => {
-    const {storeId} = req.query;
+router.get('/info', authenticateToken, (req, res) => {
+    console.log(req.store);
+    const {storeId} = req.store;
     Store.findOne({_id: storeId})
         .then((data) => {
-            const {storeName, phone, email, _id} = data;
-            res.status(200).json({storeName, phone, email, _id})
+            const {password, ...rest} = data.toObject();
+            res.status(200).json(rest)
         })
         .catch((err) => {
             console.log(err);
         })
+});
+
+router.post('/update/details', authenticateToken, (req, res) => {
+    const { storeName, phone, address } = req.body;
+    const {storeId} = req.store;
+    Store.findOneAndUpdate({_id: storeId}, {$set:{'storeName': storeName, 'phone': phone, 'address': address}}, {new: true}).then((data) => {
+        const {password, ...rest} = data.toObject();
+        res.status(200).json(rest)
+    }).catch((err) => {
+        res.status(500).json({
+            error: err
+        })
+    })
 });
 
 router.get('/products', authenticateToken, (req, res) => {

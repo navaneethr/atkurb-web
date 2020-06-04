@@ -86,16 +86,3 @@ const UserSchema = new Schema({
 });
 
 module.exports = mongoose.model('User', UserSchema);
-
-/*export const User = {
-    id: String,
-    fullName: String,
-    phone: String,
-    dob: String,
-    sex: String,
-    email: String,
-    password: String,
-    associatedBusinesses: [Business],
-    orders: [Order],
-    cart: Cart
-};*/
