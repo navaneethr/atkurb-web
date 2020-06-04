@@ -72,7 +72,7 @@ class StoreNavbar extends Component {
             <div className="navbar-parent">
                 <div className="top-navbar">
                     <div className="left-navbar-container">
-                        <IoIosHome className="icon-class" onClick={() => {this.setState({openList: !openList})}}/>
+                        <IoIosHome className="icon-class" onClick={() => {this.routerPush(ROUTES.STORE_HOME)}}/>
                     </div>
                     <div className="right-navbar-container">
                         <div className="navbar-item">
