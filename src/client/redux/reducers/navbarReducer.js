@@ -5,7 +5,10 @@ import {
     UPDATE_STORE_CHECKOUT,
     PLACE_ORDER,
     GET_USER_DETAILS,
-    CHECKOUT_PAGE_IN_PROGRESS
+    CHECKOUT_PAGE_IN_PROGRESS,
+    UPDATE_USER_ADDRESS_DETAILS,
+    UPDATE_USER_PERSONAL_DETAILS,
+    UPDATE_USER_DETAILS
 } from "../actions/navbarActions";
 
 
@@ -15,7 +18,6 @@ const initialState = {
     checkOutStore: null,
     userDetails: null,
     fetchInProgress: false
-
 };
 
 const navbarReducer = (state = initialState, action) => {
@@ -64,6 +66,33 @@ const navbarReducer = (state = initialState, action) => {
                 ...state,
                 cart: cart,
                 checkOutStore: null,
+                userDetails: action.payload
+            };
+        }
+        case UPDATE_USER_ADDRESS_DETAILS: {
+            return {
+                ...state,
+                userDetails: {
+                    ...state.userDetails,
+                    address: {
+                        ...state.userDetails.address,
+                        [action.payload.accessor]: action.payload.value
+                    }
+                }
+            };
+        }
+        case UPDATE_USER_PERSONAL_DETAILS: {
+            return {
+                ...state,
+                userDetails: {
+                    ...state.userDetails,
+                    [action.payload.accessor]: action.payload.value
+                }
+            };
+        }
+        case UPDATE_USER_DETAILS: {
+            return {
+                ...state,
                 userDetails: action.payload
             };
         }

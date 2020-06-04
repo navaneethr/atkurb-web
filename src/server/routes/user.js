@@ -34,4 +34,29 @@ router.post('/update/checkout', authenticateToken, (req, res) => {
     })
 });
 
+router.post('/update/personal', authenticateToken, (req, res) => {
+    const { fullName, phone, dateOfBirth, gender } = req.body;
+    User.findOneAndUpdate({_id: req.user.userId}, {$set:{'fullName': fullName, 'phone': phone, 'dateOfBirth': dateOfBirth, 'gender': gender}}, {new: true}).then((data) => {
+        const {password, lastLogin, createdAt, ...rest} = data.toObject();
+        res.status(200).json(rest)
+    }).catch((err) => {
+        res.status(500).json({
+            error: err
+        })
+    })
+});
+
+router.post('/update/address', authenticateToken, (req, res) => {
+    const {line1, line2, city, state, country, zip} = req.body;
+    User.findOneAndUpdate({_id: req.user.userId}, {$set:{'address': {line1, line2, city, state, country, zip}}}, {new: true}).then((data) => {
+        const {password, lastLogin, createdAt, ...rest} = data.toObject();
+        res.status(200).json(rest)
+    }).catch((err) => {
+        res.status(500).json({
+            error: err
+        })
+    })
+});
+
+
 module.exports = router;

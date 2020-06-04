@@ -143,7 +143,7 @@ class CustomerNavbar extends Component {
 
                     </div>
                     <div className="right-navbar-container">
-                        <input className="text-input zip-code-input"/>
+                        {/*<input className="text-input zip-code-input"/>*/}
                         <div className="navbar-item">
                             <IoMdCart className="icon-class" onClick={() => {this.openCloseCart()}}/>
                             {!_.isEmpty(cart) && <span className="cart-items-count" onClick={() => {this.openCloseCart()}}>{cart.length}</span>}
@@ -230,10 +230,10 @@ class CustomerNavbar extends Component {
                             <IoMdPin className="icon-class"/>
                             <span className="menu-link">Addresses</span>
                         </div>
-                        <div className="menu-item" onClick={() => this.routerPush(ROUTES.PAYMENTS)}>
+                        {/*<div className="menu-item" onClick={() => this.routerPush(ROUTES.PAYMENTS)}>
                             <IoIosCard className="icon-class"/>
                             <span className="menu-link">Payments</span>
-                        </div>
+                        </div>*/}
                         <div className="menu-item" onClick={this.logout}>
                             <IoMdExit className="icon-class"/>
                             <span className="menu-link">Logout</span>

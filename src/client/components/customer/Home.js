@@ -31,13 +31,13 @@ class Home extends Component {
         const {searchStore} = this.state;
         return (
             <div className="home-parent">
-                <input
+                {/*<input
                     className="text-input navbar-fixed-input"
                     type="text"
                     onChange={(e) => this.setState({searchStore: e.target.value})}
                     placeholder="Search for Stores"
                     value={searchStore}
-                />
+                />*/}
                 <div className="stores-parent">
                     {
                         !_.isEmpty(favStores) &&

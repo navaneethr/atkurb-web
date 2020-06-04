@@ -1,4 +1,4 @@
-import { AlertError } from "../../components/utils/Utils";
+import {AlertError, AlertSuccess} from "../../components/utils/Utils";
 import axios from "axios/index";
 import {CUSTOMER_TOKEN_NAME, ROUTES} from "../../utils/constants";
 import * as _ from "lodash";
@@ -10,8 +10,12 @@ export const GET_ASSOCIATED_BUSINESSES = "GET_ASSOCIATED_BUSINESSES";
 export const UPDATE_STORE_CHECKOUT = "UPDATE_STORE_CHECKOUT";
 export const PLACE_ORDER = "PLACE_ORDER";
 export const CHECKOUT_PAGE_IN_PROGRESS = "CHECKOUT_PAGE_IN_PROGRESS";
+export const UPDATE_USER_ADDRESS_DETAILS = "UPDATE_USER_ADDRESS_DETAILS";
+export const UPDATE_USER_PERSONAL_DETAILS = "UPDATE_USER_PERSONAL_DETAILS";
+export const UPDATE_USER_DETAILS = "UPDATE_USER_DETAILS";
 
 import io from 'socket.io-client';
+import {ADD} from "./homeActions";
 
 const socket = io('http://localhost:5000');
 
@@ -124,6 +128,60 @@ export const placeOrder = (payload, history) => {
             console.log(err);
             dispatch({ type: CHECKOUT_PAGE_IN_PROGRESS, payload: false });
             AlertError("Failed to place order")
+        })
+    }
+};
+
+export const updateUserAddressDetails = payload => {
+    return dispatch => {
+        dispatch({
+            type: UPDATE_USER_ADDRESS_DETAILS,
+            payload
+        })
+    }
+};
+
+export const updateUserPersonalDetails = payload => {
+    return dispatch => {
+        dispatch({
+            type: UPDATE_USER_PERSONAL_DETAILS,
+            payload
+        })
+    }
+};
+
+export const saveUserPersonalDetails = (payload) => {
+    const AuthToken =  `Bearer ${localStorage.getItem(CUSTOMER_TOKEN_NAME)}`;
+    const config = {
+        headers: {
+            Authorization: AuthToken,
+        }
+    };
+    return dispatch => {
+        axios.post('/api/user/update/personal', payload, config).then((res) => {
+            dispatch({ type: UPDATE_USER_DETAILS, payload: res.data });
+            AlertSuccess("Updated User Details Successfully");
+        }).catch((err) => {
+            console.log(err);
+            AlertError("Failed to save details")
+        })
+    }
+};
+
+export const saveUserAddressDetails = (payload) => {
+    const AuthToken =  `Bearer ${localStorage.getItem(CUSTOMER_TOKEN_NAME)}`;
+    const config = {
+        headers: {
+            Authorization: AuthToken,
+        }
+    };
+    return dispatch => {
+        axios.post('/api/user/update/address', payload, config).then((res) => {
+            dispatch({ type: UPDATE_USER_DETAILS, payload: res.data });
+            AlertSuccess("Updated User Details Successfully");
+        }).catch((err) => {
+            console.log(err);
+            AlertError("Failed to save details")
         })
     }
 };
