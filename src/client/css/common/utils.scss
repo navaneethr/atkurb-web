@@ -1,42 +1,44 @@
 @import "../../app";
 
 .store-order-container {
-  height: 160px;
-  min-width: 400px;
+  width: 300px;
   background: $light-background;
   margin: 0 20px;
   box-sizing: border-box;
   border-radius: 4px;
-  display: flex;
-  align-items: center;
   justify-content: space-between;
   margin-bottom: 20px;
+  height: 300px;
+  overflow: auto;
+  position: relative;
   .button {
-    width: 100px;
+    width: 70px;
+    position: fixed;
   }
   .store-order-information-container {
-    height: 100%;
-    padding: 10px;
-    box-sizing: border-box;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
+    padding: 20px 40px;
     .store-order-cost {
       align-items: flex-end;
     }
     .store-order-detail {
       display: flex;
       flex-direction: column;
-      margin: 10px;
       height: 50px;
       justify-content: center;
+      align-items: flex-end;
+      border-bottom: 1px solid $border-light-grey;
+      &:last-child {
+        border-bottom: none;
+      }
       .detail-heading {
         font-weight: bolder;
         margin: 5px 0;
+        font-size: 12px;
       }
       .detail-info {
         font-weight: 400;
         color: $grey-text;
+        font-size: 10px;
       }
       .button {
         margin: 0;

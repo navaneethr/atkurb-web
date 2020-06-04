@@ -13,7 +13,7 @@
         justify-content: space-between;
         align-items: flex-end;
         .store-orders-heading {
-          font-size: 18px;
+          font-size: 16px;
         }
         .store-orders-view-all {
           color: $link-color;
@@ -26,8 +26,29 @@
       }
       .store-orders {
         display: flex;
-        flex-direction: column;
-        min-width: 400px;
+        flex-wrap: wrap;
+        min-width: 300px;
+      }
+    }
+  }
+}
+
+
+@media only screen and (max-width: 768px)  {
+  .store-home-parent {
+    .store-home-container {
+      .store-orders-container {
+        .store-orders-heading-container {
+          .store-orders-heading {
+          }
+          .store-orders-view-all {
+            &:hover {
+            }
+          }
+        }
+        .store-orders {
+          justify-content: center;
+        }
       }
     }
   }

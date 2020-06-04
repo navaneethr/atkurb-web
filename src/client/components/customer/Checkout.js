@@ -40,6 +40,7 @@ class Checkout extends Component {
             associatedUser: userDetails._id,
             userPhone: userDetails.phone,
             userEmail: userDetails.email,
+            userFullName: userDetails.fullName,
             cost: {
                 serviceFee: serviceFee,
                 taxes: tax,

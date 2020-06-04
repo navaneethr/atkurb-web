@@ -45,6 +45,7 @@ router.post('/place', authenticateToken, (req, res) => {
         associatedUser: payload.associatedUser,
         userPhone: payload.userPhone,
         userEmail: payload.userEmail,
+        userFullName: payload.userFullName,
         cost: {
             serviceFee: payload.cost.serviceFee,
             taxes: payload.cost.taxes,

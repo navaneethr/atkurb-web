@@ -23,6 +23,10 @@ const OrderSchema = {
         type: String,
         required: true,
     },
+    userFullName:  {
+        type: String,
+        required: true,
+    },
     date:  {
         type: Date,
         default: Date.now

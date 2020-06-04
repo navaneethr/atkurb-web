@@ -71,27 +71,91 @@ export function AlertInfo(message) {
     });
 }
 
-export function OrderContainer({date, itemsCount, cost, onViewCLick}) {
+export function OrderContainer({date, itemsCount, cost, onViewCLick, orderStatus, userFullName, userEmail, userPhone}) {
+    const status = !_.isEmpty(orderStatus) && Object.keys(orderStatus).filter((acc) => orderStatus[acc] === true)[0];
+    console.log(status);
     return (
         <div className="store-order-container">
+            <Button label="View"/>
             <div className="store-order-information-container">
-                <div className="store-order-detail">
-                    <span className="detail-heading">Order Placed</span>
-                    <span className="detail-info">{date}</span>
-                </div>
-                <div className="store-order-detail">
-                    <span className="detail-heading">Items</span>
-                    <span className="detail-info">{itemsCount}</span>
-                </div>
-            </div>
-            <div className="store-order-information-container">
-                <div className="store-order-detail store-order-cost">
-                    <span className="detail-heading">Cost</span>
-                    <span className="detail-info">{cost}</span>
-                </div>
-                <div className="store-order-detail store-order-button">
-                    <Button label="View" onClick={() => onViewCLick()}/>
-                </div>
+                {
+                    !_.isEmpty(date) &&
+                    <div className="store-order-detail">
+                        <span className="detail-heading">Order Placed</span>
+                        <span className="detail-info">{date}</span>
+                    </div>
+                }
+                {
+                    itemsCount > 0 &&
+                    <div className="store-order-detail">
+                        <span className="detail-heading">Items</span>
+                        <span className="detail-info">{itemsCount}</span>
+                    </div>
+                }
+                {
+                    !_.isEmpty(status) &&
+                    <div className="store-order-detail">
+                        <span className="detail-heading">Order Status</span>
+                        <span className="detail-info">{status}</span>
+                    </div>
+                }
+                {
+                    !_.isEmpty(userFullName) &&
+                    <div className="store-order-detail">
+                        <span className="detail-heading">Placed By</span>
+                        <span className="detail-info">{userFullName && userFullName}</span>
+                    </div>
+                }
+                {
+                    !_.isEmpty(userEmail) &&
+                    <div className="store-order-detail">
+                        <span className="detail-heading">Customer Email</span>
+                        <span className="detail-info">{userEmail && userEmail}</span>
+                    </div>
+                }
+                {
+                    !_.isEmpty(userPhone) &&
+                    <div className="store-order-detail">
+                        <span className="detail-heading">Customer Phone</span>
+                        <span className="detail-info">{userPhone && userPhone}</span>
+                    </div>
+                }
+                {
+                    cost.itemsCost > 0 &&
+                    <div className="store-order-detail">
+                        <span className="detail-heading">Cost</span>
+                        <span className="detail-info">${cost.itemsCost.toFixed(2)}</span>
+                    </div>
+                }
+                {
+                    cost.serviceFee > 0 &&
+                    <div className="store-order-detail">
+                        <span className="detail-heading">Service Fee</span>
+                        <span className="detail-info">${cost.serviceFee.toFixed(2)}</span>
+                    </div>
+                }
+                {
+                    cost.taxes > 0 &&
+                    <div className="store-order-detail">
+                        <span className="detail-heading">Tax</span>
+                        <span className="detail-info">${cost.taxes.toFixed(2)}</span>
+
+                    </div>
+                }
+                {
+                    cost.shopperTip > 0 &&
+                    <div className="store-order-detail">
+                        <span className="detail-heading">Shopper Tip</span>
+                        <span className="detail-info">${cost.shopperTip.toFixed(2)}</span>
+                    </div>
+                }
+                {
+                    !_.isNaN(cost.shopperTip + cost.taxes + cost.serviceFee + cost.itemsCost) &&
+                    <div className="store-order-detail">
+                        <span className="detail-heading">Total</span>
+                        <span className="detail-info">${(cost.shopperTip + cost.taxes + cost.serviceFee + cost.itemsCost).toFixed(2)}</span>
+                    </div>
+                }
             </div>
         </div>
     )
