@@ -5,7 +5,7 @@ import {ROUTES, STORE_TOKEN_NAME} from "../../utils/constants";
 import {auth} from "../../auth/auth";
 import { withRouter } from "react-router-dom";
 import {denyAuthenticationStore} from "../../redux/actions/rootActions";
-import { IoIosClose, IoIosListBox } from "react-icons/io";
+import { IoIosClose, IoIosListBox, IoIosHome } from "react-icons/io";
 import {getOrdersForStore, getStoreInfo} from "../../redux/actions/storeNavbarActions";
 import io from 'socket.io-client';
 import {AlertError, AlertSuccess, Button} from "../utils/Utils";
@@ -43,6 +43,7 @@ class StoreNavbar extends Component {
 
     routerPush(route) {
         this.props.history.push(route)
+        this.setState({openList: false, openSidebar: false})
     }
 
     addItems() {
@@ -71,7 +72,7 @@ class StoreNavbar extends Component {
             <div className="navbar-parent">
                 <div className="top-navbar">
                     <div className="left-navbar-container">
-
+                        <IoIosHome className="icon-class" onClick={() => {this.setState({openList: !openList})}}/>
                     </div>
                     <div className="right-navbar-container">
                         <div className="navbar-item">
@@ -131,12 +132,12 @@ class StoreNavbar extends Component {
                         <div className="menu-item">
                             <span className="menu-link" onClick={() => this.routerPush(ROUTES.STORE_INVENTORY)}>Inventory</span>
                         </div>
-                        <div className="menu-item">
+                        {/*<div className="menu-item">
                             <span className="menu-link" onClick={() => this.routerPush(ROUTES.STORE_FINANCES)}>Finances</span>
                         </div>
                         <div className="menu-item">
                             <span className="menu-link" onClick={() => this.routerPush(ROUTES.STORE_ANALYTICS)}>Analytics</span>
-                        </div>
+                        </div>*/}
                         <div className="menu-item">
                             <span className="menu-link" onClick={this.logout}>Logout</span>
                         </div>

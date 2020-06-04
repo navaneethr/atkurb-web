@@ -107,9 +107,10 @@ class Checkout extends Component {
                                     <div className="checkout-address-header">Pickup Address</div>
                                     <div className="checkout-pickup-address">
                                         <span className="address-line">{storeName}</span>
-                                        <span className="address-line">129 West Brooks St</span>
-                                        <span className="address-line">New Orleans, LA</span>
-                                        <span className="address-line">70124</span>
+                                        <span className="address-line">{_.get(storeDetails, 'address.line1', '') + " " + _.get(storeDetails, 'address.line2', '')}</span>
+                                        <span className="address-line">{_.get(storeDetails, 'address.city', '')}</span>
+                                        <span className="address-line">{_.get(storeDetails, 'address.state', '')}</span>
+                                        <span className="address-line">{_.get(storeDetails, 'address.zip', '')}</span>
                                     </div>
                                 </div>
                                 <div className="checkout-card-container checkout-card-other-info-container">

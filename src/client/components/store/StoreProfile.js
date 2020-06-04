@@ -32,17 +32,17 @@ class StoreProfile extends Component {
             <div className="store-profile-parent">
                 <div className="view-edit-account-container">
                     <div className="account-header">
-                        <span className="account-heading">Store</span>
+                        <span className="account-heading">Store Details</span>
                     </div>
                     <div className="account-form">
-                        {/*<div className="account-label-input">*/}
-                            {/*<span className="account-label">Store Name</span>*/}
-                            {/*<input className="text-input" type="text" value={storeName} onChange={(e) => this.onInputChange("storeName", e.target.value)}/>*/}
-                        {/*</div>*/}
-                        {/*<div className="account-label-input">*/}
-                            {/*<span className="account-label">Phone</span>*/}
-                            {/*<input className="text-input" type="text" value={phone} onChange={(e) => this.onInputChange("phone", e.target.value)}/>*/}
-                        {/*</div>*/}
+                        <div className="account-label-input">
+                            <span className="account-label">Store Name</span>
+                            <input className="text-input" type="text" value={storeName} onChange={(e) => this.onInputChange("storeName", e.target.value)}/>
+                        </div>
+                        <div className="account-label-input">
+                            <span className="account-label">Phone</span>
+                            <input className="text-input" type="text" value={phone} onChange={(e) => this.onInputChange("phone", e.target.value)}/>
+                        </div>
                         <div className="account-label-input">
                             <span className="account-label">Email</span>
                             <input className="text-input" type="text" value={email} onChange={(e) => this.onInputChange("email", e.target.value)} disabled={true}/>

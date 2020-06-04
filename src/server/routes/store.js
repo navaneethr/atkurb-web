@@ -22,11 +22,26 @@ router.post('/', authenticateToken, (req, res) => {
     Store.find({'_id': {$in: storeIds}})
         .then((data) => {
             console.log(data);
-            data = data.map(({_id, storeName, phone, email}) => ({_id, storeName, phone, email}));
+            data = data.map((d) => {
+                let {password, ...rest} = d.toObject();
+                return {...rest}
+            });
             res.status(200).json(data)
         })
         .catch(() => {
             res.status(500).send(err);
+        })
+});
+
+router.get('/', authenticateToken, (req, res) => {
+    const {storeId} = req.query;
+    Store.findOne({_id: storeId})
+        .then((data) => {
+            const {storeName, phone, email, _id} = data;
+            res.status(200).json({storeName, phone, email, _id})
+        })
+        .catch((err) => {
+            console.log(err);
         })
 });
 

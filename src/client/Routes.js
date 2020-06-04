@@ -52,8 +52,8 @@ class Routes extends Component {
                         <PrivateRouteStore exact path={ROUTES.STORE_HOME} component={StoreHome}/>
                         <PrivateRouteStore exact path={ROUTES.STORE_INVENTORY} component={StoreInventory}/>
                         <PrivateRouteStore exact path={ROUTES.STORE_PROFILE} component={StoreProfile}/>
-                        <PrivateRouteStore exact path={ROUTES.STORE_ANALYTICS} component={StoreAnalytics}/>
-                        <PrivateRouteStore exact path={ROUTES.STORE_FINANCES} component={StoreFinances}/>
+                        {/*<PrivateRouteStore exact path={ROUTES.STORE_ANALYTICS} component={StoreAnalytics}/>*/}
+                        {/*<PrivateRouteStore exact path={ROUTES.STORE_FINANCES} component={StoreFinances}/>*/}
                         <PrivateRouteStore exact path={ROUTES.STORE_ORDERS} component={StoreOrders}/>
 
                         {/*This Route handles all other routes and sends them to Home if the user is authenticated or Landing page if he is not*/}

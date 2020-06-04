@@ -46,8 +46,8 @@ class CustomerNavbar extends Component {
     };
 
     routerPush(route) {
-        this.props.history.push(route)
-        this.setState({openCart: false, openSidebar: false})
+        this.props.history.push(route);
+        this.setState({openCart: false, openSidebar: false});
     }
 
     openCloseCart() {
