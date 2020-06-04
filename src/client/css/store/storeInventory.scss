@@ -8,6 +8,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 0 20px;
+    color: $grey-text;
     .store-inventory-heading {
       margin: 10px;
       font-size: 18px;
@@ -24,18 +25,31 @@
     margin: 0 20px;
     padding: 0 20px;
     display: flex;
+    flex-direction: column;
+    align-items: center;
     .search-products-container {
+      position: relative;
+      width: 840px;
       .async-input-container {
         .text-input {
-          margin-top: 0;
+          margin: 0 0 10px 0;
+          &:focus {
+            box-shadow: $box-shadow;
+          }
         }
       }
       .suggested-products-parent {
         height: 425px;
-        margin: 10px;
+        width: 300px;
+        margin: 10px 0;
         overflow: auto;
         border: 1px solid $border-light-grey;
         border-radius: 4px;
+        position: absolute;
+        z-index: 999;
+        background: $white;
+        top: 40px;
+        box-shadow: $box-shadow;
         .suggested-product {
           display: flex;
           padding: 10px;
@@ -92,44 +106,80 @@
         width: 100px;
       }
     }
-    .items-list-container {
-      margin-left: 20px;
-      margin-right: 10px;
+  }
+}
+
+@media only screen and (max-width: 768px)  {
+  .store-inventory-parent {
+    .store-inventory-header {
+      padding: 0 10px;
+      margin: 10px 15px 0 20px;
+      .store-inventory-heading {
+        color: $grey-text;
+      }
+      .button {
+        width: 120px;
+      }
+    }
+    .store-inventory-container {
+    }
+    .store-items-container {
+      margin: 0 10px;
+      padding: 0 10px;
       display: flex;
       flex-direction: column;
-      padding: 20px;
-      background: $light-background;
-      flex: 1;
-      border-radius: 4px;
-      .list-item-header {
-        margin-bottom: 20px;
-        .list-item-heading {
-          font-size: 18px;
+      align-items: center;
+      .search-products-container {
+        width: auto;
+        .async-input-container {
+          .text-input {
+            margin: 10px 10px 20px 10px;
+            width: 340px;
+          }
         }
-      }
-      .list-items {
-        max-height: 500px;
-        overflow: auto;
-        .list-item-container {
-          margin-bottom: 10px;
-          background: $white;
-          border-radius: 4px;
-          cursor: pointer;
-          height: 40px;
-          padding: 0 20px;
-          align-items: center;
-          display: flex;
-          &:hover {
-            background: $light-blue;
-            color: $white;
+        .suggested-products-parent {
+          top: 50px;
+          left: 10px;
+          width: 340px;
+          .suggested-product {
+            &:last-child {
+            }
+            .suggested-product-img {
+              img {
+              }
+            }
+            .suggested-info-and-btn {
+              .suggested-product-info {
+                .suggested-product-name {
+                }
+                .suggested-product-desc {
+                }
+              }
+              .suggested-product-btn {
+                .button {
+                }
+              }
+            }
           }
         }
       }
-      .inventory-save-btn-container {
-        display: flex;
-        justify-content: flex-end;
+      .add-item-parent {
+        width: 360px;
+        .add-item-container {
+          .item-inputs-container {
+            input {
+
+            }
+          }
+          .description-text-area-parent {
+            input {
+              width: 300px;
+            }
+          }
+        }
+      }
+      .add-items-button-container {
         .button {
-          margin: 10px 0;
         }
       }
     }

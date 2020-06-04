@@ -4,6 +4,7 @@ import axios from "axios";
 
 export const GET_PRODUCT_SUGGESTIONS = "GET_PRODUCT_SUGGESTIONS";
 export const UPDATE_SEARCH_VALUE = "UPDATE_SEARCH_VALUE";
+export const ADD_ITEMS_TO_LIST = "ADD_ITEMS_TO_LIST";
 
 export const getSuggestedProducts = (searchValue) => {
     const AuthToken =  `Bearer ${localStorage.getItem(STORE_TOKEN_NAME)}`;
@@ -30,6 +31,15 @@ export const updateSearchValue = (searchValue) => {
         dispatch({
             type: UPDATE_SEARCH_VALUE,
             payload: searchValue
+        });
+    }
+};
+
+export const addItemsToList = (item) => {
+    return dispatch => {
+        dispatch({
+            type: ADD_ITEMS_TO_LIST,
+            payload: item
         });
     }
 };

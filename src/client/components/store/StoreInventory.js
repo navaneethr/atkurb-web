@@ -4,7 +4,7 @@ import {AlertError, AlertSuccess, AsyncInput, Button, CartItem, ItemContainer} f
 import * as _ from 'lodash';
 import axios from "axios";
 import {STORE_TOKEN_NAME} from "../../utils/constants";
-import {getSuggestedProducts} from "../../redux/actions/storeInventoryActions";
+import {getSuggestedProducts, addItemsToList} from "../../redux/actions/storeInventoryActions";
 import {connect} from "react-redux";
 import {withRouter} from 'react-router-dom';
 
@@ -28,12 +28,33 @@ class StoreInventory extends Component {
             item: Item,
             items: [],
             requiredFields: ["name", "category", "unitPrice", "unitQuantity", "unit", "stockSize"],
+            showMenu: false
         };
+        this.setMenuRef = this.setMenuRef.bind(this);
+        this.handleClickOutside = this.handleClickOutside.bind(this);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('mousedown', this.handleClickOutside);
     }
 
     componentDidMount() {
         const {getSuggestedProducts} = this.props;
         getSuggestedProducts();
+        document.addEventListener('mousedown', this.handleClickOutside);
+    }
+
+    setMenuRef(node) {
+        this.menuRef = node;
+    }
+
+    /**
+     * Alert if clicked on outside of element
+     */
+    handleClickOutside(event) {
+        if (this.menuRef && !this.menuRef.contains(event.target)) {
+            this.setState({showMenu: false})
+        }
     }
 
     changeItemState(accessor, value) {
@@ -44,37 +65,23 @@ class StoreInventory extends Component {
     }
 
     addToList() {
-        const {item, requiredFields, items} = this.state;
+        const {item, requiredFields} = this.state;
+        const {itemsToAdd} = this.props.storeInventoryReducer;
+        const {addItemsToList} = this.props;
         const validationSuccess = requiredFields.every((accessor) => !_.isEmpty(item[accessor]) );
         console.log(validationSuccess);
         if(validationSuccess) {
-            let newItems = _.cloneDeep(items);
+            let newItems = _.cloneDeep(itemsToAdd);
             newItems = [...newItems, item];
-            if(items.every((it) => it.name !== item.name)) {
-                this.setState({items: newItems});
+            if(itemsToAdd.every((it) => it.name !== item.name)) {
+                // this.setState({itemsToAdd: newItems});
+                addItemsToList(newItems)
             } else {
                 // Item Already in the List
             }
         } else {
 
         }
-    }
-
-    addItems() {
-        const {item, requiredFields, items} = this.state;
-        const AuthToken =  `Bearer ${localStorage.getItem(STORE_TOKEN_NAME)}`;
-
-        const config = {
-            headers: {
-                Authorization: AuthToken
-            }
-        };
-        axios.post('/api/inventory/add', {items}, config).then((res) => {
-            AlertSuccess("Added all the items to the Inventory");
-        }).catch((err) => {
-            console.log(err);
-            AlertError("Failed to add items to the Inventory");
-        })
     }
 
     addFromSuggestedProducts(prod) {
@@ -88,11 +95,11 @@ class StoreInventory extends Component {
             productDateStoreId: prod._id
         };
         console.log(itemObj);
-        this.setState({item: itemObj});
+        this.setState({item: itemObj, showMenu: false});
     }
 
     renderAddItems() {
-        const {items} = this.state;
+        const {showMenu} = this.state;
         const {getSuggestedProducts} = this.props;
         const {suggestedProducts} = this.props.storeInventoryReducer;
         const {imgUrl, name, category, unitPrice, unitQuantity, unit, stockSize, description} = this.state.item;
@@ -105,32 +112,36 @@ class StoreInventory extends Component {
                             type="text"
                             onChange={(value) => getSuggestedProducts(value)}
                             placeholder="Search Products to Add .."
+                            onFocus={() => {this.setState({showMenu: true})}}
                         />
                     </div>
-                    <div className="suggested-products-parent">
-                        {
-                            suggestedProducts.map((prod, i) => {
-                                return (
-                                    <div key={i} className="suggested-product">
-                                        <div className="suggested-product-img">
-                                            <img src={prod.imgUrl} />
-                                        </div>
-                                        <div className="suggested-info-and-btn">
-                                            <div className="suggested-product-info">
-                                                <span className="suggested-product-name">{prod.name}</span>
-                                                <span className="suggested-product-desc">{prod.description}</span>
+                    {
+                        showMenu &&
+                        <div className="suggested-products-parent" ref={this.setMenuRef}>
+                            {
+                                suggestedProducts.map((prod, i) => {
+                                    return (
+                                        <div key={i} className="suggested-product">
+                                            <div className="suggested-product-img">
+                                                <img src={prod.imgUrl} />
                                             </div>
-                                            <div className="suggested-product-btn">
-                                                <Button label="Select" onClick={() => {this.addFromSuggestedProducts(prod)}}/>
+                                            <div className="suggested-info-and-btn">
+                                                <div className="suggested-product-info">
+                                                    <span className="suggested-product-name">{prod.name}</span>
+                                                    <span className="suggested-product-desc">{prod.description}</span>
+                                                </div>
+                                                <div className="suggested-product-btn">
+                                                    <Button label="Select" onClick={() => {this.addFromSuggestedProducts(prod)}}/>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                )
-                            })
-                        }
-                    </div>
+                                    )
+                                })
+                            }
+                        </div>
+                    }
                 </div>
-                <div>
+                <div className="add-item-parent">
                     <ItemContainer
                         imgUrl={imgUrl}
                         name={name}
@@ -152,26 +163,6 @@ class StoreInventory extends Component {
                         <Button label="Add to List" onClick={() => this.addToList()}/>
                     </div>
                 </div>
-                {
-                    !_.isEmpty(items) &&
-                    <div className="items-list-container">
-                        <div className="list-item-header">
-                            <span className="list-item-heading">Items Added</span>
-                        </div>
-                        <div className="list-items">
-                            {
-                                items.map((item, key) => {
-                                    return (
-                                        <div key={key} className="list-item-container">{item.name}</div>
-                                    )
-                                })
-                            }
-                        </div>
-                        <div className="inventory-save-btn-container">
-                            <Button label="Save to Inventory" onClick={() => this.addItems()}/>
-                        </div>
-                    </div>
-                }
             </div>
         )
     }
@@ -205,7 +196,8 @@ export const mapStateToProps = ({storeInventoryReducer}) => {
 
 export const mapDispatchToProps = (dispatch) => {
     return {
-        getSuggestedProducts: (payload = "") => dispatch(getSuggestedProducts(payload))
+        getSuggestedProducts: (payload = "") => dispatch(getSuggestedProducts(payload)),
+        addItemsToList: (payload = "") => dispatch(addItemsToList(payload)),
     }
 };
 

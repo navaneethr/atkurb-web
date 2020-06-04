@@ -74,7 +74,7 @@ class Checkout extends Component {
                 {
                     !_.isEmpty(checkOutStore) &&
                     <div className="fixed-top-left">
-                        <span className="checkout-heading" onClick={() => this.props.history.push(`${ROUTES.SHOP}/${checkOutStore}`)}>Got back to {storeName}</span>
+                        <span className="checkout-heading" onClick={() => {this.props.history.push(`${ROUTES.SHOP}/${checkOutStore}`)}}>Go back to {storeName}</span>
                     </div>
                 }
                 {

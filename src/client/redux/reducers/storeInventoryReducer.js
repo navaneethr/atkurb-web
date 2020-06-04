@@ -1,8 +1,9 @@
-import {GET_PRODUCT_SUGGESTIONS, UPDATE_SEARCH_VALUE} from "../actions/storeInventoryActions";
+import {GET_PRODUCT_SUGGESTIONS, UPDATE_SEARCH_VALUE, ADD_ITEMS_TO_LIST} from "../actions/storeInventoryActions";
 
 const initialState = {
     searchValue: "",
-    suggestedProducts: []
+    suggestedProducts: [],
+    itemsToAdd: []
 };
 
 const storeInventoryReducer = (state = initialState, action) => {
@@ -17,6 +18,12 @@ const storeInventoryReducer = (state = initialState, action) => {
             return {
                 ...state,
                 searchValue: action.payload,
+            };
+        }
+        case ADD_ITEMS_TO_LIST: {
+            return {
+                ...state,
+                itemsToAdd: action.payload,
             };
         }
         default:
