@@ -49,7 +49,7 @@ class StoreTimes extends Component {
                             minuteStep={15}
                             use12Hours={true}
                             popupClassName="time-popup"
-                            value={moment(openTime)}
+                            value={openTime ? moment(openTime) : null}
                             onChange={(value) => {this.onTimeChange('openTime', value)}}
                         />
                     </div>
@@ -61,7 +61,7 @@ class StoreTimes extends Component {
                             minuteStep={15}
                             use12Hours={true}
                             popupClassName="time-popup"
-                            value={moment(closeTime)}
+                            value={closeTime ? moment(closeTime) : null}
                             onChange={(value) => {this.onTimeChange('closeTime', value)}}
                         />
                     </div>
