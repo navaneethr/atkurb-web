@@ -59,9 +59,8 @@ router.get('/info', authenticateToken, (req, res) => {
 });
 
 router.post('/update/details', authenticateToken, (req, res) => {
-    const { storeName, phone, address } = req.body;
     const {storeId} = req.store;
-    Store.findOneAndUpdate({_id: storeId}, {$set:{'storeName': storeName, 'phone': phone, 'address': address}}, {new: true}).then((data) => {
+    Store.findOneAndUpdate({_id: storeId}, {$set: req.body}, {new: true}).then((data) => {
         const {password, ...rest} = data.toObject();
         res.status(200).json(rest)
     }).catch((err) => {

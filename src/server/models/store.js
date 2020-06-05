@@ -42,6 +42,20 @@ const StoreSchema = new Schema({
         type: String,
         required: true
     },
+    storeOpen: {
+        type: Boolean,
+        default: false
+    },
+    storeTimes: {
+        type: Object,
+        default: {}
+    },
+    pickUpInterval: {
+        type: Number,
+    },
+    fulfillmentCapacity: {
+        type: Number,
+    },
     items: {
         type: [Object]
     },

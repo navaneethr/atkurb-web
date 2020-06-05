@@ -22,14 +22,24 @@ class StoreTimes extends Component {
     }
 
     render() {
-        const { updateStoreDetails } = this.props;
+        const { updateStoreDetails, saveStoreDetails } = this.props;
         const { storeDetails } = this.props.storeNavbarReducer;
         const {openTime, closeTime} = _.get(storeDetails, 'storeTimes', {openTime: null, closeTime: null});
+        const  storeOpen = _.get(storeDetails, 'storeOpen', null);
         const  pickUpInterval = _.get(storeDetails, 'pickUpInterval', null);
         const  fulfillmentCapacity = _.get(storeDetails, 'fulfillmentCapacity', null);
 
         return (
             <div className="store-times-parent">
+                <div className="store-open-container">
+                    <Radio
+                        options={[{label: "Open", value: true}, {label: "Close", value: false}]}
+                        value={storeOpen}
+                        onClick={(value) => {updateStoreDetails({accessor: 'storeOpen', value})}}
+                        label="Store Open Status"
+                    />
+                </div>
+                <Button label="Update Store Status" onClick={() => saveStoreDetails({storeOpen})}/>
                 <div className="times-selection">
                     <div className="time-picker-with-label">
                         <span className="label">Open Time</span>
@@ -39,7 +49,7 @@ class StoreTimes extends Component {
                             minuteStep={15}
                             use12Hours={true}
                             popupClassName="time-popup"
-                            value={openTime}
+                            value={moment(openTime)}
                             onChange={(value) => {this.onTimeChange('openTime', value)}}
                         />
                     </div>
@@ -51,11 +61,11 @@ class StoreTimes extends Component {
                             minuteStep={15}
                             use12Hours={true}
                             popupClassName="time-popup"
-                            value={closeTime}
+                            value={moment(closeTime)}
                             onChange={(value) => {this.onTimeChange('closeTime', value)}}
                         />
                     </div>
-                    <Button label="Save Open/Close Times"/>
+                    <Button label="Save Open/Close Times" onClick={() => saveStoreDetails({storeTimes: {openTime, closeTime} })}/>
                 </div>
                 <div className="pickup-interval-container">
                     <Radio
@@ -73,7 +83,7 @@ class StoreTimes extends Component {
                         label="Order fulfilment for each time slot"
                     />
                 </div>
-                <Button label="Save Pickup Interval & Order Fulfilment"/>
+                <Button label="Save Pickup Interval & Order Fulfilment" onClick={() => saveStoreDetails({pickUpInterval, fulfillmentCapacity})}/>
             </div>
         );
     }
@@ -86,7 +96,6 @@ export const mapStateToProps = ({ storeNavbarReducer }) => {
 export const mapDispatchToProps = (dispatch) => {
     return {
         updateStoreDetails: (payload) => dispatch(updateStoreDetails(payload)),
-        updateStoreAddressDetails: (payload) => dispatch(updateStoreAddressDetails(payload)),
         saveStoreDetails: (payload) => dispatch(saveStoreDetails(payload)),
         updateStoreTimes: (payload) => dispatch(updateStoreTimes(payload)),
     }
