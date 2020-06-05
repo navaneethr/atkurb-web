@@ -18,7 +18,7 @@ class Addresses extends Component {
     }
 
     render() {
-        const {line1, line2, city, state, country, zip} = this.props.navbarReducer.userDetails.address ? this.props.navbarReducer.userDetails.address : {line1: "", line2: "", city: "", state: "", country: "", zip: ""};
+        const {line1, line2, city, state, country, zip} = this.props.navbarReducer.userDetails ? this.props.navbarReducer.userDetails.address : {line1: "", line2: "", city: "", state: "", country: "", zip: ""};
         const { saveUserAddressDetails } = this.props;
 
         return (

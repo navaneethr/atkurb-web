@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import '../../css/customer/profile.scss';
-import {Button} from "../utils/Utils";
+import {Button, Radio} from "../utils/Utils";
 import {connect} from "react-redux";
 import {withRouter} from "react-router-dom";
 import {saveUserPersonalDetails, updateUserPersonalDetails} from "../../redux/actions/navbarActions";
 import moment from 'moment';
+import {updateStoreDetails} from "../../redux/actions/storeNavbarActions";
 
 
 class Profile extends Component {
@@ -45,10 +46,12 @@ class Profile extends Component {
                             <span className="account-label">Date of Birth</span>
                             <input className="text-input" type="date" value={moment(dateOfBirth).format('YYYY-MM-DD')} onChange={(e) => this.onInputChange("dateOfBirth", moment(e.target.value).format())}/>
                         </div>
-                        <div className="account-label-input">
-                            <span className="account-label">Gender</span>
-                            <input className="text-input" value={gender} onChange={(e) => this.onInputChange("gender", e.target.value)}/>
-                        </div>
+                        <Radio
+                            options={[{label: "Male", value: "male"}, {label: "Female", value: "female"}, {label: "Other", value: "other"}]}
+                            value={gender}
+                            onClick={(value) => this.onInputChange("gender", value)}
+                            label="Gender"
+                        />
                         <div className="account-label-input">
                             <span className="account-label"></span>
                             <Button label="Update" onClick={() => saveUserPersonalDetails({fullName, phone, dateOfBirth, gender})}/>
