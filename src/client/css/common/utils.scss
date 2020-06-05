@@ -190,7 +190,7 @@
     height: 40px;
     border-radius: 4px;
     box-sizing: border-box;
-    border: 1px solid $border-light-grey;
+    border: 1px solid $secondary;
     .active {
       background: $secondary;
       color: $white;
@@ -200,7 +200,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      border-right: 1px solid $border-light-grey;
+      border-right: 1px solid $secondary;
       cursor: pointer;
       &:first-child {
         border-radius: 4px 0 0 4px;
