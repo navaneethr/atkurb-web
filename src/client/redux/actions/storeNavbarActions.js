@@ -8,6 +8,7 @@ export const CHANGE_STORE_DETAILS = "CHANGE_STORE_DETAILS";
 export const UPDATE_STORE_DETAILS = "UPDATE_STORE_DETAILS";
 export const CHANGE_STORE_ADDRESS_DETAILS = "CHANGE_STORE_ADDRESS_DETAILS";
 export const GET_STORE_INFO = "GET_STORE_INFO";
+export const UPDATE_STORE_TIMES = "UPDATE_STORE_TIMES";
 
 export const getOrdersForStore = () => {
     const AuthToken =  `Bearer ${localStorage.getItem(STORE_TOKEN_NAME)}`;
@@ -74,6 +75,15 @@ export const updateStoreAddressDetails = (payload) => {
     return dispatch => {
         dispatch({
             type: CHANGE_STORE_ADDRESS_DETAILS,
+            payload
+        })
+    }
+};
+
+export const updateStoreTimes = (payload) => {
+    return dispatch => {
+        dispatch({
+            type: UPDATE_STORE_TIMES,
             payload
         })
     }

@@ -298,3 +298,26 @@ export const AsyncInput = ({onChange, ...props}) => {
         />
     )
 }
+
+
+export const Radio = ({options, onClick, value, label}) => {
+    return (
+        <div className="radio-container">
+            <span className="radio-label">
+                {label}
+            </span>
+            <div className="radio-parent">
+                {
+                    options.map((option, key) => {
+                        const className = (option.value === value) ? "radio-child active" : "radio-child";
+                        return (
+                            <div key={key} className={className} onClick={() => onClick(option.value)}>
+                                {option.label}
+                            </div>
+                        )
+                    })
+                }
+            </div>
+        </div>
+    )
+};

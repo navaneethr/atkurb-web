@@ -2,43 +2,14 @@ import {
     GET_STORE_ORDERS,
     CHANGE_STORE_DETAILS,
     CHANGE_STORE_ADDRESS_DETAILS,
-    GET_STORE_INFO
+    GET_STORE_INFO,
+    UPDATE_STORE_TIMES
 } from "../actions/storeNavbarActions";
 
 
 const initialState = {
     storeOrders: [],
     storeDetails: null,
-    storeTimes: {
-        sunday: {
-            openTime: "10:00:43",
-            closeTime: ""
-        },
-        monday: {
-            openTime: "",
-            closeTime: ""
-        },
-        tuesday: {
-            openTime: "",
-            closeTime: ""
-        },
-        wednesday: {
-            openTime: "",
-            closeTime: ""
-        },
-        thursday: {
-            openTime: "",
-            closeTime: ""
-        },
-        friday: {
-            openTime: "",
-            closeTime: ""
-        },
-        saturday: {
-            openTime: "",
-            closeTime: ""
-        },
-    }
 };
 
 const storeNavbarReducer = (state = initialState, action) => {
@@ -53,6 +24,18 @@ const storeNavbarReducer = (state = initialState, action) => {
             return {
                 ...state,
                 storeDetails: action.payload
+            };
+        }
+        case UPDATE_STORE_TIMES: {
+            return {
+                ...state,
+                storeDetails: {
+                    ...state.storeDetails,
+                    storeTimes: {
+                        ...state.storeDetails.storeTimes,
+                        [action.payload.accessor] : action.payload.value
+                    }
+                }
             };
         }
         case CHANGE_STORE_DETAILS: {

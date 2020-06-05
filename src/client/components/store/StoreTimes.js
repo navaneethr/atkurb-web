@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import '../../css/store/storeTimes.scss';
 import moment from "moment/moment";
-import {saveStoreDetails, updateStoreDetails, updateStoreAddressDetails} from "../../redux/actions/storeNavbarActions";
+import {saveStoreDetails, updateStoreDetails, updateStoreAddressDetails, updateStoreTimes} from "../../redux/actions/storeNavbarActions";
 import {connect} from "react-redux";
 import {withRouter} from "react-router-dom";
-import {Button} from "../utils/Utils";
+import {Button, Radio} from "../utils/Utils";
 import TimePicker from 'rc-time-picker';
 import 'rc-time-picker/assets/index.css';
 
@@ -15,46 +15,65 @@ class StoreTimes extends Component {
         super();
     }
 
+    onTimeChange(accessor, value) {
+        const { saveStoreDetails, updateStoreTimes } = this.props;
+        console.log(value);
+        updateStoreTimes({accessor, value});
+    }
+
     render() {
-        const { saveStoreDetails } = this.props;
-        const { storeTimes } = this.props.storeNavbarReducer;
-        const weekArray = Object.keys(storeTimes);
+        const { updateStoreDetails } = this.props;
+        const { storeDetails } = this.props.storeNavbarReducer;
+        const {openTime, closeTime} = _.get(storeDetails, 'storeTimes', {openTime: null, closeTime: null});
+        const  pickUpInterval = _.get(storeDetails, 'pickUpInterval', null);
+        const  fulfillmentCapacity = _.get(storeDetails, 'fulfillmentCapacity', null);
 
         return (
             <div className="store-times-parent">
                 <div className="times-selection">
-                    <div className="times-selection-child">
-                    {
-                        weekArray.map((day, i) => (
-                            <div className="store-times" key={i}>
-                                <div className="store-day">
-                                    <span className="day">{day.substring(0,3)}</span>
-                                </div>
-                                <div className="time-picker-with-label">
-                                    <span className="label">Open Time</span>
-                                    <TimePicker
-                                        showSecond={false}
-                                        hourStep={1}
-                                        minuteStep={15}
-                                        use12Hours={true}
-                                        popupClassName="time-popup"
-                                    />
-                                </div>
-                                <div className="time-picker-with-label">
-                                    <span className="label">Close Time</span>
-                                    <TimePicker
-                                        showSecond={false}
-                                        hourStep={1}
-                                        minuteStep={15}
-                                        use12Hours={true}
-                                        popupClassName="time-popup"
-                                    />
-                                </div>
-                            </div>
-                        ))
-                    }
+                    <div className="time-picker-with-label">
+                        <span className="label">Open Time</span>
+                        <TimePicker
+                            showSecond={false}
+                            hourStep={1}
+                            minuteStep={15}
+                            use12Hours={true}
+                            popupClassName="time-popup"
+                            value={openTime}
+                            onChange={(value) => {this.onTimeChange('openTime', value)}}
+                        />
                     </div>
+                    <div className="time-picker-with-label">
+                        <span className="label">Close Time</span>
+                        <TimePicker
+                            showSecond={false}
+                            hourStep={1}
+                            minuteStep={15}
+                            use12Hours={true}
+                            popupClassName="time-popup"
+                            value={closeTime}
+                            onChange={(value) => {this.onTimeChange('closeTime', value)}}
+                        />
+                    </div>
+                    <Button label="Save Open/Close Times"/>
                 </div>
+                <div className="pickup-interval-container">
+                    <Radio
+                        options={[{label: "1", value: 1}, {label: "2", value: 2}, {label: "3", value: 3}, {label: "4", value: 4}]}
+                        value={pickUpInterval}
+                        onClick={(value) => {updateStoreDetails({accessor: 'pickUpInterval', value})}}
+                        label="Pickup Interval in Hours"
+                    />
+                </div>
+                <div className="pickup-interval-container">
+                    <Radio
+                        options={[{label: "5", value: 5}, {label: "10", value: 10}, {label: "15", value: 15}, {label: "20", value: 20}]}
+                        value={fulfillmentCapacity}
+                        onClick={(value) => {updateStoreDetails({accessor: 'fulfillmentCapacity', value})}}
+                        label="Order fulfilment for each time slot"
+                    />
+                </div>
+                <Button label="Save Pickup Interval & Order Fulfilment"/>
             </div>
         );
     }
@@ -69,6 +88,7 @@ export const mapDispatchToProps = (dispatch) => {
         updateStoreDetails: (payload) => dispatch(updateStoreDetails(payload)),
         updateStoreAddressDetails: (payload) => dispatch(updateStoreAddressDetails(payload)),
         saveStoreDetails: (payload) => dispatch(saveStoreDetails(payload)),
+        updateStoreTimes: (payload) => dispatch(updateStoreTimes(payload)),
     }
 };
 

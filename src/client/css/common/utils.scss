@@ -176,6 +176,48 @@
     }
   }
 }
+.radio-container {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  .radio-label {
+    font-size: 12px;
+    margin-bottom: 10px;
+  }
+  .radio-parent {
+    width: 300px;
+    display: flex;
+    height: 40px;
+    border-radius: 4px;
+    box-sizing: border-box;
+    border: 1px solid $border-light-grey;
+    .active {
+      background: $secondary;
+      color: $white;
+    }
+    .radio-child {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-right: 1px solid $border-light-grey;
+      cursor: pointer;
+      &:first-child {
+        border-radius: 4px 0 0 4px;
+      }
+      &:last-child {
+        border: none;
+        border-radius: 0 4px 4px 0;
+      }
+      &:hover {
+        &:not(.active) {
+          background: lighten($secondary, 20%);
+          color: $white;
+        }
+      }
+    }
+  }
+}
 
 @media only screen and (max-width: 768px)  {
   .shop-product {
