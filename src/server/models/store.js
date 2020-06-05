@@ -62,3 +62,39 @@ const StoreSchema = new Schema({
 });
 
 module.exports = mongoose.model('Store', StoreSchema);
+
+
+const x = {
+    openTime: "",
+    closeTime: "",
+    pickupTimes: [
+        {
+            time: "10:00",
+            pickupsAllotted: 5
+        },
+        {
+            time: "12:00",
+            pickupsAllotted: 5
+        },
+        {
+            time: "14:00",
+            pickupsAllotted: 5
+        },
+        {
+            time: "16:00",
+            pickupsAllotted: 5
+        },
+        {
+            time: "18:00",
+            pickupsAllotted: 5
+        },
+        {
+            time: "20:00",
+            pickupsAllotted: 5
+        },
+        {
+            time: "21:00",
+            pickupsAllotted: 5
+        }
+    ]
+}

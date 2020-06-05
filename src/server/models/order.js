@@ -31,6 +31,16 @@ const OrderSchema = {
         type: Date,
         default: Date.now
     },
+    pickupTime: {
+        type: Date
+    },
+    instructions:  {
+        type: String,
+    },
+    paid: {
+        type: Boolean,
+        default: false
+    },
     orderCompleteTS: {
         type: Date,
         default: null

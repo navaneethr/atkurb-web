@@ -8,7 +8,37 @@ import {
 
 const initialState = {
     storeOrders: [],
-    storeDetails: null
+    storeDetails: null,
+    storeTimes: {
+        sunday: {
+            openTime: "10:00:43",
+            closeTime: ""
+        },
+        monday: {
+            openTime: "",
+            closeTime: ""
+        },
+        tuesday: {
+            openTime: "",
+            closeTime: ""
+        },
+        wednesday: {
+            openTime: "",
+            closeTime: ""
+        },
+        thursday: {
+            openTime: "",
+            closeTime: ""
+        },
+        friday: {
+            openTime: "",
+            closeTime: ""
+        },
+        saturday: {
+            openTime: "",
+            closeTime: ""
+        },
+    }
 };
 
 const storeNavbarReducer = (state = initialState, action) => {

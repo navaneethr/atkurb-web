@@ -17,6 +17,7 @@ export const TABS = {
     STORE_FINANCES: 'store/finances',
     STORE_ANALYTICS: 'store/analytics',
     STORE_INVENTORY: 'store/inventory',
+    STORE_TIMES: 'store/times',
 };
 
 export const ROUTES = {
@@ -38,6 +39,7 @@ export const ROUTES = {
     STORE_FINANCES: `/${TABS.STORE_FINANCES}`,
     STORE_ANALYTICS: `/${TABS.STORE_ANALYTICS}`,
     STORE_INVENTORY: `/${TABS.STORE_INVENTORY}`,
+    STORE_TIMES: `/${TABS.STORE_TIMES}`,
 };
 
 export const categoryOptions = [

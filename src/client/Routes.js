@@ -22,6 +22,7 @@ import StoreOrders from "./components/store/StoreOrders";
 import Shop from "./components/customer/Shop";
 import Addresses from "./components/customer/Addresses";
 import Checkout from "./components/customer/Checkout";
+import StoreTimes from "./components/store/StoreTimes";
 
 class Routes extends Component {
 
@@ -52,6 +53,7 @@ class Routes extends Component {
                         <PrivateRouteStore exact path={ROUTES.STORE_HOME} component={StoreHome}/>
                         <PrivateRouteStore exact path={ROUTES.STORE_INVENTORY} component={StoreInventory}/>
                         <PrivateRouteStore exact path={ROUTES.STORE_PROFILE} component={StoreProfile}/>
+                        <PrivateRouteStore exact path={ROUTES.STORE_TIMES} component={StoreTimes}/>
                         {/*<PrivateRouteStore exact path={ROUTES.STORE_ANALYTICS} component={StoreAnalytics}/>*/}
                         {/*<PrivateRouteStore exact path={ROUTES.STORE_FINANCES} component={StoreFinances}/>*/}
                         <PrivateRouteStore exact path={ROUTES.STORE_ORDERS} component={StoreOrders}/>

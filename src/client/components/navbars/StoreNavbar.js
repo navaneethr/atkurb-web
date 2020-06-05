@@ -132,6 +132,9 @@ class StoreNavbar extends Component {
                         <div className="menu-item">
                             <span className="menu-link" onClick={() => this.routerPush(ROUTES.STORE_INVENTORY)}>Inventory</span>
                         </div>
+                        <div className="menu-item">
+                            <span className="menu-link" onClick={() => this.routerPush(ROUTES.STORE_TIMES)}>Times</span>
+                        </div>
                         {/*<div className="menu-item">
                             <span className="menu-link" onClick={() => this.routerPush(ROUTES.STORE_FINANCES)}>Finances</span>
                         </div>
