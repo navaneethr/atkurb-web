@@ -80,6 +80,7 @@ class Checkout extends Component {
         console.log(storeTimes);
         const startT = parseInt(new Date(storeTimes.openTime).getHours());
         const endT = parseInt(new Date(storeTimes.closeTime).getHours());
+        console.log(startT, endT);
         let timesToPickup = [];
         for (let i = startT; i <= endT; i++) {
             if(storeDetails) {
