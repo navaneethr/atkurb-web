@@ -4,7 +4,7 @@ import {placeOrder} from "../../redux/actions/navbarActions";
 import {connect} from "react-redux";
 import { withRouter } from "react-router-dom";
 import {CUSTOMER_TOKEN_NAME, ROUTES} from "../../utils/constants";
-import {AlertError, AlertSuccess, Button, Loader} from "../utils/Utils";
+import {AlertError, AlertInfo, AlertSuccess, Button, Loader} from "../utils/Utils";
 import { loadStripe } from '@stripe/stripe-js';
 const stripePromise = loadStripe("pk_test_E9DhYZpvYfrwNAMKD4NbA3nB00tUNYLQLe");
 import { Elements, CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
@@ -182,10 +182,13 @@ class Checkout extends Component {
                                 <Elements
                                     stripe={stripePromise}
                                 >
-                                    <CheckoutForm onSuccessPayment={() => this.placeOrder(true)}/>
+                                    <CheckoutForm
+                                        onSuccessPayment={() => this.placeOrder(true)}
+                                        pickupTime={pickupTime}
+                                    />
                                 </Elements>
                                 <div className="checkout-button-container">
-                                    <Button label="Order now & Pay at store" onClick={() => {this.placeOrder()}}/>
+                                    <Button label="Order now & Pay at store" onClick={() => {pickupTime ? this.placeOrder() : AlertInfo("Make sure you pick a time slot")}}/>
                                 </div>
                             </div>
                         </div>
@@ -217,7 +220,7 @@ export const mapDispatchToProps = (dispatch) => {
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Checkout));
 
 
-const CheckoutForm = ({onSuccessPayment}) => {
+const CheckoutForm = ({onSuccessPayment, pickupTime}) => {
     const stripe = useStripe();
     const elements = useElements();
     const [processing, setProcessing] = useState(false);
@@ -231,47 +234,50 @@ const CheckoutForm = ({onSuccessPayment}) => {
 
     const handleSubmit = async (event) => {
         // Block native form submission.
-
-        setProcessing(true);
-        console.log(processing);
         event.preventDefault();
+        if(pickupTime) {
+            setProcessing(true);
+            console.log(processing);
 
-        if (!stripe || !elements) {
-            // Stripe.js has not loaded yet. Make sure to disable
-            // form submission until Stripe.js has loaded.
-            return;
-        }
+            if (!stripe || !elements) {
+                // Stripe.js has not loaded yet. Make sure to disable
+                // form submission until Stripe.js has loaded.
+                return;
+            }
 
-        const {data: clientSecret} = await axios.post('/api/order/pay', {amount: 1000}, config );
+            const {data: clientSecret} = await axios.post('/api/order/pay', {amount: 1000}, config );
 
-        // Get a reference to a mounted CardElement. Elements knows how
-        // to find your CardElement because there can only ever be one of
-        // each type of element.
-        const cardElement = elements.getElement(CardElement);
+            // Get a reference to a mounted CardElement. Elements knows how
+            // to find your CardElement because there can only ever be one of
+            // each type of element.
+            const cardElement = elements.getElement(CardElement);
 
-        // Use your card Element with other Stripe.js APIs
-        const { error, paymentMethod} = await stripe.createPaymentMethod({
-            type: 'card',
-            card: cardElement,
-        });
-
-        if(!error) {
-            const {error, paymentIntent} = await stripe.confirmCardPayment(clientSecret, {
-                payment_method: paymentMethod.id
+            // Use your card Element with other Stripe.js APIs
+            const { error, paymentMethod} = await stripe.createPaymentMethod({
+                type: 'card',
+                card: cardElement,
             });
-            if(error) {
-                // Payment Failed
-                console.log(error)
-                AlertError("Payment Failed, Please Retry !");
+
+            if(!error) {
+                const {error, paymentIntent} = await stripe.confirmCardPayment(clientSecret, {
+                    payment_method: paymentMethod.id
+                });
+                if(error) {
+                    // Payment Failed
+                    console.log(error)
+                    AlertError("Payment Failed, Please Retry !");
+                } else {
+                    setProcessing(false);
+                    AlertSuccess("Thank you for you Payment !");
+                    console.log(paymentIntent);
+                    onSuccessPayment();
+                }
             } else {
+                AlertError("Please enter the card details !");
                 setProcessing(false);
-                AlertSuccess("Thank you for you Payment !");
-                console.log(paymentIntent);
-                onSuccessPayment();
             }
         } else {
-            AlertError("Please enter the card details !");
-            setProcessing(false);
+            AlertInfo("Make sure you pick a time slot");
         }
     };
 
