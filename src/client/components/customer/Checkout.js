@@ -77,21 +77,17 @@ class Checkout extends Component {
         const serviceFee = 2.49;
         const grandTotal = subTotal + tax + serviceFee + parseFloat(_.isEmpty(shopperTip) || (shopperTip < 0) ? 0 : shopperTip);
         const storeTimes = storeDetails ? storeDetails.storeTimes : {};
-        console.log(storeTimes);
-        const startT = parseInt(new Date(storeTimes.openTime).getHours());
-        const endT = parseInt(new Date(storeTimes.closeTime).getHours());
+        const startT = moment(storeTimes.openTime);
+        const endT = moment(storeTimes.closeTime);
         console.log(startT, endT);
         let timesToPickup = [];
-        for (let i = startT; i <= endT; i++) {
-            if(storeDetails) {
-                if((i - startT) % storeDetails.pickUpInterval === 0) {
-                    timesToPickup.push(i);
-                }
+        let currTs = startT;
+        if(storeDetails) {
+            while (moment(currTs).isBefore(endT)) {
+                currTs = startT.add(storeDetails.pickUpInterval, 'hours').format();
+                timesToPickup.push(currTs);
             }
         }
-        console.log(timesToPickup);
-        timesToPickup = timesToPickup.slice(1).map((time) => {return (moment().format("YYYY-MM-DD") + "T" + ((time.toString().length === 1) ? `0${time}` : time)) +":00"}); // We are removing the first time since it is opening time
-        timesToPickup = timesToPickup.map((time) => new Date(time));
         console.log(timesToPickup);
         return (
             <div className="checkout-parent">
@@ -144,7 +140,7 @@ class Checkout extends Component {
                                                 let className = `pickup-time-container ${moment(pickupTime).format('YYYY-MM-DDTHH:MM') === moment(time).format('YYYY-MM-DDTHH:MM') ? "active" : ""}`;
                                                 return (
                                                     <div className={className} key={key} onClick={() => {this.setState({pickupTime: time})}}>
-                                                        <div className="pickup-time">{moment(time).format("HH:mm A")}</div>
+                                                        <div className="pickup-time">{moment(time).format("hh:mm A")}</div>
                                                     </div>
                                                 )
                                             })

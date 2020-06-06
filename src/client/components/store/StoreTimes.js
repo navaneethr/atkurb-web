@@ -17,8 +17,8 @@ class StoreTimes extends Component {
 
     onTimeChange(accessor, value) {
         const { saveStoreDetails, updateStoreTimes } = this.props;
-        console.log(value);
-        updateStoreTimes({accessor, value});
+        const ts = moment(moment().format("YYYY-MM-DD") + "T" + moment(value).format().split("T")[1]);
+        updateStoreTimes({accessor, value: ts});
     }
 
     render() {
