@@ -173,7 +173,7 @@ class Checkout extends Component {
                                     </div>
                                     <div className="order-cost-section">
                                         <span className="order-cost-child">Shopper's Tip</span>
-                                        <span className="order-cost-child">$ <input type="number" min={0} value={shopperTip} onChange={(e) => this.setState({shopperTip: e.target.value})}/></span>
+                                        <span className="order-cost-child">$ <input type="number" min={0} value={shopperTip} onChange={(e) => this.setState({shopperTip: parseFloat(e.target.value)})}/></span>
                                     </div>
                                 </div>
                                 <div className="order-cost-parent">
