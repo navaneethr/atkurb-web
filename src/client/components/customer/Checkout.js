@@ -10,13 +10,16 @@ const stripePromise = loadStripe("pk_test_E9DhYZpvYfrwNAMKD4NbA3nB00tUNYLQLe");
 import { Elements, CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import poweredByStripe from '../../assets/poweredByStripe.png';
 import axios from 'axios';
+import moment from 'moment';
 
 class Checkout extends Component {
 
     constructor() {
         super();
         this.state = {
-            shopperTip: 0
+            shopperTip: 0,
+            pickupTime: null,
+            instructions: ""
         }
     }
 
@@ -24,10 +27,10 @@ class Checkout extends Component {
 
     }
 
-    placeOrder() {
+    placeOrder(paid = false) {
         const {placeOrder, history} = this.props;
         const {cart, checkOutStore, cartStores, userDetails} = this.props.navbarReducer;
-        const {shopperTip} = this.state;
+        const {shopperTip, pickupTime, instructions} = this.state;
         const checkOutItems = cart.filter((item) => item.storeId === checkOutStore);
         let storeDetails = cartStores.filter(({_id}) => _id === checkOutStore);
         storeDetails = storeDetails.length > 0 ? storeDetails[0] : null;
@@ -41,6 +44,9 @@ class Checkout extends Component {
             userPhone: userDetails.phone,
             userEmail: userDetails.email,
             userFullName: userDetails.fullName,
+            pickupTime: pickupTime,
+            instructions: instructions,
+            paid: paid,
             cost: {
                 serviceFee: serviceFee,
                 taxes: tax,
@@ -61,7 +67,7 @@ class Checkout extends Component {
 
     render() {
         const {cart, checkOutStore, cartStores, fetchInProgress} = this.props.navbarReducer;
-        const {shopperTip} = this.state;
+        const {shopperTip, pickupTime, instructions} = this.state;
         const checkOutItems = cart.filter((item) => item.storeId === checkOutStore);
         let storeDetails = cartStores.filter(({_id}) => _id === checkOutStore);
         storeDetails = storeDetails.length > 0 ? storeDetails[0] : null;
@@ -70,6 +76,22 @@ class Checkout extends Component {
         const tax = subTotal*0.09;
         const serviceFee = 2.49;
         const grandTotal = subTotal + tax + serviceFee + parseFloat(_.isEmpty(shopperTip) || (shopperTip < 0) ? 0 : shopperTip);
+        const storeTimes = storeDetails ? storeDetails.storeTimes : {};
+        console.log(storeTimes);
+        const startT = parseInt(moment(storeTimes.openTime).format('HH'));
+        const endT = parseInt(moment(storeTimes.closeTime).format('HH'));
+        let timesToPickup = [];
+        for (let i = startT; i <= endT; i++) {
+            if(storeDetails) {
+                if((i - startT) % storeDetails.pickUpInterval === 0) {
+                    timesToPickup.push(i);
+                }
+            }
+        }
+        console.log(timesToPickup);
+        timesToPickup = timesToPickup.slice(1).map((time) => {return (moment().format("YYYY-MM-DD") + "T" + ((time.toString().length === 1) ? `0${time}` : time)) +":00"}); // We are removing the first time since it is opening time
+        timesToPickup = timesToPickup.map((time) => moment(time));
+        console.log(timesToPickup);
         return (
             <div className="checkout-parent">
                 {
@@ -115,12 +137,24 @@ class Checkout extends Component {
                                 </div>
                                 <div className="checkout-card-container checkout-card-other-info-container">
                                     <div className="checkout-info-header">Pickup Time</div>
+                                    <div className="times-container">
+                                        {
+                                            timesToPickup.map((time, key) => {
+                                                let className = `pickup-time-container ${moment(pickupTime).format('YYYY-MM-DDTHH:MM') === moment(time).format('YYYY-MM-DDTHH:MM') ? "active" : ""}`;
+                                                return (
+                                                    <div className={className} key={key} onClick={() => {this.setState({pickupTime: time})}}>
+                                                        <div className="pickup-time">{time.format("HH:mm A")}</div>
+                                                    </div>
+                                                )
+                                            })
+                                        }
+                                    </div>
                                 </div>
                                 <div className="checkout-card-container checkout-card-other-info-container">
                                     <div className="checkout-info-header">Pickup Instructions</div>
-                                </div>
-                                <div className="checkout-card-container checkout-card-other-info-container">
-                                    <div className="checkout-info-header">Your Contact Information</div>
+                                    <div className="instructions-container">
+                                        <textarea type="text" className="text-input" value= {instructions} onChange={(e) => {this.setState({instructions: e.target.value})}}/>
+                                    </div>
                                 </div>
                             </div>
                             <div className="checkout-only-container">
@@ -151,7 +185,7 @@ class Checkout extends Component {
                                 <Elements
                                     stripe={stripePromise}
                                 >
-                                    <CheckoutForm onSuccessPayment={() => this.placeOrder()}/>
+                                    <CheckoutForm onSuccessPayment={() => this.placeOrder(true)}/>
                                 </Elements>
                                 <div className="checkout-button-container">
                                     <Button label="Order now & Pay at store" onClick={() => {this.placeOrder()}}/>
