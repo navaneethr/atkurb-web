@@ -3,9 +3,10 @@ import '../../css/store/storeHome.scss';
 import { connect } from "react-redux";
 import {addValue} from "../../redux/actions/homeActions";
 import axios from "axios";
-import {STORE_TOKEN_NAME} from "../../utils/constants";
+import {ROUTES, STORE_TOKEN_NAME} from "../../utils/constants";
 import {Button, OrderContainer} from "../utils/Utils";
 import moment from 'moment';
+import {withRouter} from 'react-router-dom';
 
 class StoreHome extends Component {
 
@@ -45,7 +46,7 @@ class StoreHome extends Component {
                                                 date={moment(order.date).format('MMMM Do YYYY, h:mm:ss a')}
                                                 itemsCount={order.items.length}
                                                 cost={order.cost}
-                                                onViewCLick={() => {}}
+                                                onViewClick={() => this.props.history.push(`${ROUTES.STORE_ORDERS}/${order._id}`)}
                                                 orderStatus={order.orderStatus}
                                                 userFullName={order.userFullName}
                                                 userPhone={order.userPhone}
@@ -90,4 +91,4 @@ export const mapDispatchToProps = (dispatch) => {
     }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(StoreHome)
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(StoreHome))

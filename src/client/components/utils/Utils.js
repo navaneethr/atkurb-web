@@ -71,12 +71,12 @@ export function AlertInfo(message) {
     });
 }
 
-export function OrderContainer({date, itemsCount, cost, onViewCLick, orderStatus, userFullName, userEmail, userPhone}) {
+export function OrderContainer({date, itemsCount, cost, onViewClick, orderStatus, userFullName, userEmail, userPhone}) {
     const status = !_.isEmpty(orderStatus) && Object.keys(orderStatus).filter((acc) => orderStatus[acc] === true)[0];
     console.log(cost);
     return (
         <div className="store-order-container">
-            <Button label="View"/>
+            <Button label="View" onClick={onViewClick}/>
             <div className="store-order-information-container">
                 {
                     !_.isEmpty(date) &&

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../../css/store/storeHome.scss';
 import { connect } from "react-redux";
 import {addValue} from "../../redux/actions/homeActions";
-import {STORE_TOKEN_NAME} from "../../utils/constants";
+import {ROUTES, STORE_TOKEN_NAME} from "../../utils/constants";
 import {OrderContainer} from "../utils/Utils";
 import moment from 'moment';
 
@@ -49,6 +49,7 @@ class StoreOrders extends Component {
                                                 userFullName={order.userFullName}
                                                 userPhone={order.userPhone}
                                                 userEmail={order.userEmail}
+                                                onViewClick={() => this.props.history.push(`${ROUTES.STORE_ORDERS}/${order._id}`)}
                                             />
                                         )
                                     })

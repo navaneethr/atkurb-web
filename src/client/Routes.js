@@ -23,6 +23,7 @@ import Shop from "./components/customer/Shop";
 import Addresses from "./components/customer/Addresses";
 import Checkout from "./components/customer/Checkout";
 import StoreTimes from "./components/store/StoreTimes";
+import SingleOrder from "./components/store/SingleOrder";
 
 class Routes extends Component {
 
@@ -57,6 +58,7 @@ class Routes extends Component {
                         {/*<PrivateRouteStore exact path={ROUTES.STORE_ANALYTICS} component={StoreAnalytics}/>*/}
                         {/*<PrivateRouteStore exact path={ROUTES.STORE_FINANCES} component={StoreFinances}/>*/}
                         <PrivateRouteStore exact path={ROUTES.STORE_ORDERS} component={StoreOrders}/>
+                        <PrivateRouteStore exact path={`${ROUTES.STORE_ORDERS}/:orderId`} component={SingleOrder}/>
 
                         {/*This Route handles all other routes and sends them to Home if the user is authenticated or Landing page if he is not*/}
                         <Route component={Landing} />
