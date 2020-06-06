@@ -83,7 +83,7 @@ class Checkout extends Component {
         let timesToPickup = [];
         let currTs = startT;
         if(storeDetails) {
-            while (moment(currTs).isBefore(endT)) {
+            while (moment(currTs).isBefore(endT) && !moment(currTs).add(storeDetails.pickUpInterval, 'hours').isAfter(endT)) {
                 currTs = startT.add(storeDetails.pickUpInterval, 'hours').format();
                 timesToPickup.push(currTs);
             }
