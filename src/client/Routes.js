@@ -24,6 +24,9 @@ import Addresses from "./components/customer/Addresses";
 import Checkout from "./components/customer/Checkout";
 import StoreTimes from "./components/store/StoreTimes";
 import SingleOrder from "./components/store/SingleOrder";
+import Alert from 'react-s-alert';
+import 'react-s-alert/dist/s-alert-default.css';
+import 'react-s-alert/dist/s-alert-css-effects/slide.css';
 
 class Routes extends Component {
 
@@ -63,7 +66,7 @@ class Routes extends Component {
                         {/*This Route handles all other routes and sends them to Home if the user is authenticated or Landing page if he is not*/}
                         <Route component={Landing} />
                     </Switch>
-                    <ToastContainer/>
+                    <Alert stack={{limit: 3}} />
                 </div>
             </Router>
         );

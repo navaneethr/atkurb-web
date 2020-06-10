@@ -9,6 +9,7 @@ import '../../css/common/dropdown.scss';
 import { IoMdTrash, IoIosAddCircle, IoIosRemoveCircle } from "react-icons/io";
 import {categoryOptions} from "../../utils/constants";
 import LazyLoad from 'react-lazyload';
+import Alert from 'react-s-alert';
 
 const override = css`
   display: block;
@@ -36,38 +37,29 @@ export function Button({loading, disabled, label, className, ...props}) {
 }
 
 export function AlertError(message) {
-    toast.error(message, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
+    Alert.error(message, {
+        position: 'top-right',
+        effect: 'slide',
+        beep: false,
+        timeout: 2000,
     });
 }
 
 export function AlertSuccess(message) {
-    toast.success(message, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
+    Alert.success(message, {
+        position: 'top-right',
+        effect: 'slide',
+        beep: false,
+        timeout: 2000,
     });
 }
 
 export function AlertInfo(message) {
-    toast.info(message, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
+    Alert.info(message, {
+        position: 'top-right',
+        effect: 'slide',
+        beep: false,
+        timeout: 2000,
     });
 }
 
@@ -171,7 +163,7 @@ export function Select(props) {
 
 export function ItemContainer({imgUrl, name, onNameChange, category, onCategoryChange, unitPrice, onUnitPriceChange, unitQuantity, onQuantityChange, unit, onUnitChange, stockSize, onStockSizeChange, description, onDescriptionChange}) {
     const unitOptions = [
-        'mg', 'gm', 'kg', 'lb', 'unit', 'ml', 'l', 'gallon', 'oz', 'dozen'
+        'mg', 'gm', 'kg', 'lb', 'ct', 'ml', 'l', 'gallon', 'oz', 'dozen'
     ];
     return (
         <div className="add-item-container">

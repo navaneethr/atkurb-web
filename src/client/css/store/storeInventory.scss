@@ -3,18 +3,20 @@
 .store-inventory-parent {
   padding-top: 80px;
   .store-inventory-header {
-    margin: 20px;
+    margin: 20px auto 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0 20px;
     color: $grey-text;
+    max-width: 840px;
     .store-inventory-heading {
-      margin: 10px;
+      margin: 10px 0;
       font-size: 18px;
     }
     .button {
       width: 200px;
+      margin: 0;
     }
   }
   .store-inventory-container {
@@ -30,6 +32,7 @@
     .search-products-container {
       position: relative;
       width: 840px;
+      padding: 0 10px;
       .async-input-container {
         .text-input {
           margin: 0 0 10px 0;
@@ -131,6 +134,7 @@
       align-items: center;
       .search-products-container {
         width: auto;
+        padding: 0;
         .async-input-container {
           .text-input {
             margin: 10px 10px 20px 10px;

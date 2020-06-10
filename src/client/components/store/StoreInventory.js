@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import '../../css/store/storeInventory.scss';
-import {AlertError, AlertSuccess, AsyncInput, Button, CartItem, ItemContainer} from "../utils/Utils";
+import {AlertError, AlertInfo, AlertSuccess, AsyncInput, Button, CartItem, ItemContainer} from "../utils/Utils";
 import * as _ from 'lodash';
 import axios from "axios";
 import {STORE_TOKEN_NAME} from "../../utils/constants";
@@ -25,7 +25,7 @@ class StoreInventory extends Component {
         super();
         this.state = {
             showAddItems: true,
-            item: Item,
+            item: _.cloneDeep(Item),
             items: [],
             requiredFields: ["name", "category", "unitPrice", "unitQuantity", "unit", "stockSize"],
             showMenu: false
@@ -69,18 +69,21 @@ class StoreInventory extends Component {
         const {itemsToAdd} = this.props.storeInventoryReducer;
         const {addItemsToList} = this.props;
         const validationSuccess = requiredFields.every((accessor) => !_.isEmpty(item[accessor]) );
+        const {imgUrl, name, category, unitPrice, unitQuantity, unit, stockSize, description} = this.state.item;
         console.log(validationSuccess);
         if(validationSuccess) {
             let newItems = _.cloneDeep(itemsToAdd);
             newItems = [...newItems, item];
             if(itemsToAdd.every((it) => it.name !== item.name)) {
-                // this.setState({itemsToAdd: newItems});
-                addItemsToList(newItems)
+                addItemsToList(newItems);
+                this.setState({item: Item});
+
             } else {
                 // Item Already in the List
+                AlertInfo("Item already in the List")
             }
         } else {
-
+            AlertError("Make sure all the fields are filled")
         }
     }
 
@@ -92,7 +95,7 @@ class StoreInventory extends Component {
             description: prod.description,
             imgUrl: prod.imgUrl,
             name: prod.name,
-            productDateStoreId: prod._id
+            productDateStoreId: prod._id,
         };
         console.log(itemObj);
         this.setState({item: itemObj, showMenu: false});
@@ -102,61 +105,60 @@ class StoreInventory extends Component {
         const {showMenu} = this.state;
         const {getSuggestedProducts} = this.props;
         const {suggestedProducts} = this.props.storeInventoryReducer;
-        const {imgUrl, name, category, unitPrice, unitQuantity, unit, stockSize, description} = this.state.item;
         return(
             <div className="store-items-container">
-                <div className="search-products-container">
-                    <div className="async-input-container">
-                        <AsyncInput
-                            className="text-input"
-                            type="text"
-                            onChange={(value) => getSuggestedProducts(value)}
-                            placeholder="Search Products to Add .."
-                            onFocus={() => {this.setState({showMenu: true})}}
-                        />
-                    </div>
-                    {
-                        showMenu &&
-                        <div className="suggested-products-parent" ref={this.setMenuRef}>
-                            {
-                                suggestedProducts.map((prod, i) => {
-                                    return (
-                                        <div key={i} className="suggested-product">
-                                            <div className="suggested-product-img">
-                                                <img src={prod.imgUrl} />
-                                            </div>
-                                            <div className="suggested-info-and-btn">
-                                                <div className="suggested-product-info">
-                                                    <span className="suggested-product-name">{prod.name}</span>
-                                                    <span className="suggested-product-desc">{prod.description}</span>
-                                                </div>
-                                                <div className="suggested-product-btn">
-                                                    <Button label="Select" onClick={() => {this.addFromSuggestedProducts(prod)}}/>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    )
-                                })
-                            }
-                        </div>
-                    }
-                </div>
                 <div className="add-item-parent">
+                    <div className="search-products-container">
+                        <div className="async-input-container">
+                            <AsyncInput
+                                className="text-input"
+                                type="text"
+                                onChange={(value) => getSuggestedProducts(value)}
+                                placeholder="Search Products to Add .."
+                                onFocus={() => {this.setState({showMenu: true})}}
+                            />
+                        </div>
+                        {
+                            showMenu &&
+                            <div className="suggested-products-parent" ref={this.setMenuRef}>
+                                {
+                                    suggestedProducts.map((prod, i) => {
+                                        return (
+                                            <div key={i} className="suggested-product">
+                                                <div className="suggested-product-img">
+                                                    <img src={prod.imgUrl} />
+                                                </div>
+                                                <div className="suggested-info-and-btn">
+                                                    <div className="suggested-product-info">
+                                                        <span className="suggested-product-name">{prod.name}</span>
+                                                        <span className="suggested-product-desc">{prod.description}</span>
+                                                    </div>
+                                                    <div className="suggested-product-btn">
+                                                        <Button label="Select" onClick={() => {this.addFromSuggestedProducts(prod)}}/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )
+                                    })
+                                }
+                            </div>
+                        }
+                    </div>
                     <ItemContainer
-                        imgUrl={imgUrl}
-                        name={name}
+                        imgUrl={this.state.item.imgUrl}
+                        name={this.state.item.name}
                         onNameChange={(value) => this.changeItemState("name", value)}
-                        category={category}
+                        category={this.state.item.category}
                         onCategoryChange={({value}) => this.changeItemState("category", value)}
-                        unitPrice={unitPrice}
+                        unitPrice={this.state.item.unitPrice}
                         onUnitPriceChange={(value) => this.changeItemState("unitPrice", value)}
-                        quantity={unitQuantity}
+                        unitQuantity={this.state.item.unitQuantity}
                         onQuantityChange={(value) => this.changeItemState("unitQuantity", value)}
-                        unit={unit}
+                        unit={this.state.item.unit}
                         onUnitChange={({value}) => this.changeItemState("unit", value)}
-                        stock={stockSize}
+                        stockSize={this.state.item.stockSize}
                         onStockSizeChange={(value) => this.changeItemState("stockSize", value)}
-                        description={description}
+                        description={this.state.item.description}
                         onDescriptionChange={(value) => this.changeItemState("description", value)}
                     />
                     <div className="add-items-button-container">
@@ -176,6 +178,7 @@ class StoreInventory extends Component {
 
     render() {
         const {showAddItems} = this.state;
+        console.log("STATE", this.state);
         return (
             <div className="store-inventory-parent">
                 <div className="store-inventory-header">
