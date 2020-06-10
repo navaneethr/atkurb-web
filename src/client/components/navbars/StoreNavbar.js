@@ -7,6 +7,7 @@ import { withRouter } from "react-router-dom";
 import {denyAuthenticationStore} from "../../redux/actions/rootActions";
 import { IoIosClose, IoIosListBox, IoIosHome } from "react-icons/io";
 import {getOrdersForStore, getStoreInfo} from "../../redux/actions/storeNavbarActions";
+import {addItemsToInventory} from "../../redux/actions/storeInventoryActions";
 import io from 'socket.io-client';
 import {AlertError, AlertSuccess, Button} from "../utils/Utils";
 import axios from "axios";
@@ -48,20 +49,9 @@ class StoreNavbar extends Component {
 
     addItems() {
         const { itemsToAdd } = this.props.storeInventoryReducer;
-
-        const AuthToken =  `Bearer ${localStorage.getItem(STORE_TOKEN_NAME)}`;
-
-        const config = {
-            headers: {
-                Authorization: AuthToken
-            }
-        };
-        axios.post('/api/inventory/add', {items: itemsToAdd}, config).then((res) => {
-            AlertSuccess("Added all the items to the Inventory");
-        }).catch((err) => {
-            console.log(err);
-            AlertError("Failed to add items to the Inventory");
-        })
+        const {addItemsToInventory} = this.props;
+        addItemsToInventory(itemsToAdd);
+        this.setState({openList: false, openSidebar: false})
     }
 
     render() {
@@ -160,6 +150,7 @@ export const mapDispatchToProps = (dispatch) => {
         denyAuthenticationStore: () => dispatch(denyAuthenticationStore()),
         getOrdersForStore: () => dispatch(getOrdersForStore()),
         getStoreInfo: () => dispatch(getStoreInfo()),
+        addItemsToInventory: (items) => dispatch(addItemsToInventory(items)),
 
     }
 };
