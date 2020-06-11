@@ -2,11 +2,11 @@
 import {STORE_TOKEN_NAME} from "../../utils/constants";
 import axios from "axios";
 import {AlertError, AlertSuccess} from "../../components/utils/Utils";
-
 export const GET_PRODUCT_SUGGESTIONS = "GET_PRODUCT_SUGGESTIONS";
 export const UPDATE_SEARCH_VALUE = "UPDATE_SEARCH_VALUE";
 export const ADD_ITEMS_TO_LIST = "ADD_ITEMS_TO_LIST";
 export const ADD_ITEMS_TO_INVENTORY = "ADD_ITEMS_TO_INVENTORY";
+export const GET_STORE_ITEMS = "GET_STORE_ITEMS";
 
 export const getSuggestedProducts = (searchValue) => {
     const AuthToken =  `Bearer ${localStorage.getItem(STORE_TOKEN_NAME)}`;
@@ -64,6 +64,27 @@ export const addItemsToInventory = (items) => {
         }).catch((err) => {
             console.log(err);
             AlertError("Failed to add items to the Inventory");
+        })
+    }
+};
+
+export const getInventory = (items) => {
+    return dispatch => {
+        const AuthToken =  `Bearer ${localStorage.getItem(STORE_TOKEN_NAME)}`;
+
+        const config = {
+            headers: {
+                Authorization: AuthToken
+            }
+        };
+        axios.get('/api/inventory', config).then((res) => {
+            dispatch({
+                type: GET_STORE_ITEMS,
+                payload: res.data
+            });
+        }).catch((err) => {
+            console.log(err);
+            AlertError("Failed to fetch items from the Inventory");
         })
     }
 };

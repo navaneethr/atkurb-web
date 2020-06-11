@@ -4,7 +4,7 @@ import {AlertError, AlertInfo, AlertSuccess, AsyncInput, Button, CartItem, ItemC
 import * as _ from 'lodash';
 import axios from "axios";
 import {STORE_TOKEN_NAME} from "../../utils/constants";
-import {getSuggestedProducts, addItemsToList} from "../../redux/actions/storeInventoryActions";
+import {getSuggestedProducts, addItemsToList, getInventory} from "../../redux/actions/storeInventoryActions";
 import {connect} from "react-redux";
 import {withRouter} from 'react-router-dom';
 
@@ -39,8 +39,9 @@ class StoreInventory extends Component {
     }
 
     componentDidMount() {
-        const {getSuggestedProducts} = this.props;
+        const {getSuggestedProducts, getInventory} = this.props;
         getSuggestedProducts();
+        getInventory();
         document.addEventListener('mousedown', this.handleClickOutside);
     }
 
@@ -170,8 +171,33 @@ class StoreInventory extends Component {
     }
 
     renderInventory() {
+        const {storeItems} = this.props.storeInventoryReducer;
         return (
             <div className="store-inventory-container">
+                {
+                    storeItems.map(({imgUrl, stockSize, name, unitPrice, unit, unitQuantity}) => {
+                        return (
+                            <div className="inventory-product">
+                                <div className="img-container">
+                                    <img src={imgUrl} />
+                                </div>
+                                <div className="product-name">
+                                    <span>{name}</span>
+                                </div>
+                                <div className="other-details">
+                                    <div className="section">
+                                        <span className="bold">Quantity Left</span>
+                                        <span>{stockSize}</span>
+                                    </div>
+                                    <div className="section">
+                                        <span>{unitQuantity + " " + unit}</span>
+                                        <span>{unitPrice}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        )
+                    })
+                }
             </div>
         )
     }
@@ -201,6 +227,7 @@ export const mapDispatchToProps = (dispatch) => {
     return {
         getSuggestedProducts: (payload = "") => dispatch(getSuggestedProducts(payload)),
         addItemsToList: (payload = "") => dispatch(addItemsToList(payload)),
+        getInventory: (payload = "") => dispatch(getInventory(payload)),
     }
 };
 

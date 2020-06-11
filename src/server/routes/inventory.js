@@ -5,7 +5,16 @@ const Item = require('../models/item');
 const Store = require('../models/store');
 
 router.get('/', authenticateToken, (req, res) => {
-    res.send({ user: req.user });
+    Store.findOne({_id: req.store.storeId}).then((data) => {
+        const products = data.items.map(({itemId}) => itemId);
+        return Item.find({_id: {$in: products}});
+    }).then((data) => {
+        res.status(200).json(data);
+    }).catch((err) => {
+        res.status(500).json({
+            error: err
+        })
+    })
 });
 
 router.post('/add', authenticateToken, (req, res) => {
