@@ -11,6 +11,7 @@ class StoreProfile extends Component {
 
     constructor() {
         super();
+        // Init State
     }
 
     onInputChange(accessor, value) {
