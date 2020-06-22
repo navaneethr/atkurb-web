@@ -65,7 +65,7 @@ class Home extends Component {
                     }
                     <div className="stores-section">
                         <div className="heading-container">
-                            <span className="heading">Stores Nearby</span>
+                            <span className="heading">Stores</span>
                         </div>
                         <div className="stores-container">
                             {
