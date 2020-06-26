@@ -12,7 +12,8 @@ class Home extends Component {
         this.state = {
             searchStore: "",
             storesNearby: [],
-            favStores: []
+            favStores: [],
+            //Hello
         }
     }
 
