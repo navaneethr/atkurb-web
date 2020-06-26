@@ -17,7 +17,7 @@ class SingleOrder extends Component {
         const {storeOrders} = this.props.storeNavbarReducer;
         const {orderId} = this.props.match.params;
         const order = _.find(storeOrders, {_id: orderId});
-        console.log(order);
+        console.log(order, orderId);
         return (
             <div className="single-order-parent">
                 {
