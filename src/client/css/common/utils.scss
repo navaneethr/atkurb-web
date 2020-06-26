@@ -220,6 +220,18 @@
   }
 }
 
+.card-class {
+  width: 300px;
+  box-shadow: $box-shadow;
+  padding: 20px;
+  margin: 20px;
+  background: $light-background;
+  span {
+    display: block;
+    margin: 10px 0;
+  }
+}
+
 @media only screen and (max-width: 768px)  {
   .shop-product {
     width: 250px;
@@ -233,3 +245,4 @@
     }
   }
 }
+

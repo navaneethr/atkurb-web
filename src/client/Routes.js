@@ -6,6 +6,7 @@ import {connect} from "react-redux";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Home from "./components/customer/Home";
+import Demo from "./components/customer/Demo";
 import StoreLanding from "./components/store/StoreLanding";
 import Landing from "./components/customer/Landing";
 import CustomerNavbar from "./components/navbars/CustomerNavbar";
@@ -38,6 +39,7 @@ class Routes extends Component {
                     {(isAuthenticatedCustomer) && <CustomerNavbar/>}
                     {(isAuthenticatedStore) && <StoreNavbar/>}
                     <Switch>
+                        <Route exact path="/demo" component={Demo} />
                         {/*These Routes are only visible when the user is not authenticated*/}
                         <LoginRoute exact path={ROUTES.LANDING} component={Landing}/>
                         <LoginRoute exact path={ROUTES.STORE} component={StoreLanding}/>

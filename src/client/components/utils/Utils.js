@@ -313,3 +313,15 @@ export const Radio = ({options, onClick, value, label}) => {
         </div>
     )
 };
+
+
+export const Card = ({name, age, gender}) => {
+    return (
+        <div className="card-class">
+            <span>{name}</span>
+            <span>{age}</span>
+            <span>{gender}</span>
+        </div>
+    )
+};
+
